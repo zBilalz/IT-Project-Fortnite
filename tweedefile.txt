@@ -1,0 +1,13 @@
+git clone link
+-------------------------------------------------------------
+naar branch switchen: git checkout -b "naambranch"
+Om aanpassingen naar bracnh te pushen:
+-git add
+-git commit
+-git push
+Om van branch te pullen:
+-git fetch
+-git pull origin "naambranch"
+-----------------------------------------------------------
+om specifieke branch te clonen:
+git clone -b "naamBranch" "linkrepo"
