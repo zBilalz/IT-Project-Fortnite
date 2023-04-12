@@ -19,15 +19,12 @@ async function getFortniteSkins() {
     skinImg.src = skin.images.icon;
 
     const skinName = document.createElement('div');
-    const star = document.createElement("i");
- 
-    star.setAttribute("class","bi bi-star")
 
     skinName.classList.add('skin-name');
     skinName.innerText = skin.name;
 
     skinImg.addEventListener("click", () => {
-      window.open(`skin.html?name=${encodeURIComponent(skin.name)}&image=${encodeURIComponent(skin.images.icon)}&backstory=${encodeURIComponent(skin.description)}`)})
+      window.open(`skin.html?name=${encodeURIComponent(skin.name)}&image=${encodeURIComponent(skin.images.icon)}&backstory=${encodeURIComponent(skin.description)}`, "_self")})
       
       function goBack() {
         window.history.back();
@@ -35,7 +32,6 @@ async function getFortniteSkins() {
   
     skinDiv.appendChild(skinImg);
     skinDiv.appendChild(skinName);
-    skinDiv.appendChild(star);
     container.appendChild(skinDiv);
     }
   }

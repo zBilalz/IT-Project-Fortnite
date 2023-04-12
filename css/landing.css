@@ -51,6 +51,10 @@ section {
 }
 
 hr {
+<<<<<<< HEAD
+=======
+    font-weight:lighter;
+>>>>>>> main
     color: white !important;
 }
 

@@ -1,5 +1,9 @@
-button {
+#ster button {
     border-style: none;
     background-color: transparent;
     font-size: 25px;
+}
+
+#ster { 
+    font-size: 26px;
 }
