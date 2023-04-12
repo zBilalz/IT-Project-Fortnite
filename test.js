@@ -1,5 +1,5 @@
 const apiUrl = 'https://fortnite-api.com/v2/cosmetics/br';
-
+var avatarNamen = [];
 async function getFortniteSkins() {
   const response = await fetch(apiUrl);
   const data = await response.json();
@@ -8,7 +8,7 @@ async function getFortniteSkins() {
 
   const container = document.querySelector('.container');
 
-  for (let index = 0; index < 25; index++) {
+  for (let index = 0; index < 12; index++) {
     const skin = skins[index];
 
     if(skin.name != "null"){
@@ -19,15 +19,23 @@ async function getFortniteSkins() {
     skinImg.src = skin.images.icon;
 
     const skinName = document.createElement('div');
+   
     skinName.classList.add('skin-name');
     skinName.innerText = skin.name;
-
+    skinImg.addEventListener("click", () => {
+    window.open(`skin.html?name=${encodeURIComponent(skin.name)}&image=${encodeURIComponent(skin.images.icon)}&backstory=${encodeURIComponent(skin.description)}`)})
     skinDiv.appendChild(skinImg);
     skinDiv.appendChild(skinName);
-
     container.appendChild(skinDiv);
+    avatarNamen.push([skin.name,0]);
+
     }
   }
+
 }
 
+
 getFortniteSkins();
+
+
+
