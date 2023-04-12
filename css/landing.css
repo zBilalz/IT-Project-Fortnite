@@ -1,6 +1,15 @@
-body{
-    font-family: Questrial;
+*
+{ margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: questrial;
+    color: white;
 }
+
+body{
+    background-image: url('../fotos/bcg1.jpg');
+}
+
 header img {
     display: flex;
     position: left;
@@ -20,7 +29,7 @@ nav li {
 }
 
 nav li a {
-    color: darkgray;
+    color: rgb(211, 211, 211);
     text-transform: uppercase;
     text-decoration: none;
 }
@@ -35,6 +44,14 @@ section {
     justify-content: space-between;
     gap: 20px;
     padding: 20px;
+}
+
+.index {
+    margin-top: 5%;
+}
+
+hr {
+    font-weight:lighter;
 }
 
 .item{
@@ -59,4 +76,97 @@ section {
    margin-bottom: 0.5rem;
     margin: 0 auto;
     width: 35%;
+    object-fit: cover;
+    height: 250px; 
+    transition: 0.3s opacity, transform 0.3s; 
+}
+.last_item img:hover {
+    opacity: 0.8;
+    transform: scale(0.980);
+}
+
+#skin-backstory {
+    margin-right: 35%;
+    margin-top: 1%;
+}
+
+#skin-image {
+    float: left;
+    display: block;
+    margin-bottom: 0.5rem;
+     /*margin: 0 auto;*/
+     margin-left: 20%;
+     width: 30%;
+     object-fit: cover;
+     transition: 0.3s opacity, transform 0.3s; 
+}
+
+button {
+    margin-top: 2%;
+    margin-left: 5%;
+    padding: 4px;
+}
+.class {
+    color: white;
+}
+button a {
+    text-decoration: none;
+    color: black;
+}
+h1 {
+    text-align: center;
+    text-transform: uppercase;
+    color: white;
+    letter-spacing: 6px;
+    font-size: 25px;
+}
+h2{
+    letter-spacing: 4px;
+    font-family: questrial;
+    margin-top: 10%;
+}
+
+.container img:hover {
+    opacity: 0.8;
+    transform: scale(0.980);
+}
+
+.item img {
+    display: block;
+     width: 100%;
+    height: 100%;
+    margin-bottom: 0.5rem;
+    object-fit: cover;
+    width: 100%;
+    height: 250px; 
+    transition: 0.3s opacity, transform 0.3s;  
+}
+
+.item img:hover {
+    opacity: 0.8;
+    transform: scale(0.980);
+  }
+
+
+/*footer*/
+
+footer {
+    margin-top: 8%;
+
+}
+footer p {    
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    padding: 20px;
+    font-family: questrial;
+}
+
+footer a {
+  text-decoration: none;
+  color: black;
+  
+}
+footer a:hover {
+  opacity: 0.7;
 }
