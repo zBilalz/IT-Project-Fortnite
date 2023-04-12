@@ -51,7 +51,10 @@ section {
 }
 
 hr {
+<<<<<<< HEAD
+=======
     font-weight:lighter;
+>>>>>>> main
     color: white !important;
 }
 
@@ -91,6 +94,7 @@ hr {
     margin-top: 1%;
 }
 
+
 #skin-image {
     float: left;
     display: block;
@@ -114,6 +118,8 @@ button a {
     text-decoration: none;
     color: black;
 }
+
+
 h1 {
     text-align: center;
     text-transform: uppercase;
