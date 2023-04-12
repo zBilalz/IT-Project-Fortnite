@@ -52,6 +52,7 @@ section {
 
 hr {
     font-weight:lighter;
+    color: white !important;
 }
 
 .item{
@@ -116,7 +117,7 @@ button a {
 h1 {
     text-align: center;
     text-transform: uppercase;
-    color: white;
+    color: white !important;
     letter-spacing: 6px;
     font-size: 25px;
 }
