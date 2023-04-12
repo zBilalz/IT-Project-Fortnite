@@ -51,7 +51,7 @@ section {
 }
 
 hr {
-    font-weight:lighter;
+    color: white !important;
 }
 
 .item{
@@ -90,6 +90,7 @@ hr {
     margin-top: 1%;
 }
 
+
 #skin-image {
     float: left;
     display: block;
@@ -113,10 +114,12 @@ button a {
     text-decoration: none;
     color: black;
 }
+
+
 h1 {
     text-align: center;
     text-transform: uppercase;
-    color: white;
+    color: white !important;
     letter-spacing: 6px;
     font-size: 25px;
 }
