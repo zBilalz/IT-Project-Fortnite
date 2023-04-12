@@ -1,5 +1,5 @@
 function clearLocalStorage() {
     localStorage.clear();
-}
-
-window.onbeforeunload = clearLocalStorage;
+  }
+  
+window.addEventListener('beforeunload', clearLocalStorage);
