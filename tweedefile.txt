@@ -10,4 +10,7 @@ Om van branch te pullen:
 -git pull origin "naambranch"
 -----------------------------------------------------------
 om specifieke branch te clonen:
-git clone -b "naamBranch" "linkrepo"
+git clone -b "naamBranch" "linkrepo
+-----------------------------------------------------------
+om te pushen naar branch:
+git push origin "naamBranch"
