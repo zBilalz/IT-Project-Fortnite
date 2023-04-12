@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="module" src="favoriet.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./css/home.css">
+    <meta charset="UTF-8">
+    <title>Skin Details</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .skin-image {
+        width: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="skin-name"></h1>
+    <img id="skin-image" src="" alt="">
+    <p id="skin-backstory"></p>
+    <p id="ster">Favoriet: </p>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const skinName = decodeURIComponent(urlParams.get("name"));
+      const skinImage = decodeURIComponent(urlParams.get("image"));
+      const skinBackstory = decodeURIComponent(urlParams.get("backstory"));
+      document.getElementById("skin-name").textContent = skinName;
+      document.getElementById("skin-image").src = skinImage;
+      document.getElementById("skin-backstory").textContent = skinBackstory;
+    </script>
+  </body>
+</html>
