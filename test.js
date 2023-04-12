@@ -1,5 +1,5 @@
 const apiUrl = 'https://fortnite-api.com/v2/cosmetics/br';
-var avatarNamen = [];
+
 async function getFortniteSkins() {
   const response = await fetch(apiUrl);
   const data = await response.json();
@@ -15,27 +15,41 @@ async function getFortniteSkins() {
     const skinDiv = document.createElement('div');
     skinDiv.classList.add('skin');
 
-    const skinImg = document.createElement('img');
+    const skinImg = document.createElement('img')
     skinImg.src = skin.images.icon;
 
     const skinName = document.createElement('div');
-   
+    const star = document.createElement("i");
+ 
+    star.setAttribute("class","bi bi-star")
+
     skinName.classList.add('skin-name');
     skinName.innerText = skin.name;
+
     skinImg.addEventListener("click", () => {
-    window.open(`skin.html?name=${encodeURIComponent(skin.name)}&image=${encodeURIComponent(skin.images.icon)}&backstory=${encodeURIComponent(skin.description)}`)})
+      window.open(`skin.html?name=${encodeURIComponent(skin.name)}&image=${encodeURIComponent(skin.images.icon)}&backstory=${encodeURIComponent(skin.description)}`)})
+      
+      function goBack() {
+        window.history.back();
+      }
+  
     skinDiv.appendChild(skinImg);
     skinDiv.appendChild(skinName);
+    skinDiv.appendChild(star);
     container.appendChild(skinDiv);
-    avatarNamen.push([skin.name,0]);
-
     }
   }
-
 }
-
 
 getFortniteSkins();
 
-
-
+/*skins.forEach(skin => {
+  const skinDiv = document.createElement("div");
+  skinDiv.className = "skin";
+  const skinImage = document.createElement("img");
+  skinImage.src = skin.images.icon;
+  skinImage.alt = skin.name;
+  skinImage.className = "skin-image";
+  skinImage.addEventListener("click", () => {
+    window.open(`skin.html?name=${encodeURIComponent(skin.name)}&image=${encodeURIComponent(skin.images.icon)}&backstory=${encodeURIComponent(skin.description)}`);
+  });*/
