@@ -27,23 +27,107 @@
             width: 100%;
             text-align: center;
       }
+
+
+
+      .container {
+  width: 200px;
+  height: 400px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center {
+  width: 150px;
+  height: 30px;
+  position: absolute;
+}
+
+.btn {
+  width: 90px;
+  height: 30px;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid #afcbe4a6;
+  outline: none;
+  transition: 1s ease-in-out;
+}
+
+svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  fill: none;
+  stroke: #fff;
+  stroke-dasharray: 150 480;
+  stroke-dashoffset: 150;
+  transition: 1s ease-in-out;
+}
+
+.btn:hover {
+  transition: 1s ease-in-out;
+  background: #487fb66c;
+}
+
+.btn:hover svg {
+  stroke-dashoffset: -480;
+}
+
+.btn span {
+  color: white;
+  font-size: 14px;
+  font-weight: 100;
+}
+
+.icon{
+  margin-top: 15%;
+  margin-left:5% ;
+  margin-right: 5%;
+}
     </style>
   </head>
   <body>
-    <button><a href="home.html">go back</a></button>
-    
+    <div class="container2">
+      <div class="center">
+        <button class="btn">
+          <svg width="90px" height="60px" viewBox="-12 0 185 112" class="border">
+            <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
+            <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
+          </svg>
+          <a href="home.html"><span>&#8592; Go back</span></a>
+        </button>
+      </div>
+    </div>
+    <!--<a href="home.html"><button>&#8592; Go back</button></a>-->
     <main>
         <h1 id="skin-name"></h1>
         <br>
         <hr>
         <br>
         <br>
-        <img id="skin-image" src="" alt="">
+        <figure>
+          <img id="skin-image" src="" alt="">
+        </figure> 
     </main>
     <aside>
+        <br>
+        <br>
+        
         <h2>Backstory</h2>
         <p id="skin-backstory" style="text-align: right;"></p>
-        <h2 id="ster">Favoriet: </h2>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="icon">
+          <h3 id="ster"><ion-icon name="add-outline">Add to favoriet</ion-icon></h3>
+          <h3 id="ster">Add to blacklist: </h3>
+        </div>
     </aside>
     
     <footer id="index_footer">

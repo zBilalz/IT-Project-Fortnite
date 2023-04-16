@@ -7,7 +7,7 @@
 }
 
 body{
-    background-image: url('../fotos/bcg1.jpg');
+    background-image: url('../fotos/bcg8.jpg');
 			height: 100vh;
 			background-attachment: fixed;
 			background-position: center;
@@ -17,7 +17,7 @@ body{
 }
 
 .parallax {
-    background-image: url('./fotos/bcg1.jpg'); /* Replace with your image path */
+    background-image: url('./fotos/bcg8.jpg'); 
     height: 100vh;
     background-attachment: fixed;
     background-position: center;
@@ -50,8 +50,21 @@ nav ul {
     display: flex;
     justify-content: right;
     align-items: center;
-    
-   
+}
+
+nav a:hover {
+    border-bottom: 1px solid white;
+    opacity: 0.9;
+    transform: scale(0.980);
+}
+.head nav ul {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+.head nav ul li {
+    display: flex;
 }
 
 .login {
@@ -96,13 +109,14 @@ section {
     margin-top: 5%;
 }
 
-<<<<<<< HEAD
 hr {
     color: white !important;
 }
-=======
->>>>>>> 48fddc171c1b407c52311b455103146949c15de1
 
+#poke {
+    margin-left:33% ;
+    margin-top: .7%;
+}
 .item{
     flex: 1 1 350px;
     margin-bottom: 2rem;
@@ -155,15 +169,20 @@ button {
     margin-top: 2%;
     margin-left: 5%;
     padding: 4px;
+    background-color : transparent;
+    border: 1px solid white;
 }
 .class {
     color: white;
 }
 button a {
     text-decoration: none;
-    color: black;
+    color: white;
 }
-
+button:hover {
+    opacity: 0.8;
+    
+}
 
 h1 {
     text-align: center;
