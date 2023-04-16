@@ -1,9 +1,15 @@
-#ster button {
+h2 button {
     border-style: none;
     background-color: transparent;
     font-size: 25px;
+    transition: transform 0.5s;
 }
 
-#ster { 
+#ster #blacklist { 
     font-size: 26px;
+}
+
+
+h2 button:hover {
+    transform:scale(1.5);
 }
