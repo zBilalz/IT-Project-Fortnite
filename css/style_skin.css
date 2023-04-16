@@ -5,8 +5,13 @@ h2 button {
     transition: transform 0.5s;
 }
 
-#ster #blacklist { 
+ #blacklist { 
     font-size: 26px;
+ }
+#ster { 
+    font-size: 15px;
+    letter-spacing: 2px;
+    font-weight: lighter;
 }
 
 
