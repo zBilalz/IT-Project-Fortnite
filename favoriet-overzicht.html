@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Skin Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Questrial&family=Quicksand:wght@300&family=Roboto:ital,wght@0,100;1,100&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/landing.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/style_skin.css">
+    <script src="test.js" defer></script>
+    <script src="favorietOverzicht.js" defer></script>
+    <style>
+      html,body {
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        height: 100%;
+        margin: 0;
+      }
+      .skin-image {
+        width: 300px;
+      }
+      footer{
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+      }
+
+      header {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+      }
+      main {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        margin-left: 10%;
+        justify-content: center;
+        align-items: center;
+        background-color:rgba(82, 80, 80, 0.80);
+        border-radius: 50px;
+      }
+
+      img {
+
+margin-left: 0%!important;
+      }
+
+      footer {
+        position: relative;
+      }
+
+      h2 {
+        font-size: 45px;
+        margin-bottom: 2%;
+        text-decoration: underline;
+        
+      }
+
+      h3 {
+        font-size: 30px;
+        font-style: italic;
+      }
+
+      p {
+        text-align: center!important;
+        width: 100%;
+        margin-right: 0%!important;
+        font-size: 30px;
+        font-style: italic;
+      }
+
+      #items {
+        display: flex;
+        
+       width: 80%;
+      }
+
+      #items div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .item h2 {
+        text-align: center;
+        width: 100%;
+      }
+
+      .item img{
+        text-align: center;
+        
+        width: max-content;
+      }
+
+      .item img:hover {
+        transform: none;
+        opacity: 1;
+      }
+
+      #winLos {
+        display: flex;
+        flex-direction: row;
+      }
+
+      main button {
+        color: black;
+        font-weight: bolder;
+        font-size: larger;
+        
+      }
+
+      #knopNotitie {
+        margin-left: 0%;
+        letter-spacing: 2px;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <button><a href="favoriet.html">go back</a></button>
+    <header>
+        <h1>Overzicht character</h1>
+        <img id="skin-image" src="" alt=""> 
+    </header>
+    <main>
+   
+        <h2>Naam</h2>
+        <h3 id="skin-name"></h3>
+        <h2>Backstory</h2>
+        <p id="skin-backstory" style="text-align: right;"></p>
+        <h2>[andere informatie]</h2>
+        <div id="items">
+            <div class="item">
+                <h2>item 1</h2>
+                <img src="./fotos/item_questionmark.jpg" alt="">
+            </div>
+            <div class="item">
+                <h2>item 2</h2>
+                <img src="./fotos/item_questionmark.jpg"  alt="">
+            </div>
+        </div>
+        <h2>Notitie</h2>
+        <p id="notitie">Nog geen notitie</p>
+        <button id="knopNotitie">Notitie bewerken</button>
+        <h2>
+            Overzicht wins & losses
+        </h2>
+      
+            <h3>Aantal Wins:</h3>
+            <p id="aantalWins">0</p>
+            
+      
+        
+        <h3>Aantal Losses:</h3>
+        <p id="aantalLosses">0</p>
+            <div id="winLos">
+                <button class="knopKD">Win toevoegen</button>
+                <button class="knopKD">Loss toevoegen</button>
+            </div>
+    </main>
+    
+    <footer id="index_footer">
+      <hr>
+        <p> 
+            <a href="https://www.facebook.com/"><span>facebook <i class="fa-brands fa-square-facebook"></i></span></a>
+            <a href="https://twitter.com/"><span>twitter <i class="fa-brands fa-twitter"></i></span></a>
+            <a href="https://www.instagram.com/"><span>instagram <i class="fa-brands fa-instagram"></i> </span></a>
+        </p>
+       <p>  &copy; Terry Boateng | Bilal Zarouli | Abdimahad Gass | Nikola Maksimović | Ilias &nbsp; G_1PRO_D2 &nbsp; All Rights Reseverd</p>
+    </footer>
+</body>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const skinName = decodeURIComponent(urlParams.get("name"));
+      const skinImage = decodeURIComponent(urlParams.get("image"));
+      const skinBackstory = decodeURIComponent(urlParams.get("backstory"));
+      document.getElementById("skin-name").textContent = skinName;
+      document.getElementById("skin-image").src = skinImage;
+      document.getElementById("skin-backstory").textContent = skinBackstory;
+    </script>
+  </body>
+</html>
