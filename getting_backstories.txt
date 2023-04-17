@@ -1,2 +1,0 @@
-
-Create a html page that fetches the fortnite outfit skins from this api https://fortnite-api.com/v2/cosmetics/br. and shows you the image and the backstory of the avatar in a paragraph
