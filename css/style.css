@@ -1,46 +1,4 @@
-/*
-.skin {
-	display: inline-block;
-	margin: 10px;
-	cursor: pointer;
-}
 
-.skin img {
-	width: 200px;
-	height: 200px;
-}
-
-.skin h2 {
-	margin: 0;
-	padding: 10px 0;
-}
-
-
-/*--------
-
-.container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 20px;
-    justify-items: center;
-    align-items: center;
-    padding: 20px;
-    }
-
-    img {
-    width: 100%;
-    height: auto;
-    }
-
-    h3 {
-    margin-top: 0;
-    }
-
-    p {
-    margin-bottom: 0;
-    }
-*/
-    /******/
 *
 { margin: 0;
     padding: 0;
