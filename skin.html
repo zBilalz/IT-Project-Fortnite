@@ -8,9 +8,11 @@
     <link rel="stylesheet" href="./css/landing.css">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/style_skin.css">
+    <link rel="stylesheet" href="goback.css">
     <script src="test.js" defer></script>
     <script src="knopFavoriet.js" defer></script>
     <script src="knopBlacklist.js" defer></script>
+    <script src="addToPFP.js" defer></script>
     <style>
       html,body {
         font-family: Arial, sans-serif;
@@ -22,89 +24,85 @@
         width: 300px;
       }
       footer{
-            position: fixed;
+            position: relative;
             left: 0;
             bottom: 0;
             width: 100%;
             text-align: center;
       }
+      .icon {
+       display: flex;
+       
+      
+      
+      }
+      .icon h3 {
+       width: 19%;
+        
+      }
 
+      #ster button, #blacklist button {
+        border: none;
+        font-size: larger;
+      } 
+      #pfp {
+        margin-left: 1%;
+      }
+      .icon .btn {
+        padding-left: 4%;
+        padding-right: 4%;
+        width: max-content;
+        font-size: 18px;
+        background-image: linear-gradient(rgb(0 0 0/70%) 0 0);
+      }
 
+      .icon .btn:hover {
+        opacity: 0.8.5;
+      }
 
-      .container {
-  width: 200px;
-  height: 400px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+      #avatar {
+      display: block;
+      position: absolute;
+     
+       margin: 0 auto;
+      border-radius: 30px;
+      top: 0;
+      right: 0;
+      margin-right: 10%;
+      margin-top: 0.5%;
+      scale: 1.2;
+      width: 50px;
+      height: 50px;
+    
+      }
 
-.center {
-  width: 150px;
-  height: 30px;
-  position: absolute;
-}
-
-.btn {
-  width: 90px;
-  height: 30px;
-  cursor: pointer;
-  background: transparent;
-  border: 1px solid #afcbe4a6;
-  outline: none;
-  transition: 1s ease-in-out;
-}
-
-svg {
-  position: absolute;
-  left: 0;
-  top: 0;
-  fill: none;
-  stroke: #fff;
-  stroke-dasharray: 150 480;
-  stroke-dashoffset: 150;
-  transition: 1s ease-in-out;
-}
-
-.btn:hover {
-  transition: 1s ease-in-out;
-  background: #487fb66c;
-}
-
-.btn:hover svg {
-  stroke-dashoffset: -480;
-}
-
-.btn span {
-  color: white;
-  font-size: 14px;
-  font-weight: 100;
-}
-
-.icon{
-  margin-top: 15%;
-  margin-left:5% ;
-  margin-right: 5%;
-}
+      #avatar img {
+        margin-top: -16%!important;
+      border-radius: 30px;
+        
+      width: 40px;
+      height: 40px;
+      }
+ 
     </style>
   </head>
   <body>
     <div class="container2">
       <div class="center">
-        <button class="btn">
+        <a href="home.html"> 
+          <button class="btn">go back
           <svg width="90px" height="60px" viewBox="-12 0 185 112" class="border">
             <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
             <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
           </svg>
-          <a href="home.html"><span>&#8592; Go back</span></a>
         </button>
+      </a>
+       
       </div>
     </div>
-    <!--<a href="home.html"><button>&#8592; Go back</button></a>-->
+    <div id="avatar">
+      <i class="bi bi-person-circle" style="font-size : 25px; margin: 0 5% 0 3%;" ></i>
+    </div>
     <main>
         <h1 id="skin-name"></h1>
         <br>
@@ -126,8 +124,19 @@ svg {
         <br>
         <br>
         <div class="icon">
+<<<<<<< HEAD
           <h3 id="ster">Add to favoriet</h3>
           <h3 id="ster">Add to blacklist: </h3>
+=======
+          
+            <h3 id="ster">Add to favoriet:</h3>
+            <h3 id="blacklist">Add to blacklist:</h3>
+            <h3 id="pfp"><button id="knopAvatar" class="btn">Add as PFP
+</button>
+          </h3>
+            
+    
+>>>>>>> 8231573e7f17314fc84d25cac39671d3936c19d0
         </div>
     </aside>
     
@@ -138,7 +147,7 @@ svg {
             <a href="https://twitter.com/"><span>twitter <i class="fa-brands fa-twitter"></i></span></a>
             <a href="https://www.instagram.com/"><span>instagram <i class="fa-brands fa-instagram"></i> </span></a>
         </p>
-       <p>  &copy; Terry Boateng | Bilal Zarouli | Abdimahad Gass | Nikola Maksimović | Ilias &nbsp; G_1PRO_D2 &nbsp; All Rights Reseverd</p>
+       <p>  &copy; Terry Boateng | Bilal Zaroili | Abdimahad Gass | Nikola Maksimović | Ilias &nbsp; G_1PRO_D2 &nbsp; All Rights Reseverd</p>
     </footer>
 </body>
     <script>
