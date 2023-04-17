@@ -26,6 +26,7 @@ body{
     position: relative;
 }
 
+
 .parallax-overlay {
     background-color: rgba(0, 0, 0, 0.4);
     height: 100%;
@@ -111,6 +112,7 @@ section {
 
 hr {
     color: white !important;
+    
 }
 
 #poke {
@@ -194,7 +196,7 @@ h1 {
     text-transform: uppercase;
     color: white !important;
     letter-spacing: 6px;
-    font-size: 25px;
+    font-size: 45px !important;
     margin-top: 1% !important;
 }
 h2{
