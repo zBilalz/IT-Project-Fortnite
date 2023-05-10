@@ -20,7 +20,26 @@ body {
     border-radius: 10px;
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
     width: 400px;
-    
+
+}
+.wrapper .form-box.login {
+   /* display: none;*/
+   transition: transform 0.18s ease;
+   transform: translateX(0);
+    }
+.wrapper.active .form-box.login {
+    transition: none;
+    transform: translateX(-400px);
+}
+.wrapper .form-box.register{
+        position: absolute;
+        transition: none;
+        transform: translateX(410px);
+      }
+
+.wrapper.active .form-box.register {
+    transition: transform 0.18s ease;
+    transform: translateX(0);
 }
 
 .wrapper{
@@ -35,9 +54,14 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    transition: height 0.2s ease;
+}
+.wrapper.active {
+    height: 520px;
 }
 .wrapper .form-box{
-    width: 100%;
+    width: 70%;
     padding: 40px;
     padding-top: 30px;
     color: white;
@@ -81,12 +105,12 @@ body {
     font-size: 1em;
     color: lightgray;
     padding: 0 35px 0 5px; 
-    
+
 }
 .remember-me {
     font-size: .9em;
     margin: -15px 0 15px;
-    
+
 }
 
 .remember-me label input {

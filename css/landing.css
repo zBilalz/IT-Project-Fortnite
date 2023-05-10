@@ -159,8 +159,6 @@ hr {
 
 
 
-
-
 #skin-image {
     float: left;
     display: block;
@@ -203,12 +201,31 @@ h2{
     font-family: questrial;
     margin-top: 10%;
 }
-
+.container {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 20px;
+    max-width: 1200px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+}
 .container img:hover {
     opacity: 0.8;
     transform: scale(0.980);
 }
 
+.skin{
+    flex: 1 1 200px;
+    margin-bottom: 2rem;
+}
+
+.skin img {
+    margin-bottom: 1rem;
+    width: 200px;
+}
 .item img {
     display: block;
      width: 100%;
