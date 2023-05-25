@@ -6,7 +6,7 @@ async function getFortniteSkins() {
 
   const skins = data.data.filter(item => item.type.value === 'outfit');
 
-  const container = document.querySelector('.container');
+  const container = document.querySelector('.skinContainer');
 
   for (let index = 0; index < 12; index++) {
     const skin = skins[index];

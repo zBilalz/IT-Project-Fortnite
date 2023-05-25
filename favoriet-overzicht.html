@@ -9,145 +9,9 @@
     <link rel="stylesheet" href="./css/style.css">
     <script src="test.js" defer></script>
     <script src="favorietOverzicht.js" defer></script>
-    <style>
-      html,body {
-        font-family: Questrial;
-        height: 100vh;
-        height: 100%;
-        margin: 0;
-        
-      }
-      .skin-image {
-        width: 300px;
-      }
-      footer{
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-      }
-
-      header {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        justify-content: center;
-        align-items: center;
-      }
-      main {
-        padding: 15px;
-        display: flex;
-        flex-direction: column;
-        width: 80%;
-        margin-left: 10%;
-        justify-content: center;
-        align-items: center;
-        background-color:rgba(141, 90, 120, 0.8);
-        background-image: url('./fotos/bcg8.jpg'); 
-        box-shadow: 0 0 5px 10px #ffffff44;;
-        border-radius: 30px;
-        
-      }
-
-      img {
-
-margin-left: 0%!important;
-      }
-
-       footer {
-        position: relative;
-      }
-
-     main h2 {
-        font-size: 55px;
-        margin-bottom: 2%;
-        /*text-decoration: underline;*/
-        
-      }
-
-     main h3 {
-        font-size: 20px;
-        font-style: italic;
-      }
-
-    main  p {
-        text-align: center!important;
-        width: 100%;
-        margin-right: 0%!important;
-        font-size: 40px;
-        font-style: italic;
-      }
-
-      #items {
-        display: flex;
-       width: 80%;
-      }
-
-      #items div {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .item h2 {
-        text-align: center;
-        width: 100%;
-      }
-
-      .item img{
-        text-align: center;
-        width: max-content;
-      }
-
-      .item img:hover {
-        transform: none;
-        opacity: 1;
-      }
-
-      #winLos {
-        display: flex;
-        flex-direction: row;
-        margin: 0 auto;
-        width: 65%;
-        gap: 25%;
-      
-      }
-
-      #winLos button {
-        width: 32%;
-
-      }
-
-   
-
-      main button {
-        color: white;
-        font-weight: bolder;
-        font-size: larger;
-        padding: 1.7%;
-       
-        
-      }
-
-      #knopNotitie {
-        margin: 0% !important;
-        margin-top: 3% !important;
-        letter-spacing: 2px;
-        padding: 3% !important;
-      }
-      .line{
-        margin-bottom: 10px solid white;
-      }
-      #skin-image{
-       margin-left: 35% !important;
-       margin-bottom: 3%;
-      }
-      
-    </style>
+  
   </head>
-  <body>
+  <body id="favOverzichtBody">
     <div class="container2">
         <div class="center">
           <a href="home.html"> 
@@ -160,32 +24,29 @@ margin-left: 0%!important;
         </a>
         </div>
       </div>
-    <header>
-     
-    </header>
     <div class="mid">
       <h1>Overview character</h1>
           <hr class="line">
           <br>
           <br>
-          <img id="skin-image" src="" alt="">
+          <img id="fav-image" src="" alt="">
           <br>
     </div>
-    <main>
+    <main id="favOverzichtMain">
         <h2>Name</h2>
-        <p id="skin-name"></p>
+        <p id="fav-name"></p>
         <h2>Backstory</h2>
-        <p id="skin-backstory" style="text-align: right;"></p>
+        <p id="fav-backstory" style="text-align: right;"></p>
         <h2>Notes</h2>
         <p id="notitie">No notes written yet</p>
         <button id="knopNotitie">Edit notes</button>
         <h2>[other information]</h2>
         <div id="items">
-          <div class="item">
+          <div class="favItem">
               <h2>item 1</h2>
               <img src="./fotos/item_questionmark.jpg" alt="">
           </div>
-          <div class="item">
+          <div class="favItem">
               <h2>item 2</h2>
               <img src="./fotos/item_questionmark.jpg"  alt="">
           </div>
@@ -231,9 +92,9 @@ margin-left: 0%!important;
       const skinName = decodeURIComponent(urlParams.get("name"));
       const skinImage = decodeURIComponent(urlParams.get("image"));
       const skinBackstory = decodeURIComponent(urlParams.get("backstory"));
-      document.getElementById("skin-name").textContent = skinName;
-      document.getElementById("skin-image").src = skinImage;
-      document.getElementById("skin-backstory").textContent = skinBackstory;
+      document.getElementById("fav-name").textContent = skinName;
+      document.getElementById("fav-image").src = skinImage;
+      document.getElementById("fav-backstory").textContent = skinBackstory;
     </script>
   </body>
 </html>

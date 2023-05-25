@@ -18,36 +18,13 @@ body{
 			position: relative;
 }
 
-.container {
-  width: 90%;
-  margin: 0 auto;
-  margin-top: 20px;
-  max-width: 1200px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 20px;
-}
-.container img:hover {
-  opacity: 0.8;
-  transform: scale(0.980);
+h2{
+  letter-spacing: 4px;
+  font-family: questrial;
+  margin-top: 10%;
 }
 
-.skin{
-  flex: 1 1 200px;
-  margin-bottom: 2rem;
-}
 
-.skin img {
-  margin-bottom: 1rem;
-  width: 200px;
-}*/
-
-
-.skin {
-  text-align: center;
-}
 .skin img {
   max-width: 100%;
 }
@@ -73,8 +50,8 @@ article img {
 }
 
 
-#index_footer {
-  
+footer {
+  margin-top: 8%;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -83,7 +60,7 @@ article img {
  position: relative;
 
 }
-#index_footer p {    
+footer p {    
   display: flex;
   justify-content: space-around;
   text-align: center;
@@ -91,64 +68,28 @@ article img {
   font-family: questrial;
 }
 
-#index_footer a {
+footer a {
 text-decoration: none;
 color: black;
 
 }
-#index_footerter a:hover {
+footer a:hover {
 opacity: 0.7;
 }
 
 /* DIT IS HET BEGIN VAN DE HOME PAGE*/
-*
-{ margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: questrial;
-    color: white;
-}
 
-.bod{
+.homeBody{
     background-image: url('../fotos/bcg8.jpg');
 			height: 100vh;
 }
 
-.parallax {
-    background-image: url('./fotos/bcg8.jpg'); 
-    height: 100vh;
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: relative;
-}
 
-
-.parallax-overlay {
-    background-color: rgba(0, 0, 0, 0.4);
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 2rem;
-    box-sizing: border-box;
-}
-
-header img {
-    display: flex;
-    position: left;
-    justify-content: left;
-}
 nav ul {
     display: flex;
     justify-content: right;
     align-items: center;
+    height: 50px;
 }
 
 nav a:hover {
@@ -156,23 +97,11 @@ nav a:hover {
     opacity: 0.9;
     transform: scale(0.980);
 }
-.head nav ul {
+
+ nav ul li {
     display: flex;
-    justify-content: right;
-    align-items: center;
 }
 
-.head nav ul li {
-    display: flex;
-}
-/*
-.login {
-    margin-top: 30%;
-}
-.login li a {
-    font-size: larger;
-    font-weight: 600;
-}*/
 
 nav li {
     display: flex;
@@ -187,102 +116,9 @@ nav li a {
     text-decoration: none;
 }
 
-section {
-    width: 90%;
-    margin: 0 auto;
-    margin-top: 20px;
-    max-width: 1200px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 20px;
-}
-
-.head{
-    display: flex;
-    justify-content: space-between;
-}
-
-.index {
-    margin-top: 5%;
-}
 
 hr {
     color: white !important;
-    
-}
-
-#poke {
-    margin-left:33% ;
-    margin-top: .7%;
-}
-.item{
-    flex: 1 1 350px;
-    margin-bottom: 2rem;
-}
-
-.item img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    margin-bottom: 0.5rem;
-    
-}
-
-.last_item {
-    flex: 1 1 350px;
-    margin-bottom: 2rem;
-}
-.last_item img {
-    display: block;
-   margin-bottom: 0.5rem;
-    margin: 0 auto;
-    width: 35%;
-    object-fit: cover;
-    height: 250px; 
-    transition: 0.3s opacity, transform 0.3s; 
-}
-.last_item img:hover {
-    opacity: 0.8;
-    transform: scale(0.980);
-}
-
-#skin-backstory {
-    margin-right: 35%;
-    margin-top: 1%;
-}
-
-
-
-
-
-#skin-image {
-    float: left;
-    display: block;
-    margin-bottom: 0.5rem;
-     margin-left: 20%;
-     width: 30%;
-     object-fit: cover;
-     transition: 0.3s opacity, transform 0.3s; 
-}
-
-button {
-    margin-top: 2%;
-    margin-left: 5%;
-    padding: 4px;
-    background-color : transparent;
-    border: 1px solid white;
-}
-.class {
-    color: white;
-}
-button a {
-    text-decoration: none;
-    color: white;
-}
-button:hover {
-    opacity: 0.8;
     
 }
 
@@ -294,12 +130,9 @@ h1 {
     font-size: 45px !important;
     margin-top: 1% !important;
 }
-h2{
-    letter-spacing: 4px;
-    font-family: questrial;
-    margin-top: 10%;
-}
-.container {
+
+
+.skinContainer {
     width: 90%;
     margin: 0 auto;
     margin-top: 20px;
@@ -310,65 +143,20 @@ h2{
     gap: 20px;
     padding: 20px;
 }
-.container img:hover {
+.skinContainer img:hover {
     opacity: 0.8;
     transform: scale(0.980);
 }
 
 .skin{
-    flex: 1 1 200px;
+    flex: 1 1 150px;
     margin-bottom: 2rem;
+    text-align: center;
 }
 
 .skin img {
     margin-bottom: 1rem;
     width: 200px;
-}
-.item img {
-    display: block;
-     width: 100%;
-    height: 100%;
-    margin-bottom: 0.5rem;
-    object-fit: cover;
-    width: 100%;
-    height: 250px; 
-    transition: 0.3s opacity, transform 0.3s;  
-
-}
-
-.introhead {
-    font-size: 30px;
-}
-#intro {
-    margin-top: 1%;
-    font-size: larger;
-}
-.item img:hover {
-    opacity: 0.8;
-    transform: scale(0.980);
-  }
-
-
-/*footer*/
-#home_footer {
-  margin-top: 8%;
-
-}
-#home_footer p {    
-  display: flex;
-  justify-content: space-around;
-  text-align: center;
-  padding: 20px;
-  font-family: questrial;
-}
-
-#home_footer a {
-text-decoration: none;
-color: black;
-
-}
-#home_footer a:hover {
-opacity: 0.7;
 }
 
 
@@ -387,23 +175,16 @@ opacity: 0.7;
           background-color: #f1f1f1;
           font-family: Arial, sans-serif;
 }
-/*
-body {
-  background-color: #f1f1f1;
-  font-family: Questrial;
-  color: white;
-}*/
 
-.container {
+
+.form-box.login,.form-box.register  {
   margin: auto;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
   width: 400px;
 
 }
 .wrapper .form-box.login {
- /* display: none;*/
  transition: transform 0.18s ease;
  transform: translateX(0);
   }
@@ -522,6 +303,11 @@ h1 {
   margin-bottom: 20px;
 }
 
+#registrerH1 {
+  margin-left: -4.2rem;
+ font-size: 2.2rem !important;
+}
+
 button:hover {
   background-color: rgb(176, 113, 176);
   border: none;
@@ -557,24 +343,6 @@ span.psw {
 
 
 /* DIT IS HET CSS VOOR DE LANDING PAGE*/
-*
-{ margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: questrial;
-    color: white;
-}
-
-body{
-    background-image: url('../fotos/bcg8.jpg');
-			height: 100vh;
-			background-attachment: fixed;
-			background-position: center;
-			background-repeat: no-repeat;
-			background-size: cover;
-			position: relative;
-}
-
 .parallax {
     background-image: url('./fotos/bcg8.jpg'); 
     height: 100vh;
@@ -583,6 +351,14 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
+}
+
+.parallax h1 {
+    font-size: 30px;
+}
+.parallax p{
+    margin-top: 1%;
+    font-size: larger;
 }
 
 
@@ -601,32 +377,29 @@ body{
     box-sizing: border-box;
 }
 
-header img {
+#indexHeader {
+display: flex;
+justify-content: space-between;
+}
+
+#indexHeader img {
     display: flex;
     position: left;
     justify-content: left;
 }
-nav ul {
+#indexHeader nav ul {
     display: flex;
     justify-content: right;
     align-items: center;
 }
 
-nav a:hover {
+#indexHeader nav a:hover {
     border-bottom: 1px solid white;
     opacity: 0.9;
     transform: scale(0.980);
 }
-.head nav ul {
-    display: flex;
-    justify-content: right;
-    align-items: center;
-}
 
-.head nav ul li {
-    display: flex;
-}
-/*
+
 .login {
     margin-top: 30%;
 }
@@ -634,15 +407,15 @@ nav a:hover {
     font-size: larger;
     font-weight: 600;
 }
-*/
-nav li {
+
+#indexHeader nav li {
     display: flex;
     margin: 0.5rem;
     padding: 1rem;
    
 }
 
-nav li a {
+#indexHeader nav li a {
     color: rgb(211, 211, 211);
     text-transform: uppercase;
     text-decoration: none;
@@ -660,13 +433,14 @@ section {
     padding: 20px;
 }
 
-.head{
-    display: flex;
-    justify-content: space-between;
-}
-
-.index {
+#indexMain h1{
     margin-top: 5%;
+    text-align: center;
+    text-transform: uppercase;
+    color: white !important;
+    letter-spacing: 6px;
+    font-size: 45px !important;
+    margin-top: 1% !important;
 }
 
 hr {
@@ -697,7 +471,7 @@ hr {
 }
 .last_item img {
     display: block;
-   margin-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
     margin: 0 auto;
     width: 35%;
     object-fit: cover;
@@ -709,63 +483,9 @@ hr {
     transform: scale(0.980);
 }
 
-#skin-backstory {
-    margin-right: 35%;
-    margin-top: 1%;
-}
-
-
-#skin-image {
-    float: left;
-    display: block;
-    margin-bottom: 0.5rem;
-     margin-left: 20%;
-     width: 30%;
-     object-fit: cover;
-     transition: 0.3s opacity, transform 0.3s; 
-}
-
-button {
-    margin-top: 2%;
-    margin-left: 5%;
-    padding: 4px;
-    background-color : transparent;
-    border: 1px solid white;
-}
-.class {
-    color: white;
-}
-button a {
-    text-decoration: none;
-    color: white;
-}
-button:hover {
-    opacity: 0.8;
-    
-}
-
-h1 {
-    text-align: center;
-    text-transform: uppercase;
-    color: white !important;
-    letter-spacing: 6px;
-    font-size: 45px !important;
-    margin-top: 1% !important;
-}
-h2{
-    letter-spacing: 4px;
-    font-family: questrial;
-    margin-top: 10%;
-}
-
-.container img:hover {
-    opacity: 0.8;
-    transform: scale(0.980);
-}
-
 .item img {
     display: block;
-     width: 100%;
+    width: 100%;
     height: 100%;
     margin-bottom: 0.5rem;
     object-fit: cover;
@@ -775,51 +495,127 @@ h2{
 
 }
 
-.introhead {
-    font-size: 30px;
-}
-#intro {
-    margin-top: 1%;
-    font-size: larger;
-}
+
 .item img:hover {
     opacity: 0.8;
     transform: scale(0.980);
   }
 
-
-/*footer*/
-
-footer {
-    margin-top: 8%;
-
-}
-footer p {    
-    display: flex;
-    justify-content: space-around;
-    text-align: center;
-    padding: 20px;
-    font-family: questrial;
-}
-
-footer a {
-  text-decoration: none;
-  color: black;
-  
-}
-footer a:hover {
-  opacity: 0.7;
-}
-
 /* EINDE CSS VOOR DE LANDING PAGE*/
 
-/* DIT IS HET CSS VOOR HET FAVORIET_OVERZICHT PAGINA */
-h2 button {
+/* DIT IS HET CSS VOOR HET SKIN DETAIL PAGINA*/
+
+html,body {
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  height: 100%;
+  margin: 0;
+}
+
+#skin-backstory {
+  margin-right: 35%;
+  margin-top: 1%;
+}
+
+#skin-image {
+  float: left;
+  display: block;
+  margin-bottom: 0.5rem;
+   margin-left: 20%;
+   width: 30%;
+   object-fit: cover;
+   transition: 0.3s opacity, transform 0.3s; 
+}
+
+.icon {
+
+ display: flex;
+ justify-content: center;
+
+
+}
+
+
+.icon h3 {
+ width: 33%;
+  
+}
+
+
+
+
+button {
+  margin-top: 2%;
+  margin-left: 5%;
+  padding: 4px;
+  background-color : transparent;
+  border: 1px solid white;
+}
+
+button a {
+  text-decoration: none;
+  color: white;
+}
+button:hover {
+  opacity: 0.8;
+  
+}
+
+#ster button, #blacklist button {
+  border: none;
+  font-size: larger;
+} 
+#pfp {
+  margin-left: 1%;
+}
+.icon .btn {
+  padding-left: 4%;
+  padding-right: 4%;
+  width: max-content;
+  font-size: 18px;
+  background-image: linear-gradient(rgb(0 0 0/70%) 0 0);
+}
+
+.icon .btn:hover {
+  opacity: 0.8.5;
+}
+
+#avatar {
+display: block;
+position: absolute;
+
+ margin: 0 auto;
+border-radius: 30px;
+top: 0;
+right: 0;
+margin-right: 10%;
+margin-top: 0.5%;
+scale: 1.2;
+width: 50px;
+height: 50px;
+
+}
+
+#avatar img {
+  margin-top: -16%!important;
+border-radius: 30px;
+  
+width: 40px;
+height: 40px;
+}
+
+.skinAside h2{
+  letter-spacing: 4px;
+  font-family: questrial;
+  margin-top: 10%;
+}
+.icon button {
   border-style: none;
   background-color: transparent;
   font-size: 25px;
   transition: transform 0.5s;
 }
+
 
 #ster #blacklist { 
   font-size: 15px;
@@ -828,9 +624,138 @@ h2 button {
 }
 
 
-h2 button:hover {
-  transform:scale(1.5);
+/* EINDE */
+
+/* DIT IS HET CSS VOOR HET FAVORIET_OVERZICHT PAGINA */
+
+#favOverzichtBody {
+  font-family: Questrial;
+  height: 100vh;
+  height: 100%;
+  margin: 0;
+  
 }
+
+#favOverzichtMain {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin-left: 10%;
+  justify-content: center;
+  align-items: center;
+  background-color:rgba(141, 90, 120, 0.8);
+  background-image: url('./fotos/bcg8.jpg'); 
+  box-shadow: 0 0 5px 10px #ffffff44;;
+  border-radius: 30px;
+  
+}
+
+.mid img {
+
+margin-left: 0%!important;
+}
+
+#favOverzichtMain h2 {
+  font-size: 55px;
+  margin-bottom: 2%;
+    text-decoration: underline;
+  
+}
+
+#favOverzichtMain h3 {
+  font-size: 20px;
+  font-style: italic;
+}
+
+#favOverzichtMain p {
+  text-align: center!important;
+  width: 100%;
+  margin-right: 0%!important;
+  font-size: 40px;
+  font-style: italic;
+}
+
+#items {
+  display: flex;
+ width: 80%;
+}
+
+#items img {
+  width: 300px;
+}
+
+#items div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.favItem h2 {
+  text-align: center;
+  width: 100%;
+}
+
+.favItem {
+  flex: 1 1 350px;
+margin-bottom: 2rem;
+}
+
+.favItem img{
+  text-align: center;
+  width: max-content;
+}
+
+.favItem img:hover {
+  transform: none;
+  opacity: 1;
+}
+
+#winLos {
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+  width: 65%;
+  gap: 25%;
+
+}
+
+#winLos button {
+  width: 32%;
+
+}
+
+
+
+#favOverzichtMain button {
+  color: white;
+  font-weight: bolder;
+  font-size: larger;
+  padding: 1.7%;
+ 
+  
+}
+
+#knopNotitie {
+  margin: 0% !important;
+  margin-top: 3% !important;
+  letter-spacing: 2px;
+  padding: 3% !important;
+}
+.line{
+  margin-bottom: 10px solid white;
+}
+#fav-image{
+ margin-left: 35% !important;
+ margin-bottom: 3%;
+ float: left;
+ display: block;
+ width: 30%;
+ object-fit: cover;
+}
+
+
 
 /* EINDE CSS VOOR HET FAVORIET_OVERZICHT PAGINA */
 
