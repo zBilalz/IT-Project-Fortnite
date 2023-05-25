@@ -1,5 +1,10 @@
 let links = document.querySelectorAll(".project");
 let huidigeId = 0;
+var modal = document.getElementsByClassName("modal")[0];
+var span = document.getElementsByClassName("close")[0];
+
+let pModal = document.getElementById("modalTextIndex");
+
 function controleren(i) {
     if (heeftIngelogd()) {
         if (i == 1) {
@@ -7,11 +12,15 @@ function controleren(i) {
             window.location.href = "home.html";
         }
         else {
-            alert("Je hebt geen toegang tot deze project.");
+            pModal.textContent = "Je hebt geen toegang tot deze project.";
+            modal.style.display = "block";
+          
         }
     }
     else {
-        alert("Log eerst in.");
+        pModal.textContent = "Log eerst in.";
+        modal.style.display = "block";
+    
     }
 
 }
@@ -29,4 +38,16 @@ for (let i = 0; i < links.length; i++) {
         controleren(i)
     })
 }
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+  }
+  
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
     
