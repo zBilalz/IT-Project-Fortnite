@@ -24,7 +24,7 @@ async function getFortniteSkins() {
     skinName.innerText = skin.name;
 
     skinImg.addEventListener("click", () => {
-      window.open(`favoriet-overzicht.html?name=${encodeURIComponent(skin.name)}&image=${encodeURIComponent(skin.images.icon)}&backstory=${encodeURIComponent(skin.description)}`, "_self")})
+      window.open(`/favoriet-overzicht?name=${encodeURIComponent(skin.name)}&image=${encodeURIComponent(skin.images.icon)}&backstory=${encodeURIComponent(skin.description)}`, "_self")})
       
      
   

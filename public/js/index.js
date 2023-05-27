@@ -1,27 +1,26 @@
 let links = document.querySelectorAll(".project");
-let huidigeId = 0;
-var modal = document.getElementById("modalLanding");
-var span = document.getElementsByClassName("close")[0];
-
+let modal = document.getElementById("modalLanding");
+let span = document.getElementsByClassName("close")[0];
+let ingelogd = document.getElementById("ingelogd").value;
 let pModal = document.getElementById("modalTextIndex");
 
 function controleren(i) {
-    if (heeftIngelogd()) {
+     
         if (i == 1) {
-            
-            window.location.href = "home.html";
+            if (ingelogd == "true") {
+                window.location.href = "\home";
+            }
+            else {
+                modal.style.display = "block";
+            }
         }
         else {
-            pModal.textContent = "Je hebt geen toegang tot deze project.";
+            
             modal.style.display = "block";
           
         }
-    }
-    else {
-        pModal.textContent = "Log eerst in.";
-        modal.style.display = "block";
     
-    }
+    
 
 }
     function heeftIngelogd() {

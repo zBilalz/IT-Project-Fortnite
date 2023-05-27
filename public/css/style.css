@@ -888,6 +888,48 @@ svg {
 
 /* DIT IS HET EINDE VAN DE "GO BACK" CSS */
 
+
+
+/* DIT IS HET BEGIN VAN DE "BLACK LIST PAGINA" CSS */
+  
+#blacklistBody {
+  background-image: url('/fotos/bcg8.jpg');
+  font-family: Questrial;
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+#blacklistH2 {
+  margin-top: 20px;
+  text-align: center;
+}
+#blacklist-image-container {
+  display: flex;
+  flex-direction: column;
+}
+.blacklist-image {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-left: 25%;
+  margin-top: 5%;       
+}
+.blacklist-image img {
+  width: 35%;
+  margin-right: 20px;
+  box-shadow: 0 0 5px 10px #7e3383;       
+}
+.blacklist-image-caption {
+  font-size: 20px;       
+}
+
+#change{
+  margin-top: 5%;
+}
+
+/*  DIT IS HET EINDE VAN DE "BLACK LIST PAGINA" CSS */
+
+
 /* DIT IS HET BEGIN VAN DE "MODAL" CSS */ 
 #content-SkinBlackList {
   width: 60%;

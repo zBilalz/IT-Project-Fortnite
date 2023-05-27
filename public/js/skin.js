@@ -24,7 +24,7 @@ async function getFortniteSkins() {
     skinName.innerText = skin.name;
 
     skinImg.addEventListener("click", () => {
-      window.open(`skin.html?name=${encodeURIComponent(skin.name)}&image=${encodeURIComponent(skin.images.icon)}&backstory=${encodeURIComponent(skin.description)}`, "_self")})
+      window.open(`/skin?name=${encodeURIComponent(skin.name)}&image=${encodeURIComponent(skin.images.icon)}&backstory=${encodeURIComponent(skin.description)}`, "_self")})
       
       function goBack() {
         window.history.back();
@@ -38,14 +38,3 @@ async function getFortniteSkins() {
 }
 
 getFortniteSkins();
-
-/*skins.forEach(skin => {
-  const skinDiv = document.createElement("div");
-  skinDiv.className = "skin";
-  const skinImage = document.createElement("img");
-  skinImage.src = skin.images.icon;
-  skinImage.alt = skin.name;
-  skinImage.className = "skin-image";
-  skinImage.addEventListener("click", () => {
-    window.open(`skin.html?name=${encodeURIComponent(skin.name)}&image=${encodeURIComponent(skin.images.icon)}&backstory=${encodeURIComponent(skin.description)}`);
-  });*/

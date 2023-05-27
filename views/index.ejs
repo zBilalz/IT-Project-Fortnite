@@ -1,34 +1,24 @@
-<!DOCTYPE html>
-<html lang="nl-BE">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=r, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./css/style.css">
-    <script src="index.js" defer></script>
-    <script src="clearLocalStorage.js" defer></script>
 
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    
-    <title>Epic Games</title>
-</head>
-<body  id="indexBody">
+<%- include("header") %>
+
+<body id="indexBody">
     <header id="indexHeader">
         <img class="epic" src="./fotos/logo.png" width="300px" height="">
         <nav class>
               
             <ul class="login" >
-                <li><a href="login.html">Login &nbsp;</a><ion-icon name="people"></ion-icon></li>
+                <li><a href="/login">Login &nbsp;</a><ion-icon name="people"></ion-icon></li>
             </ul>
         </nav>
     </header>   
- 
+
+   
+
     <main id="indexMain">
         <div id="modalLanding" class="modal">
             <div id="contentLanding" class="modal-content">
               <span class="close">&times;</span>
-              <p id="modalTextIndex"></p>
+              <p id="modalTextIndex"><%=modalText%></p>
             </div>
           </div>
        
@@ -45,7 +35,8 @@
                 <p>Legomasters</p>
             </article>
             <article class="item">
-                <a class="project" href="home.html"> <img src="fotos/fortnite-wallpaper.jpg" width="410.84" height="417.11" alt=""></a>
+                <input type="hidden" id="ingelogd" name="ingelogd" value="<%= ingelogd %>">
+                <a class="project" href="/home"> <img src="fotos/fortnite-wallpaper.jpg" width="410.84" height="417.11" alt=""></a>
                 <p>Fortnite</p>   
             </article>
             <article class="item">
