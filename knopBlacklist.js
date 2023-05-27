@@ -5,7 +5,8 @@ let blacklistButton = document.createElement("button");
 blacklistButton.setAttribute("class","buttonBlacklist")
 let blacklistIcon = document.createElement("i");
     
-  
+var modal = document.getElementById("ModalSkinBlackList");
+var span = document.getElementsByClassName("close")[0];
 blacklistIcon.setAttribute("class","bi bi-eye");
 blacklistIcon.setAttribute("id","0");
 blacklistButton.appendChild(blacklistIcon);
@@ -18,7 +19,7 @@ blacklistButton.appendChild(blacklistIcon);
        
         if (knopBlacklist[i].children[0].id == "0") {
           
-            let redenBlacklist = prompt("Reden voor blacklisten:", "");
+          modal.style.display = "block";
             if (redenBlacklist == null || redenBlacklist == "") {
               
             } else {
@@ -34,3 +35,15 @@ blacklistButton.appendChild(blacklistIcon);
         }
       });
     }
+
+    // When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}

@@ -1,6 +1,6 @@
 let links = document.querySelectorAll(".project");
 let huidigeId = 0;
-var modal = document.getElementsByClassName("modal")[0];
+var modal = document.getElementById("modalLanding");
 var span = document.getElementsByClassName("close")[0];
 
 let pModal = document.getElementById("modalTextIndex");
