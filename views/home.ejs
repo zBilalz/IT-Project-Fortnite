@@ -15,14 +15,21 @@
 		<% for (let i = 0; i < 25; i++) { %>
            <% if (characters[i].name != "null") {%>
             <div class="skin">
-                <a href="\skin\<%=characters[i].name%>"><img src="<%=characters[i].images.icon%>" alt=""></a>
-                <div class="skin-name"><%=characters[i].name%></div>
+           <% if (characters[i].rarity.value != "epic" && characters[i].rarity.value != "legendary" && characters[i].rarity.value != "rare"&&characters[i].rarity.value != "uncommon") { %>
+            <a href="\skin\<%=characters[i].name%>"><img class="unique" src="<%=characters[i].images.icon%>" alt=""></a>
+           <%} else { %>
+            <a href="\skin\<%=characters[i].name%>"><img class="<%=characters[i].rarity.value%>" src="<%=characters[i].images.icon%>" alt=""></a>
+
+          <% } %>
+           
+               
+            <div class="skin-name"><%=characters[i].name%></div>
             </div>
             <% } %>
             <% } %>
     </div>
     
-	<footer id="home_footer">
+	<footer >
         <hr>
         <p> 
             <a href="https://www.facebook.com/"><span>facebook <i class="fa-brands fa-square-facebook"></i></span></a>
