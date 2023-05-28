@@ -205,6 +205,10 @@ app.get("/data", async (req:any, res:any) => {
 
 });
 
+app.get("/logout", (req:any,res:any) => { 
+    req.session.user = null;
+    res.redirect('/');} ) 
+   
 
 
 app.listen(app.get("port"), async () => {
