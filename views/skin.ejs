@@ -17,7 +17,8 @@
       </div>
     </div>
     <div id="avatar">
-      <img id="avatarImage" src="/fotos/user.png" alt="">
+      <%- include("loadavatar") %>
+     
     </div>
     <main>
       <div id="ModalSkinBlackList" class="modal">
@@ -30,13 +31,13 @@
           </form>
         </div>
       </div>
-        <h1 id="skin-name"></h1>
+        <h1 id="skin-name"><%= skinName %></h1>
         <br>
         <hr>
         <br>
         <br>
         <figure>
-          <img id="skin-image" src="" alt="">
+          <img id="skin-image" src="<%= skinImage %>" alt="">
         </figure> 
     </main>
     <aside id="skinAside">
@@ -44,7 +45,7 @@
         <br>
         
         <h2>Backstory</h2>
-        <p id="skin-backstory" style="text-align: right;"></p>
+        <p id="skin-backstory" style="text-align: right;"><%= skinBackstory %></p>
         <br>
         <br>
         <br>
@@ -53,8 +54,7 @@
           
             <h3 id="ster">Add to favoriet:</h3>
             <h3 id="blacklist">Add to blacklist:</h3>
-            <h3 id="pfp"><button id="knopAvatar" class="btn">Add as PFP
-</button>
+            <h3 id="pfp"><button id="knopAvatar" class="btn"><a href="/skin/pfp/<%=skinName%>">Add as pfp</a></button>
           </h3>
             
     
@@ -70,6 +70,9 @@
         </p>
        <p>  &copy; Terry Boateng | Bilal Zaroili | Abdimahad Gass | Nikola Maksimović | Ilias &nbsp; G_1PRO_D2 &nbsp; All Rights Reseverd</p>
     </footer>
+<!--
+
+
 
     <script>
       const urlParams = new URLSearchParams(window.location.search);
@@ -80,5 +83,6 @@
       document.getElementById("skin-image").src = skinImage;
       document.getElementById("skin-backstory").textContent = skinBackstory;
     </script>
+    -->
   </body>
 </html>

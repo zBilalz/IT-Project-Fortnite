@@ -634,14 +634,14 @@ height: 50px;
   margin-top: -16%!important;
 border-radius: 30px;
   
-width: 40px;
-height: 40px;
+width: 65px;
+height: auto;
 }
 
 #avatarImage {
   border-radius: 30px;
-  width: 40px;
-height: 40px;
+  width: 65px;
+height: auto;
 }
 
 .skinAside h2{

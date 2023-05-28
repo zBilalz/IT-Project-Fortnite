@@ -12,7 +12,14 @@
 	<h1 class="fort">Fortnite Avatars</h1>
    
 	<div class ="skinContainer">
-		
+		<% for (let i = 0; i < 25; i++) { %>
+           <% if (characters[i].name != "null") {%>
+            <div class="skin">
+                <a href="\skin\<%=characters[i].name%>"><img src="<%=characters[i].images.icon%>" alt=""></a>
+                <div class="skin-name"><%=characters[i].name%></div>
+            </div>
+            <% } %>
+            <% } %>
     </div>
     
 	<footer id="home_footer">

@@ -1,8 +1,9 @@
 
 let blacklist = document.getElementById("blacklist");
-let knopBlacklist = document.getElementsByClassName("buttonBlacklist")
+
 let blacklistButton = document.createElement("button");
 blacklistButton.setAttribute("class","buttonBlacklist")
+let knopBlacklist = document.getElementsByClassName("buttonBlacklist")[0];
 let blacklistIcon = document.createElement("i");
     
 var modal = document.getElementById("ModalSkinBlackList");
