@@ -3,13 +3,29 @@
 
 <body id="indexBody">
     <header id="indexHeader">
-        <img class="epic" src="./fotos/logo.png" width="300px" height="">
-        <nav class>
+        <img class="epic" src="/fotos/logo.png" width="300px" height="">
+
+        <% if(ingelogd == false) {%>
+            
+            <nav >
+              
+                <ul class="login" >
+                    <li><a href="/login">Login &nbsp;</a><ion-icon name="people"></ion-icon></li>
+                </ul>
+            </nav>
+       <% }
+       else { %>
+        <nav >
               
             <ul class="login" >
-                <li><a href="/login">Login &nbsp;</a><ion-icon name="people"></ion-icon></li>
+                <li><a href="/logout">Logout &nbsp;</a></li>
             </ul>
         </nav>
+
+
+
+       }
+       
     </header>   
 
    
@@ -31,33 +47,33 @@
         <h1 id="indexH1">Access your Project</h1>
         <section class="overzichtTopics">
             <article class="item">
-                <a class="project" href="#"><img src="fotos/legomasters.jpg" width="410.84" height="417.11" alt=""></a>
+                <a class="project" href="#"><img src="/fotos/legomasters.jpg" width="410.84" height="417.11" alt=""></a>
                 <p>Legomasters</p>
             </article>
             <article class="item">
                 <input type="hidden" id="ingelogd" name="ingelogd" value="<%= ingelogd %>">
-                <a class="project" href="/home"> <img src="fotos/fortnite-wallpaper.jpg" width="410.84" height="417.11" alt=""></a>
+                <a class="project" href="/home"> <img src="/fotos/fortnite-wallpaper.jpg" width="410.84" height="417.11" alt=""></a>
                 <p>Fortnite</p>   
             </article>
             <article class="item">
-                <a class="project" href="#"><img src="fotos/LOTR.jpg" width="410.84" height="417.11" alt=""></a>
+                <a class="project" href="#"><img src="/fotos/LOTR.jpg" width="410.84" height="417.11" alt=""></a>
                 <p>Lord Of The Rings</p>
             </article>
             <article class="item">
-                <a class="project" href="#"><img src="fotos/messi.jpg" width="410.84" height="417.11" alt=""></a>
+                <a class="project" href="#"><img src="/fotos/messi.jpg" width="410.84" height="417.11" alt=""></a>
                 <p>Fifa (messi > ronaldo)</p>
             </article>
             <article class="item">
-                <a class="project" href="#"><img src="fotos/mtg.jpg" width="410.84" height="417.11"alt=""></a>
+                <a class="project" href="#"><img src="/fotos/mtg.jpg" width="410.84" height="417.11"alt=""></a>
                 <p>Magic: The Gathering</p>
             </article>    
             <article class="item">
-                <a class="project" href="#"><img src="fotos/NBB.jpg" width="410.84" height="417.11"alt=""></a>
+                <a class="project" href="#"><img src="/fotos/NBB.jpg" width="410.84" height="417.11"alt=""></a>
                 
                 <p>Nationale Bank van België</p>
             </article>
             <article class="last_item">
-                <a class="project" href="#"> <img src="fotos/pokemon.jpg" width="410.84" height="417.11"alt=""></a>
+                <a class="project" href="#"> <img src="/fotos/pokemon.jpg" width="410.84" height="417.11"alt=""></a>
                
                 <p id="poke">Pokémon</p>
             </article>        

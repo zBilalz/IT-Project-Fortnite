@@ -22,10 +22,10 @@ export interface Blacklist {
 }
 
 export interface Favoriet {
-    name:string,
+    naam:string,
     notitie:string,
-    item1:string,
-    item2:string,
+    item1?:string,
+    item2?:string,
     wins:number,
     loses:number
 }
