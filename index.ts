@@ -26,7 +26,7 @@ let modalText:string = "";
 
 const createUser = async (name:string,pass:string) => {
     let user : User = {username:name,password:pass};
-    console.log(user);
+   
     
     try {
         await client.connect();
@@ -42,8 +42,6 @@ const createUser = async (name:string,pass:string) => {
 
 const createAccountUser = async (name:string) => {
     let account : Account = {username:name};
-    
-    
     try {
         await client.connect();
         await client.db("Fortnite").collection("Accounts").insertOne(account);
@@ -88,20 +86,23 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req:any,res:any) => {
+    let redirect :string = "";
     res.type("text/html");
     if (!req.session.user) {
         ingelogd = false;
         modalText = "Log eerst in";
+        redirect="#";
     }
     else {
         ingelogd = true;
         modalText = "Je hebt geen toegang tot deze project";
+        redirect="/home";
 
         
     }
 
    
-    res.render("index", {modalText:modalText,ingelogd:ingelogd});
+    res.render("index", {modalText:modalText,ingelogd:ingelogd, redirect:redirect});
 });
 
 
