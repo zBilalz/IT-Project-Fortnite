@@ -1,23 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" href="./css/style.css ">
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="login.js" defer></script>
-	<title>Login Page</title>
-	<style>
-        
-		
-	</style>
-</head>
+<%- include("header") %>
 <body class="log">
 	<div class="wrapper">
 		
 
         <div class="form-box login">
             <h1>Login</h1>
-            <form id="loginForm" action="#" method="post">
+            <form id="loginForm" action="/login" method="post">
                 <!--<div class="imgcontainer">-->
                     <!--<img src="avatar.png" alt="Avatar" class="avatar">-->
                 
@@ -47,7 +35,7 @@
         <div class="form-box register">
             <h1 id="registrerH1">Registration</h1>
             
-            <form action="#" >
+            <form action="/registrate" method="post">
                 <!--<div class="imgcontainer">-->
                     <!--<img src="avatar.png" alt="Avatar" class="avatar">-->
                     <div class="input-box">

@@ -8,7 +8,7 @@ function inloggen(event) {
     let wachtwoord = loginFormData.get("password");
     if (name == "admin" && wachtwoord == "admin") {
         localStorage.setItem('heeftIngelogd', true);
-        window.location.href = "index.html";
+        window.location.href = "/";
 
     }
 
@@ -18,7 +18,6 @@ function inloggen(event) {
    
 }
 
-document.getElementById("loginForm").addEventListener("submit", inloggen);
 
 
 const wrapper = document.querySelector('.wrapper');
