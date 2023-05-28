@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended:true}));
 
 let ingelogd:boolean = false;
 let modalText:string = "";
-
+let currentUserName : string = "";
 
 const createUser = async (name:string,pass:string) => {
     let user : User = {username:name,password:pass};
@@ -78,6 +78,21 @@ const fetchApiChracters = async () => {
     return characters;
 }
 
+const getCurrentAccount = async () => {
+    let account : Account = {username:""};
+    try {
+        await client.connect();
+        account = await client.db("Fortnite").collection("Accounts").findOne({username:currentUserName});
+    } catch (error) {
+        console.log(error);
+        
+    }
+    finally {
+        await client.close();
+    }
+    return account;
+}
+
 
 
 app.use((req, res, next) => {
@@ -123,6 +138,7 @@ app.post('/login', async (req, res) => {
                 username: username,
                 password: password,
             }
+            currentUserName = username;
             res.redirect('/');
            return;
         }
@@ -146,24 +162,75 @@ app.post('/registrate', async (req:any,res:any) => {
 });
 
 
-app.get("/home", (req:any, res:any) => {
+app.get("/home", async (req:any, res:any) => {
     if (!req.session.user) {
         res.redirect("/");
         return;
     }
     res.type("text/html");
-    res.render("home")
+    res.render("home", {characters:await fetchApiChracters(), account: await getCurrentAccount()})
 });
 
 
-app.get("/skin", (req:any, res:any) => {
+let skinName:string;
+let skinBackstory:string;
+let skinImage:string;
+
+app.get("/skin/:name", async (req:any, res:any) => {
+    if (!req.session.user) {
+        res.redirect("/");
+        return;
+    }
+    let getSkinName: string = req.params.name;
+    res.type("text/html");
+    let characters = await fetchApiChracters();
+    for (const character of characters) {
+        if (character.name == getSkinName) {
+            skinName = character.name;
+            skinBackstory = character.description;
+            skinImage = character.images.icon;
+        }
+    }    
+    
+    res.render("skin", {skinName:skinName,skinBackstory:skinBackstory,skinImage:skinImage, account: await getCurrentAccount()})
+
+});
+
+app.get("/skin/:type/:name", async (req:any, res:any) => {
     if (!req.session.user) {
         res.redirect("/");
         return;
     }
     res.type("text/html");
-    res.render("skin")
-});
+    let getType: string = req.params.type;
+    let getName: string = req.params.name;
+
+    
+    if (getType == "pfp") {
+        try {
+            await client.connect();
+            let characters = await fetchApiChracters();
+            for (const character of characters) {
+                    if (character.name == getName) {
+                       await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username}, {$set:{profielfoto:character.images.icon}});
+                    }
+            }
+            
+            
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+        finally {
+            await client.close();
+        }
+       
+    }
+    res.redirect(`/skin/${skinName}`)
+    }
+);
+
 
 
 app.get("/favoriet", (req:any, res:any) => {
@@ -198,11 +265,10 @@ app.get("/blacklist", (req:any, res:any) => {
 app.get("/data", async (req:any, res:any) => {
     let characters = await fetchApiChracters();
     res.type("application/json");
+    
 
-    for (const character of characters ) {
-        if (character.name=="Koi Striker Envoy")
-        res.json(character);
-    }
+        res.json(characters);
+  
 
 });
 
