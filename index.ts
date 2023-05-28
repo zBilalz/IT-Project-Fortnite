@@ -2,6 +2,8 @@ import express from "express";
 import ejs from "ejs";
 import session from "express-session";
 import { log } from "console";
+import fetch from "node-fetch";
+
 const SESSION_SECRET = Buffer.from(require('os').userInfo().username).toString('base64');
 
 const app = express();
@@ -62,10 +64,6 @@ app.post('/login', (req, res) => {
                 username: username,
                 password: password,
             }
-        
-            
-            
-            
             res.redirect('/');
            return;
         }
@@ -74,6 +72,10 @@ app.post('/login', (req, res) => {
     res.send('Authentication failed');
 
     return;
+});
+
+app.post('/registrate', (req:any,res:any) => {
+
 });
 
 
