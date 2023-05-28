@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended:true}));
 let ingelogd:boolean = false;
 let modalText:string = "";
 let currentUserName : string = "";
-
+let rarity:string = "";
 const createUser = async (name:string,pass:string) => {
     let user : User = {username:name,password:pass};
    
@@ -168,6 +168,7 @@ app.get("/home", async (req:any, res:any) => {
         return;
     }
     res.type("text/html");
+
     res.render("home", {characters:await fetchApiChracters(), account: await getCurrentAccount()})
 });
 
@@ -189,10 +190,15 @@ app.get("/skin/:name", async (req:any, res:any) => {
             skinName = character.name;
             skinBackstory = character.description;
             skinImage = character.images.icon;
+            rarity = character.rarity.value;
+            if (rarity != "epic" && rarity != "legendary" && rarity != "rare"  && rarity != "uncommon" ) {
+                rarity = "unique";
+            }
+            
         }
     }    
     
-    res.render("skin", {skinName:skinName,skinBackstory:skinBackstory,skinImage:skinImage, account: await getCurrentAccount()})
+    res.render("skin", {skinName:skinName,skinBackstory:skinBackstory,skinImage:skinImage, account: await getCurrentAccount(), rarity:rarity})
 
 });
 
