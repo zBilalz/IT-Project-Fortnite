@@ -444,7 +444,7 @@ display: flex;
 justify-content: space-between;
 }
 
-.login {
+.login-logout {
   margin-top: 30%;
 }
 
@@ -466,9 +466,15 @@ justify-content: space-between;
 }
 
 
-.login li a {
-    font-size: larger;
+.login-logout li a {
+    font-size: 30px;
     font-weight: 600;
+}
+
+
+.logIcon {
+ font-size: 30px;
+ margin-left: 10%;
 }
 
 #indexHeader nav li {

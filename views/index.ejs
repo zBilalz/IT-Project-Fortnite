@@ -7,24 +7,24 @@
 
         <% if(ingelogd == false) {%>
             
-            <nav >
+            <nav>
               
-                <ul class="login" >
-                    <li><a href="/login">Login &nbsp;</a><ion-icon name="people"></ion-icon></li>
+                <ul class="login-logout">
+                    <li><a href="/login">Login &nbsp;</a><i class="bi bi-people-fill logIcon"></i></li>
                 </ul>
             </nav>
        <% }
        else { %>
         <nav >
               
-            <ul class="login" >
-                <li><a href="/logout">Logout &nbsp;</a></li>
+            <ul class="login-logout">
+                <li><a href="/logout">Logout &nbsp;</a><i  class="bi bi-box-arrow-right logIcon"></i></li>
             </ul>
         </nav>
 
 
 
-       }
+      <% }%>
        
     </header>   
 
