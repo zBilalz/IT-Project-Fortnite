@@ -1,8 +1,13 @@
 import express from "express";
 import ejs from "ejs";
 import session from "express-session";
-import { log } from "console";
 import fetch from "node-fetch";
+import {ObjectId} from "mongodb";
+import { User, Account, Favoriet, Blacklist } from "./interfaces";
+const {MongoClient} = require("mongodb");
+
+const uri:string = "mongodb+srv://s122572:8nH4X9ljX3qnju4D@cluster0.kxgul8a.mongodb.net/?retryWrites=true&w=majority"
+const client = new MongoClient(uri, {useUnifiedTopology: true});
 
 const SESSION_SECRET = Buffer.from(require('os').userInfo().username).toString('base64');
 
@@ -17,12 +22,65 @@ app.use(express.urlencoded({ extended:true}));
 
 let ingelogd:boolean = false;
 let modalText:string = "";
-let users = [
-    {
-        username: 'admin',
-        password: 'admin'
+
+
+const createUser = async (name:string,pass:string) => {
+    let user : User = {username:name,password:pass};
+    console.log(user);
+    
+    try {
+        await client.connect();
+        await client.db("Fortnite").collection("Users").insertOne(user);
+    } catch (error) {
+        console.log(error);
+        
     }
-];
+    finally {
+        await client.close();
+    }
+}
+
+const createAccountUser = async (name:string) => {
+    let account : Account = {username:name};
+    
+    
+    try {
+        await client.connect();
+        await client.db("Fortnite").collection("Accounts").insertOne(account);
+    } catch (error) {
+        console.log(error);
+        
+    }
+    finally {
+        await client.close();
+    }
+}
+
+const getUsers = async () => {
+    let users : User[] = [  ];
+    try {
+        await client.connect();
+        users = await client.db("Fortnite").collection("Users").find({}).toArray();
+    } catch (error) {
+        console.log(error);
+        
+    }
+    finally {
+        await client.close();
+    }
+    return users;
+}
+
+const fetchApiChracters = async () => {
+    let data;
+    let characters;
+    let response = await fetch("https://fortnite-api.com/v2/cosmetics/br");
+    data = await response.json();
+    characters = data.data.filter((item: { type: { value: any; }; }) => item.type.value === 'outfit');
+    return characters;
+}
+
+
 
 app.use((req, res, next) => {
     res.locals.user = req.session.user;
@@ -53,11 +111,11 @@ app.get("/login", (req:any, res:any) => {
     res.render("login")
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     //login functionaliteit afkomstig van software secutiry labo
     let username = req.body.username;
     let password = req.body.password;
-
+    let users = await getUsers();
     for (let user of users) {
         if (user.username == username && user.password == password) {
             req.session.user = {
@@ -74,8 +132,16 @@ app.post('/login', (req, res) => {
     return;
 });
 
-app.post('/registrate', (req:any,res:any) => {
-
+app.post('/registrate', async (req:any,res:any) => {
+    if (!req.body.username || !req.body.password) {
+        res.redirect("/");
+        return;
+    }
+    let username = req.body.username;
+    let pass = req.body.password;
+    await createUser(username,pass);
+    await createAccountUser(username);
+    res.redirect('/');
 });
 
 
@@ -128,12 +194,20 @@ app.get("/blacklist", (req:any, res:any) => {
     res.render("blacklist")
 });
 
+app.get("/data", async (req:any, res:any) => {
+    let characters = await fetchApiChracters();
+    res.type("application/json");
+
+    for (const character of characters ) {
+        if (character.name=="Koi Striker Envoy")
+        res.json(character);
+    }
+
+});
 
 
 
-
-
-
-app.listen(app.get("port"), () => {
+app.listen(app.get("port"), async () => {
+    
     console.log(`Web application started at http://localhost:${app.get("port")}`)
 });

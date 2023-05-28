@@ -151,6 +151,7 @@ nav ul {
     justify-content: right;
     align-items: center;
     height: 50px;
+    margin-right: 10%;
 }
 
 nav a:hover {
@@ -663,6 +664,12 @@ height: 50px;
 border-radius: 30px;
   
 width: 40px;
+height: 40px;
+}
+
+#avatarImage {
+  border-radius: 30px;
+  width: 40px;
 height: 40px;
 }
 
