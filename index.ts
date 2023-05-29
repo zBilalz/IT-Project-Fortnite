@@ -5,11 +5,16 @@ import fetch from "node-fetch";
 import {ObjectId} from "mongodb";
 import { User, Account, Favoriet, Blacklist } from "./interfaces";
 const {MongoClient} = require("mongodb");
-
 const uri:string = "mongodb+srv://s122572:8nH4X9ljX3qnju4D@cluster0.kxgul8a.mongodb.net/?retryWrites=true&w=majority"
 const client = new MongoClient(uri, {useUnifiedTopology: true});
-
 const SESSION_SECRET = Buffer.from(require('os').userInfo().username).toString('base64');
+
+//standaard heeft de sessiondata de property "user" niet, hieronder wordt de originele sessiondata overschreven met een property user
+declare module 'express-session' {
+     interface SessionData {
+      user: {[key: string]: User };
+    }
+  }
 
 const app = express();
 app.use(session({ secret: SESSION_SECRET, cookie: {httpOnly: false} }))
