@@ -31,13 +31,31 @@
 
 body{
   height: 100vh;
+  margin: 0 auto;
+  display: grid;
+  grid-template-areas: 
+  "header header header header"
+  "main main main main"
+  "main main main main"
+  "footer footer footer footer";
   background-image: url('../fotos/bcg8.jpg');
-			height: 100vh;
 			background-attachment: fixed;
 			background-position: center;
 			background-repeat: no-repeat;
 			background-size: cover;
 			position: relative;
+}
+
+header {
+  grid-area: header !important;
+}
+
+main {
+  grid-area: main !important;
+} 
+
+aside {
+  grid-area: aside !important;
 }
 
 
@@ -69,13 +87,13 @@ article img {
 
 
 footer {
-  margin-top: 8%;
-  left: 0;
+  position: relative;
+ border-top: solid 1px white;
   bottom: 0;
   width: 100%;
   color: white;
   text-align: center;
- position: relative;
+grid-area: footer !important;
 
 }
 footer p {    
@@ -91,8 +109,14 @@ text-decoration: none;
 color: black;
 
 }
+
+
 footer a:hover {
 opacity: 0.7;
+}
+
+hr {
+  border: 3px solid white;
 }
 
 
@@ -118,9 +142,13 @@ opacity: 0.7;
 
 /* DIT IS HET BEGIN VAN DE HOME PAGE*/
 
-.homeBody{
-    background-image: url('../fotos/bcg8.jpg');
-			height: 100vh;
+#homeBody{
+ 
+      grid-template-areas: 
+      "header header header header"
+      "main main main main"
+      "main main main main"
+      "footer footer footer footer";
 }
 
 .menu__item {
@@ -388,6 +416,14 @@ span.psw {
 
 
 /* DIT IS HET CSS VOOR DE LANDING PAGE*/
+
+#indexBody {
+  grid-template-areas: 
+  "header header header header"
+  "main main main main"
+  "main main main main"
+  "footer footer footer footer";
+}
 .parallax {
     background-image: url('./fotos/bcg8.jpg'); 
     height: 300px;
@@ -484,7 +520,6 @@ section {
     gap: 20px;
     padding: 20px;
 }
-
 #indexMain h1{
     margin-top: 5%;
     text-align: center;
@@ -557,13 +592,12 @@ hr {
 
 /* DIT IS HET CSS VOOR HET SKIN DETAIL PAGINA*/
 
-html,body {
-  font-family: Arial, sans-serif;
-  height: 100vh;
-  height: 100%;
-  margin: 0;
-}
 
+#skinHeader {
+  height: 10vh;
+  display: flex;
+  align-items: center;
+}
 
 .icon {
 
@@ -627,7 +661,7 @@ border-radius: 30px;
 top: 0;
 right: 0;
 margin-right: 10%;
-margin-top: 0.5%;
+margin-top: 2.5%;
 scale: 1.2;
 width: 50px;
 height: 50px;
@@ -644,16 +678,15 @@ height: auto;
 
 #avatarImage {
   border-radius: 30px;
-  width: 65px;
+  width: 80px !important;
 height: auto;
 }
 
-#sikinAsde {
-  margin-top: -100px;
-  
+#skinMain hr {
+  margin-bottom: 2%;
 }
 
-#skinAside h2{
+#skinMain h2{
   letter-spacing: 4px;
   font-family: questrial;
   margin-top: 5%;
@@ -667,7 +700,7 @@ height: auto;
     2px 2px 0 #000;
 }
 
-#skinAside p {
+#skinMain p {
   font-size: 23px;
   /* afkomstig van https://css-tricks.com/adding-stroke-to-web-text/ */
   text-shadow:
