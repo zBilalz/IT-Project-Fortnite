@@ -603,6 +603,7 @@ hr {
 
  display: flex;
  justify-content: center;
+ margin-bottom: 5%;
 
 
 }
@@ -617,7 +618,7 @@ hr {
 
 
 button {
-  margin-top: 2%;
+ 
   margin-left: 5%;
   padding: 4px;
   background-color : transparent;

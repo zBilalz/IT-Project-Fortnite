@@ -181,6 +181,7 @@ app.get("/home", async (req:any, res:any) => {
 let skinName:string;
 let skinBackstory:string;
 let skinImage:string;
+let introduction:string;
 
 app.get("/skin/:name", async (req:any, res:any) => {
     if (!req.session.user) {
@@ -195,6 +196,7 @@ app.get("/skin/:name", async (req:any, res:any) => {
             skinName = character.name;
             skinBackstory = character.description;
             skinImage = character.images.icon;
+            introduction = character.introduction.text;
             rarity = character.rarity.value;
             if (rarity != "epic" && rarity != "legendary" && rarity != "rare"  && rarity != "uncommon" ) {
                 rarity = "unique";
@@ -203,7 +205,7 @@ app.get("/skin/:name", async (req:any, res:any) => {
         }
     }    
     
-    res.render("skin", {skinName:skinName,skinBackstory:skinBackstory,skinImage:skinImage, account: await getCurrentAccount(), rarity:rarity})
+    res.render("skin", {skinName:skinName,skinBackstory:skinBackstory,skinImage:skinImage, introduction:introduction, account: await getCurrentAccount(), rarity:rarity.toUpperCase()})
 
 });
 
