@@ -4,6 +4,7 @@ import session from "express-session";
 import fetch from "node-fetch";
 import {ObjectId} from "mongodb";
 import { User, Account, Favoriet, Blacklist } from "./interfaces";
+import { log } from "console";
 const {MongoClient} = require("mongodb");
 const uri:string = "mongodb+srv://s122572:8nH4X9ljX3qnju4D@cluster0.kxgul8a.mongodb.net/?retryWrites=true&w=majority"
 const client = new MongoClient(uri, {useUnifiedTopology: true});
@@ -26,9 +27,11 @@ app.use(express.urlencoded({ extended:true}));
 
 
 let ingelogd:boolean = false;
-let modalText:string = "";
+let modalTextIndex:string = "";
 let currentUserName : string = "";
 let rarity:string = "";
+let favStatus:string="";    
+let favGevonden:boolean=false;
 const createUser = async (name:string,pass:string) => {
     let user : User = {username:name,password:pass};
    
@@ -46,7 +49,7 @@ const createUser = async (name:string,pass:string) => {
 }
 
 const createAccountUser = async (name:string) => {
-    let account : Account = {username:name};
+    let account : Account = {username:name, favoriet:[],blacklist:[]};
     try {
         await client.connect();
         await client.db("Fortnite").collection("Accounts").insertOne(account);
@@ -84,7 +87,7 @@ const fetchApiChracters = async () => {
 }
 
 const getCurrentAccount = async () => {
-    let account : Account = {username:""};
+    let account : Account = {username:"",favoriet:[],blacklist:[]};
     try {
         await client.connect();
         account = await client.db("Fortnite").collection("Accounts").findOne({username:currentUserName});
@@ -110,19 +113,19 @@ app.get("/", (req:any,res:any) => {
     res.type("text/html");
     if (!req.session.user) {
         ingelogd = false;
-        modalText = "Log eerst in";
+        modalTextIndex = "Log eerst in";
         redirect="#";
     }
     else {
         ingelogd = true;
-        modalText = "Je hebt geen toegang tot deze project";
+        modalTextIndex = "Je hebt geen toegang tot deze project";
         redirect="/home";
 
         
     }
 
    
-    res.render("index", {modalText:modalText,ingelogd:ingelogd, redirect:redirect});
+    res.render("index", {modalText:modalTextIndex,ingelogd:ingelogd, redirect:redirect});
 });
 
 
@@ -163,7 +166,7 @@ app.post('/registrate', async (req:any,res:any) => {
     let pass = req.body.password;
     await createUser(username,pass);
     await createAccountUser(username);
-    res.redirect('/');
+    res.redirect('/login');
 });
 
 
@@ -203,9 +206,26 @@ app.get("/skin/:name", async (req:any, res:any) => {
             }
             
         }
-    }    
+    }
+    let acc : Account = await getCurrentAccount();
+
+    if (acc.favoriet == undefined) {
+        return;
+    }
+    favStatus = "Add to";
     
-    res.render("skin", {skinName:skinName,skinBackstory:skinBackstory,skinImage:skinImage, introduction:introduction, account: await getCurrentAccount(), rarity:rarity.toUpperCase()})
+    for (const fav of acc.favoriet) {
+       
+        
+        if (skinName == fav.naam) {
+            favStatus = "Delete from";
+        }
+        
+    }
+    
+
+    
+    res.render("skin", {skinName:skinName,skinBackstory:skinBackstory,skinImage:skinImage, introduction:introduction, account: await getCurrentAccount(), rarity:rarity.toUpperCase(), favStatus:favStatus})
 
 });
 
@@ -218,19 +238,50 @@ app.get("/skin/:type/:name", async (req:any, res:any) => {
     let getType: string = req.params.type;
     let getName: string = req.params.name;
 
-    
+    try {
+       
     if (getType == "pfp") {
-        try {
-            await client.connect();
+           
             let characters = await fetchApiChracters();
             for (const character of characters) {
                     if (character.name == getName) {
+                       await client.connect();
                        await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username}, {$set:{profielfoto:character.images.icon}});
                     }
             }
             
             
+        }
+        else if (getType == "fav") {
+        
+            let acc : Account = await getCurrentAccount();
+            if (acc.favoriet == undefined) {
+                return;
+            }
+            for (const fav of acc.favoriet) {
+                 
+                    if (skinName == fav.naam) {
+                        await client.connect();
+                        let newfavArray:Favoriet[]=[];
+                        favGevonden = true;
+                        for (let i = 0; i < acc.favoriet.length; i++) {
+                            if (acc.favoriet[i].naam != skinName) {
+                                newfavArray.push(acc.favoriet[i]);
+                            }
+                            
+                        }
+                        acc.favoriet = newfavArray;
+                        await client.db("Fortnite").collection("Accounts").replaceOne({username:req.session.user.username}, acc);
+                    }
+                }
+  
             
+            if (favGevonden == false) {
+                await client.connect();
+                acc.favoriet.push({naam:skinName})
+                await client.db("Fortnite").collection("Accounts").replaceOne({username:req.session.user.username}, acc);
+            }
+        }
         } catch (error) {
             console.log(error);
             
@@ -238,8 +289,8 @@ app.get("/skin/:type/:name", async (req:any, res:any) => {
         finally {
             await client.close();
         }
-       
-    }
+    
+    favGevonden = false;
     res.redirect(`/skin/${skinName}`)
     }
 );

@@ -12,8 +12,8 @@ export interface Account {
     _id?:ObjectId,
     username:string,
     profielfoto?:string,
-    favoriet?:Favoriet[],
-    blacklist?:Blacklist[]
+    favoriet:Favoriet[],
+    blacklist:Blacklist[]
 }
 
 export interface Blacklist {
@@ -23,9 +23,9 @@ export interface Blacklist {
 
 export interface Favoriet {
     naam:string,
-    notitie:string,
+    notitie?:string,
     item1?:string,
     item2?:string,
-    wins:number,
-    loses:number
+    wins?:number,
+    loses?:number
 }

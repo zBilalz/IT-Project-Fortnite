@@ -382,6 +382,7 @@ h1 {
 }
 
 button:hover {
+
   background-color: rgb(176, 113, 176);
   border: none;
 }
@@ -600,50 +601,49 @@ hr {
 }
 
 .icon {
-
+width: 100%;
  display: flex;
  justify-content: center;
+ align-content: center;
  margin-bottom: 5%;
+  margin-top: 10%;
+ text-align: center;
+ flex-wrap: wrap;
+ 
 
 
 }
 
 
-.icon h3 {
- width: 33%;
+.icon button {
+ width: max-content !important;
+ margin-left: 3%;
+  padding: 4px;
+  background-color : transparent;
+  border: 0.5px solid white !important;
   
 }
 
 
 
-
-button {
- 
-  margin-left: 5%;
-  padding: 4px;
-  background-color : transparent;
-  border: 1px solid white;
-}
 
 button a {
   text-decoration: none;
   color: white;
 }
-button:hover {
-  opacity: 0.8;
-  
-}
 
-#ster button, #blacklist button {
-  border: none;
+.ster , .blacklist button {
   font-size: larger;
 } 
-#pfp {
+.ster  i {
+  color:rgb(255, 210, 48)
+}
+.pfp {
   margin-left: 1%;
 }
 .icon .btn {
-  padding-left: 4%;
-  padding-right: 4%;
+  padding-left: 1%;
+  padding-right: 1%;
   width: max-content;
   font-size: 18px;
   background-image: linear-gradient(rgb(0 0 0/70%) 0 0);
@@ -943,11 +943,7 @@ svg {
   font-weight: 100;
 }
 
-.icon{
-  margin-top: 5%;
-  margin-left:5% ;
-  margin-right: 5%;
-}
+
 
 
 /* DIT IS HET EINDE VAN DE "GO BACK" CSS */

@@ -48,10 +48,22 @@
      
         <div class="icon">
           
-            <h3 id="ster">Add to favoriet:</h3>
-            <h3 id="blacklist">Add to blacklist:</h3>
-            <h3 id="pfp"><button id="knopAvatar" class="btn"><a href="/skin/pfp/<%=skinName%>">Add as pfp</a></button>
-          </h3>
+            <button id="knopAvatar" class="btn ster"><a href="/skin/fav/<%=skinName%>"><%=favStatus%> favorite</a> 
+            
+              <% if (favStatus == "Add to") { %>
+                <i class="bi bi-star buttonFavoriet"></i>
+             <% }  else { %>
+              <i class="bi bi-star-fill buttonFavoriet"></i>
+            
+            <% } %>
+            
+            </button>
+            
+           <button id="knopAvatar" class="btn blacklist"><a href="/skin/fav/<%=skinName%>"> Blacklist</a> </button>
+            
+          
+      <button id="knopAvatar" class="btn pfp"><a href="/skin/pfp/<%=skinName%>">Add as pfp</a></button>
+      
             
     
         </div>
