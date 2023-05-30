@@ -6,7 +6,6 @@ let spanLogin = document.getElementsByClassName("close")[0];
 let registratie = document.getElementById("registratie").value;
 
 registerLink.addEventListener('click',()=> {
-    console.log("hallo");
     wrapper.classList.add('active')
 })
 

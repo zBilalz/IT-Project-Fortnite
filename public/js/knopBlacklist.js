@@ -12,7 +12,6 @@ knopBlacklist.onclick = function() {
 }
 
 spanBlackList.onclick = function() {
-  console.log("hallo");
   modalBlackList.style.display = "none";
 }
 
@@ -27,20 +26,4 @@ modalFav.style.display = "none";
 
    
           
-         /*
-            if (redenBlacklist == null || redenBlacklist == "") {
-              
-            } else {
-              knopBlacklist[i].children[0].setAttribute("class","bi bi-eye-slash-fill");
-          knopBlacklist[i].children[0].setAttribute("id","1");
-            }
-           
-          
-        }
-        else {
-          knopBlacklist[i].children[0].setAttribute("class","bi bi-eye");
-          knopBlacklist[i].children[0].setAttribute("id","0");     
-        }
-      });
-    }*/
-
+    

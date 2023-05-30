@@ -1,45 +1,75 @@
   <%- include("header") %>
   <head>
+    <script src="/js/note.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Questrial&family=Quicksand:wght@300&family=Roboto:ital,wght@0,100;1,100&display=swap" rel="stylesheet">
   </head>
   <body id="favOverzichtBody">
-    <div class="container2">
-        <div class="center">
-          <a href="/home"> 
-            <button class="btn">go back
-            <svg width="90px" height="60px" viewBox="-12 0 185 112" class="border">
-              <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
-              <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
-            </svg>
-          </button>
-        </a>
+  <header id="favOverzichtHeader">    
+    <nav class="center">
+      <a id="goBack" href="/favoriet"> 
+        <button class="btn">go back
+        <svg width="90px" height="60px" viewBox="-12 0 185 112" class="border">
+          <polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
+          <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />
+        </svg>
+      </button>
+    </a>
+    <%- include("loadavatar") %>
+  </nav>
+  </header>
+    <main id="favOverzichtMain">
+      <div id="modalNote" class="modal">
+        <div id="content-Note" class="modal-content">
+          <span class="close">&times;</span>
+          
+            <form id="addNoteForum" action="/favoriet-overzicht/addNote/<%=character.name%>" method="post">
+              <label for="reden">Notes:</label> <br>
+              <input type="text" name="notitie" id="notitie" placeholder="your note"> <br>
+              <input type="submit" id="buttonAddNote" value="Add note"> <br>
+              
+            </form>
+            <form action="/favoriet-overzicht/deleteNote/<%=character.name%>" method="post">
+              <input type="submit" value="Delete note">
+              </form>
+              <p style="color:red;" id="errorNote"></p>
+         
+          
         </div>
       </div>
-    <div class="mid">
       <h1>Overview character</h1>
-          <hr class="line">
-          <br>
-          <br>
-          <img id="fav-image" src="" alt="">
-          <br>
-    </div>
-    <main id="favOverzichtMain">
+      <figure id="fav-images">
+        <img  class="fav-image <%= rarity%>" src="<%= character.images.icon %>" alt="">
+        <% if (character.images.featured != null) {%>
+        <img  class="fav-image <%= rarity%>" src="<%= character.images.featured %>" alt="">
+        <%}%>
+      </figure>
+      
+      <br>
         <h2>Name</h2>
-        <p id="fav-name"></p>
+        <p id="fav-name"><%=character.name%></p>
         <h2>Backstory</h2>
-        <p id="fav-backstory" style="text-align: right;"></p>
+        <p id="fav-backstory" style="text-align: right;"><%=character.description%></p>
         <h2>Notes</h2>
-        <p id="notitie">No notes written yet</p>
-        <button id="knopNotitie">Edit notes</button>
+        <p id="notitie"> 
+          <% if (notitie != undefined) {
+            if ( notitie.length > 0) {%>
+            <%=notitie%>
+
+         <%} } else {%>
+          No notes written yet
+        <% }%>
+   
+        </p>
+        <button id="knopNotitie" class="btn">Edit notes</button>
         <h2>[other information]</h2>
         <div id="items">
           <div class="favItem">
               <h2>item 1</h2>
-              <img src="./fotos/item_questionmark.jpg" alt="">
+              <img src="/fotos/item_questionmark.jpg" alt="">
           </div>
           <div class="favItem">
               <h2>item 2</h2>
-              <img src="./fotos/item_questionmark.jpg"  alt="">
+              <img src="/fotos/item_questionmark.jpg"  alt="">
           </div>
       </div>
         
@@ -68,8 +98,8 @@
             <br>  
     </main>
     
-    <footer id="index_footer">
-      <hr>
+    <footer>
+
         <p> 
             <a href="https://www.facebook.com/"><span>facebook <i class="fa-brands fa-square-facebook"></i></span></a>
             <a href="https://twitter.com/"><span>twitter <i class="fa-brands fa-twitter"></i></span></a>
@@ -78,14 +108,5 @@
        <p>  &copy; Terry Boateng | Bilal Zaroili | Abdimahad Gass | Nikola Maksimović | Ilias &nbsp; G_1PRO_D2 &nbsp; All Rights Reseverd</p>
     </footer>
 </body>
-    <script>
-      const urlParams = new URLSearchParams(window.location.search);
-      const skinName = decodeURIComponent(urlParams.get("name"));
-      const skinImage = decodeURIComponent(urlParams.get("image"));
-      const skinBackstory = decodeURIComponent(urlParams.get("backstory"));
-      document.getElementById("fav-name").textContent = skinName;
-      document.getElementById("fav-image").src = skinImage;
-      document.getElementById("fav-backstory").textContent = skinBackstory;
-    </script>
-  </body>
+
 </html>

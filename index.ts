@@ -3,7 +3,7 @@ import ejs from "ejs";
 import session from "express-session";
 import fetch from "node-fetch";
 import {ObjectId} from "mongodb";
-import { User, Account, Favoriet, Blacklist, Fortnite } from "./interfaces";
+import { User, Account, Favoriet, Blacklist, Fortnite, Images } from "./interfaces";
 const {MongoClient} = require("mongodb");
 const uri:string = "mongodb+srv://s122572:8nH4X9ljX3qnju4D@cluster0.kxgul8a.mongodb.net/?retryWrites=true&w=majority"
 const client = new MongoClient(uri, {useUnifiedTopology: true});
@@ -28,12 +28,12 @@ app.use(express.urlencoded({ extended:true}));
 let ingelogd:boolean = false;
 let modalTextIndex:string = "";
 let currentUserName : string = "";
-let rarity:string = "";
 let favStatus:string="";    
 let favGevonden:boolean=false;
 let registratieStatus: boolean = false;
 let favChanged:boolean=false;
 let favText:string="";
+
 const createUser = async (name:string,pass:string) => {
     let user : User = {username:name,password:pass};
    
@@ -80,12 +80,25 @@ const getUsers = async () => {
 }
 
 const fetchApiChracters = async () => {
-    let data;
+    let data:any;
     let characters:Fortnite[];
     let response = await fetch("https://fortnite-api.com/v2/cosmetics/br");
     data = await response.json();
-    characters = data.data.filter((item: { type: { value: any; }; }) => item.type.value === 'outfit');
+    characters = data.data.filter((item: Fortnite) => item.type.value === 'outfit');
     return characters;
+}
+
+const fetchOneApiChracter = async (naam:string) => {
+    let characters:any;
+    let character:any;
+    let response = await fetch("https://fortnite-api.com/v2/cosmetics/br");
+    characters = await response.json();
+    for (const char of characters.data) {
+        if (char.name == naam && char.type.value == "outfit") {
+            character = char;
+        }
+    }
+    return character;
 }
 
 const getCurrentAccount = async () => {
@@ -101,6 +114,28 @@ const getCurrentAccount = async () => {
         await client.close();
     }
     return account;
+}
+
+const getRarityCharact = (character:Fortnite) : string => {
+    let rarity:string = character.rarity.value;
+    if (rarity != "epic" && rarity != "legendary" && rarity != "rare"  && rarity != "uncommon" ) {
+        rarity = "unique";
+    }   
+
+    return rarity;
+}
+
+const getCurrentFav = async (account:Account, characterName:string) => {
+    if (account.favoriet == undefined) {
+        return;
+    }
+    let fav:Favoriet={naam:""};
+        for (const favo of account.favoriet) {
+            if (favo.naam == characterName) {
+                fav=favo;
+            }
+        }
+        return fav;
 }
 
 
@@ -198,20 +233,14 @@ app.get("/skin/:name", async (req:any, res:any) => {
     }
     let getSkinName: string = req.params.name;
     res.type("text/html");
-    let characters:Fortnite[] = await fetchApiChracters();
-    for (const character of characters) {
-        if (character.name == getSkinName) {
-            skinName = character.name;
-            skinBackstory = character.description;
-            skinImage = character.images.icon;
-            introduction = character.introduction.text;
-            rarity = character.rarity.value;
-            if (rarity != "epic" && rarity != "legendary" && rarity != "rare"  && rarity != "uncommon" ) {
-                rarity = "unique";
-            }
-            
-        }
-    }
+
+    let character:Fortnite = await fetchOneApiChracter(getSkinName); 
+    skinName = character.name;
+    skinBackstory = character.description;
+    skinImage = character.images.icon;
+    introduction = character.introduction.text;
+    let rarity = getRarityCharact(character);
+
     let acc : Account = await getCurrentAccount();
 
     if (acc.favoriet == undefined) {
@@ -228,7 +257,8 @@ app.get("/skin/:name", async (req:any, res:any) => {
         
     }
     
-
+  
+    
     
     res.render("skin", {favChanged:favChanged,favText:favText ,skinName:skinName,skinBackstory:skinBackstory,skinImage:skinImage, introduction:introduction, account: await getCurrentAccount(), rarity:rarity, favStatus:favStatus})
     favChanged = false;
@@ -248,13 +278,11 @@ app.get("/skin/:type/:name", async (req:any, res:any) => {
        
     if (getType == "pfp") {
            
-            let characters:Fortnite[] = await fetchApiChracters();
-            for (const character of characters) {
-                    if (character.name == getName) {
+            let character:Fortnite = await fetchOneApiChracter(getName);
                        await client.connect();
                        await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username}, {$set:{profielfoto:character.images.icon}});
-                    }
-            }
+                    
+            
             
             
         }
@@ -331,14 +359,62 @@ app.get("/favoriet", async (req:any, res:any) => {
 });
 
 
-app.get("/favoriet-overzicht", (req:any, res:any) => {
+
+
+app.get("/favoriet-overzicht/:name", async (req:any, res:any) => {
     if (!req.session.user) {
-        res.redirect("/");
+        res.redirect("/"); 
         return;
     }
     res.type("text/html");
-    res.render("favoriet-overzicht")
+    let rarity = getRarityCharact(await fetchOneApiChracter(req.params.name));
+    let huidigeFav = await getCurrentFav(await getCurrentAccount(),req.params.name);
+    if (huidigeFav == undefined) {
+        return;
+    }
+    res.render("favoriet-overzicht", {account: await getCurrentAccount(), character: await fetchOneApiChracter(req.params.name), rarity:rarity, notitie:huidigeFav.notitie})
 });
+
+app.post("/favoriet-overzicht/:type/:naam", async (req:any,res:any) => {
+    if (!req.session.user) {
+        res.redirect("/"); 
+        return;
+    }
+            if (req.params.type == "addNote") {
+                if (req.body.notitie.length > 0) {
+                    try {
+                        await client.connect();
+                        await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.naam}, {$set:{"favoriet.$.notitie":req.body.notitie}});
+                    } catch (error) {
+                        console.log(error);
+                        
+                    }
+                    finally {
+                        await client.close();
+                    }
+                 
+                }
+            }
+            else if (req.params.type == "deleteNote") {
+                try {
+                    await client.connect();
+                    await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.naam}, {$set:{"favoriet.$.notitie":""}});
+                } catch (error) {
+                    console.log(error);
+                    
+                }
+                finally {
+                    await client.close();
+                }
+             
+            }
+           
+           
+        
+    
+
+    res.redirect(`/favoriet-overzicht/${req.params.naam}`)
+})
 
 
 app.get("/blacklist", (req:any, res:any) => {

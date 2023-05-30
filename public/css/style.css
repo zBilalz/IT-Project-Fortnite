@@ -48,6 +48,7 @@ body{
 
 header {
   grid-area: header !important;
+  height: 20vh;
 }
 
 main {
@@ -102,7 +103,7 @@ article img {
 
 footer {
   position: relative;
- border-top: solid 2px white;
+ border-top: solid 5px white;
   width: 100%;
   color: white;
   text-align: center;
@@ -403,6 +404,7 @@ button:hover {
 img.avatar {
   width: 30%;
   border-radius: 50%;
+ 
 }
 
 .container {
@@ -599,7 +601,7 @@ hr {
 
 
 #skinHeader {
-  height: 20vh;
+  height: 25vh;
   display: flex;
   align-items: center;
 }
@@ -665,9 +667,9 @@ button a {
 #avatarImage {
   border-radius: 30px;
   width: 113px;
-  
-height: 113px;
-position: relative;
+ 
+  height: 113px;
+ margin-top: 2%;
 }
 
 
@@ -696,7 +698,6 @@ position: relative;
 
 #skinMain p {
   font-size: 23px;
-  /* afkomstig van https://css-tricks.com/adding-stroke-to-web-text/ */
   text-shadow:
    -2px -2px 0 #000,  
    2px -2px 0 #000,
@@ -710,7 +711,6 @@ position: relative;
   margin-top: 1%;
   text-align: left !important;
   width: 100%;
- /* afkomstig van https://css-tricks.com/adding-stroke-to-web-text/ */
  text-shadow:
  -2px -2px 0 #000,  
  2px -2px 0 #000,
@@ -762,6 +762,17 @@ position: relative;
 
 /* DIT IS HET CSS VOOR HET FAVORIET_OVERZICHT PAGINA */
 
+#favOverzichtHeader {
+  height: 25vh;
+  display: flex;
+  align-items: center;
+  border-bottom: 5px white solid;
+}
+
+#favOverzichtHeader nav {
+  height: 5%;
+}
+
 #favOverzichtBody {
   font-family: Questrial;
   height: 100vh;
@@ -782,6 +793,8 @@ position: relative;
   background-image: url('./fotos/background.jpg'); 
   box-shadow: 0 0 5px 10px #ffffff44;;
   border-radius: 30px;
+  margin-top: 2%;
+  margin-bottom: 2%;
   
 }
 
@@ -791,9 +804,14 @@ margin-left: 0%!important;
 }
 
 #favOverzichtMain h2 {
-  font-size: 55px;
+  font-size: 35px;
   margin-bottom: 2%;
     text-decoration: underline;
+    text-shadow:
+   -2px -2px 0 #000,  
+   2px -2px 0 #000,
+    -2px 2px 0 #000,
+    2px 2px 0 #000;
   
 }
 
@@ -804,10 +822,11 @@ margin-left: 0%!important;
 
 #favOverzichtMain p {
   text-align: center!important;
-  width: 100%;
+  width: 50%;
   margin-right: 0%!important;
-  font-size: 40px;
+  font-size: 25px;
   font-style: italic;
+  margin-bottom: 3%;
 }
 
 #items {
@@ -862,34 +881,71 @@ margin-bottom: 2rem;
 
 
 
-#favOverzichtMain button {
+#knopNotitie {
+  margin-top: 0.5% !important;
+  margin-bottom: 3% !important;
+  letter-spacing: 2px;
+  border-color: 1px solid white !important;
   color: white;
   font-weight: bolder;
-  font-size: larger;
-  padding: 1.7%;
- 
-  
+  font-size: 26px;
+  padding-left: 1%!important;
+  padding-right: 1% !important;
+  background-image: linear-gradient(rgb(0 0 0/70%) 0 0);
+  border-radius: 6px;
+  width: max-content;
+  transition: 1s ease-in-out;
 }
 
-#knopNotitie {
-  margin: 0% !important;
-  margin-top: 3% !important;
-  letter-spacing: 2px;
-  padding: 3% !important;
+#knopNotitie:hover {
+  
+  background: #487fb66c;
 }
+
+
 .line{
   margin-bottom: 10px solid white;
 }
-#fav-image{
- margin-left: 35% !important;
- margin-bottom: 3%;
+.fav-image{
+
+ margin-bottom: 5%;
  float: left;
  display: block;
- width: 30%;
+ width: 35%;
  object-fit: cover;
+ height: auto;
 }
 
+#fav-images {
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 5%;
+}
 
+#content-Note {
+  height: 30%;
+  text-align: center;
+  max-height: auto;
+}
+
+#content-Note input[type=text] {
+  height: 30px;
+  margin-bottom: 1%;
+}
+#content-Note input[type=submit] {
+margin-bottom: 1%;
+}
+
+#errorNote {
+  margin-top: 1%;
+  text-align: center !important;
+  font-size: 25px !important;
+  width: 100% !important;
+  font-weight: bolder !important;
+  font-style: normal !important;
+}
 
 /* EINDE CSS VOOR HET FAVORIET_OVERZICHT PAGINA */
 
@@ -915,9 +971,10 @@ margin-bottom: 2rem;
 .center {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 90%;
-  height: 15%;
-  position: absolute;
+  height: 100% !important;
+  position: relative;
   
 }
 
@@ -1112,7 +1169,7 @@ svg {
 display: none;
 }
 
-@media only screen and (max-width: 1180px){
+@media only screen and (max-width: 800px){
   #menu__toggle {
     opacity: 0;
   }
