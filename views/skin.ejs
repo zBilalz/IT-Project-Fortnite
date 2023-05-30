@@ -29,11 +29,12 @@
       <div id="ModalSkinBlackList" class="modal">
         <div id="content-SkinBlackList" class="modal-content">
           <span class="close">&times;</span>
-          <form action="/skin" method="post">
+          <form action="/skin/blacklist/<%skinName%>" method="post">
             <label for="reden">Reden voor blacklist:</label>
             <input type="text" name="redenBlackList" id="redenBlackList">
-            <input type="submit" value="character blacklisten">
+            <input type="submit" value="blacklist">
           </form>
+          
         </div>
       </div>
         <h1 id="skin-name"><%= skinName %></h1>
@@ -61,7 +62,7 @@
             
             </button>
             
-           <button id="knopAvatar" class="btn blacklist"><a href="/skin/fav/<%=skinName%>"> Blacklist</a> </button>
+           <button id="knopAvatar" class="btn blacklist"><a href="#">Blacklist</a> </button>
             
           
       <button id="knopAvatar" class="btn pfp"><a href="/skin/pfp/<%=skinName%>">Add as pfp</a></button>
