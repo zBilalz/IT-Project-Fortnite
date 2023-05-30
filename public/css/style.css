@@ -38,7 +38,7 @@ body{
   "main main main main"
   "main main main main"
   "footer footer footer footer";
-  background-image: url('../fotos/bcg8.jpg');
+  background-image: url('../fotos/background.jpg');
 			background-attachment: fixed;
 			background-position: center;
 			background-repeat: no-repeat;
@@ -56,6 +56,10 @@ main {
 
 aside {
   grid-area: aside !important;
+}
+
+#mainNav {
+  margin-top: 2%;
 }
 
 
@@ -88,8 +92,7 @@ article img {
 
 footer {
   position: relative;
- border-top: solid 1px white;
-  bottom: 0;
+ border-top: solid 2px white;
   width: 100%;
   color: white;
   text-align: center;
@@ -125,8 +128,9 @@ hr {
 .close {
   color: #aaaaaa;
   float: right;
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 38px;
+  font-weight: bolder;
+  margin-top: -2%;
 }
 
 .close:hover,
@@ -202,6 +206,11 @@ h1 {
     letter-spacing: 6px;
     font-size: 45px !important;
     margin-top: 1% !important;
+    text-shadow:
+    -2px -2px 0 #000,  
+    2px -2px 0 #000,
+     -2px 2px 0 #000,
+     2px 2px 0 #000;
 }
 
 
@@ -239,7 +248,7 @@ h1 {
 
 /* DIT IS HET CSS VOOR HET LOGIN PAGINA*/
 .log {
-  background-image: url('../fotos/bcg6.jpg');
+  background-image: url('../fotos/loginBackground.jpg');
   display: flex;
           height: 100vh;
           flex-direction: column;
@@ -426,7 +435,7 @@ span.psw {
   "footer footer footer footer";
 }
 .parallax {
-    background-image: url('./fotos/bcg8.jpg'); 
+    background-image: url('./fotos/background.jpg'); 
     height: 300px;
     background-attachment: fixed;
     background-position: center;
@@ -595,27 +604,28 @@ hr {
 
 
 #skinHeader {
-  height: 10vh;
+  height: 20vh;
   display: flex;
   align-items: center;
 }
 
-.icon {
+.skinButtons {
 width: 100%;
  display: flex;
  justify-content: center;
  align-content: center;
  margin-bottom: 5%;
-  margin-top: 10%;
+ margin-top: 10%;
  text-align: center;
  flex-wrap: wrap;
- 
+}
 
-
+#rarityP {
+  text-transform: capitalize;
 }
 
 
-.icon button {
+.skinButtons button {
  width: max-content !important;
  margin-left: 3%;
   padding: 4px;
@@ -641,7 +651,7 @@ button a {
 .pfp {
   margin-left: 1%;
 }
-.icon .btn {
+.skinButtons .btn {
   padding-left: 1%;
   padding-right: 1%;
   width: max-content;
@@ -649,39 +659,22 @@ button a {
   background-image: linear-gradient(rgb(0 0 0/70%) 0 0);
 }
 
-.icon .btn:hover {
+.skinButtons .btn:hover {
   opacity: 0.8.5;
 }
 
-#avatar {
-display: block;
-position: absolute;
 
- margin: 0 auto;
-border-radius: 30px;
-top: 0;
-right: 0;
-margin-right: 10%;
-margin-top: 2.5%;
-scale: 1.2;
-width: 50px;
-height: 50px;
 
-}
-
-#avatar img {
-  margin-top: -16%!important;
-border-radius: 30px;
-  
-width: 65px;
-height: auto;
-}
 
 #avatarImage {
   border-radius: 30px;
-  width: 80px !important;
-height: auto;
+  width: 113px;
+  
+height: 113px;
+position: relative;
 }
+
+
 
 #skinMain hr {
   margin-bottom: 2%;
@@ -699,6 +692,10 @@ height: auto;
    2px -2px 0 #000,
     -2px 2px 0 #000,
     2px 2px 0 #000;
+}
+
+#rarityH2 {
+  margin-top: 2% !important;
 }
 
 #skinMain p {
@@ -729,13 +726,13 @@ height: auto;
   float: left;
   display: block;
   margin-bottom: 0.5rem;
-   margin-left: 20%;
+   margin-left: 19.5%;
    margin-right: 2.5%;
    width: 30%;
    object-fit: cover;
    transition: 0.3s opacity, transform 0.3s; 
 }
-.icon button {
+.skinButtons button {
   border-style: none;
   background-color: transparent;
   font-size: 25px;
@@ -751,6 +748,21 @@ height: auto;
 
 
 /* EINDE */
+
+
+/* DIT IS HET BEGIN VAN DE "FAVORIET" PAGINA */
+
+#emptyList {
+  text-align: center;
+  width: 100%;
+  text-shadow:
+  -2px -2px 0 #000,  
+  2px -2px 0 #000,
+   -2px 2px 0 #000,
+   2px 2px 0 #000;
+}
+
+/* DIT IS HET EINDE VAN DE "FAVORIET" PAGINA */
 
 /* DIT IS HET CSS VOOR HET FAVORIET_OVERZICHT PAGINA */
 
@@ -771,7 +783,7 @@ height: auto;
   justify-content: center;
   align-items: center;
   background-color:rgba(141, 90, 120, 0.8);
-  background-image: url('./fotos/bcg8.jpg'); 
+  background-image: url('./fotos/background.jpg'); 
   box-shadow: 0 0 5px 10px #ffffff44;;
   border-radius: 30px;
   
@@ -899,9 +911,16 @@ margin-bottom: 2rem;
   align-items: center;
 }
 
+#goBack {
+  margin-left: 3%;
+  margin-top: 3%;
+}
+
 .center {
-  width: 150px;
-  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  height: 15%;
   position: absolute;
   
 }
@@ -1012,6 +1031,7 @@ svg {
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
+  border-radius: 20px 20px 20px 20px;
   width: 40%;
   animation-name: modalbox;
   animation-duration: 0.3s;
@@ -1026,6 +1046,8 @@ svg {
 .modal-content p {
   font-size: large;
   color: black;
+  text-align: center;
+  font-weight: 800;
 }
 
 #content-SkinBlackList {
@@ -1049,6 +1071,21 @@ svg {
 .modal-content label {
   color: black;
 }
+
+
+
+.content-green {
+  background-color: rgb(39, 223, 39);
+
+}
+
+.content-green p {
+  color:white !important;
+}
+
+
+
+
 
 /* DIT IS HET EINDE VAN DE "MODAL" CSS */
 
