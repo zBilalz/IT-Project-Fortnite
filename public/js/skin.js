@@ -10,8 +10,3 @@ spanFav.onclick = function() {
     modalFav.style.display = "none";
   }
   
-  window.onclick = function(event) {
-    if (event.target == modalFav) {
-        modalFav.style.display = "none";
-    }
-  }

@@ -4,6 +4,7 @@ let span = document.getElementsByClassName("close")[0];
 let ingelogd = document.getElementById("ingelogd").value;
 let pModal = document.getElementById("modalTextIndex");
 
+
 function controleren(i) {
      
         if (i == 1) {
@@ -38,6 +39,7 @@ span.onclick = function() {
   window.onclick = function(event) {
     if (event.target == modal) {
       modal.style.display = "none";
+     
     }
   }
     

@@ -16,10 +16,10 @@ spanBlackList.onclick = function() {
   modalBlackList.style.display = "none";
 }
 
-// When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-if (event.target == modalBlackList) {
+if (event.target == modalBlackList || event.target ==  modalFav) {
 modalBlackList.style.display = "none";
+modalFav.style.display = "none";
 }
 }
         
