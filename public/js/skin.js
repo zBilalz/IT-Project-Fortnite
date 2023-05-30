@@ -11,7 +11,7 @@ spanFav.onclick = function() {
   }
   
   window.onclick = function(event) {
-    if (event.target == modalLogin) {
+    if (event.target == modalFav) {
         modalFav.style.display = "none";
     }
   }
