@@ -640,7 +640,8 @@ button a {
 .ster , .blacklist button {
   font-size: larger;
 } 
-.ster  i {
+
+.buttonFavoriet {
   color:rgb(255, 210, 48)
 }
 .pfp {
