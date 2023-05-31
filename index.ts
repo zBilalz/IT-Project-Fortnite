@@ -427,12 +427,19 @@ app.get("/blacklist", (req:any, res:any) => {
 });
 
 app.get("/data", async (req:any, res:any) => {
-    let characters = await fetchApiChracters();
     res.type("application/json");
-    
 
-        res.json(characters);
-  
+   /* let typesOfItems:string[] = [];
+    let types=[{}];
+    for (const dat of data.data) {
+        if (typesOfItems.indexOf(dat.type.value) == -1 && dat.type.value !="outfit" && dat.type.value != "loadingscreen" && dat.type.value !="banner" && dat.type.value != "music") {
+            typesOfItems.push(dat.type.value)
+            if (dat.type.value == "pet") {
+                types.push(dat);
+            }
+        }
+    }*/
+    res.send(await fetchApiChracters());
 
 });
 

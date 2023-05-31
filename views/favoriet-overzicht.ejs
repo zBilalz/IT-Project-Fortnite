@@ -48,6 +48,10 @@
         <p id="fav-name"><%=character.name%></p>
         <h2>Backstory</h2>
         <p id="fav-backstory" style="text-align: right;"><%=character.description%></p>
+        <h2>Introduction</h2>
+        <p><%=character.introduction.text%></p>
+        <h2>Set</h2>
+        <p><%=character.set.text%></p>
         <h2>Notes</h2>
         <p id="notitieText"> 
 
@@ -60,7 +64,7 @@
           No notes written yet
           <input type="hidden" id="emptyNote" value="empty">
          <% } } else {%>
-          
+
           No notes written yet
           <input type="hidden" id="emptyNote" value="empty">
         <% }%>
@@ -68,6 +72,9 @@
         </p>
         <button id="knopNotitie" class="btn">Edit notes</button>
         <h2>[other information]</h2>
+
+       
+
         <div id="items">
           <div class="favItem">
               <h2>item 1</h2>
