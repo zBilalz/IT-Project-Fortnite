@@ -36,6 +36,7 @@ let favChanged:boolean=false;
 let favText:string="";
 let itemTypes:string[] = [];
 let items:Fortnite[]=[];
+let currentAcc:Account;
 
 const createUser = async (name:string,pass:string) => {
     let user : User = {username:name,password:pass};
@@ -194,7 +195,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get("/", (req:any,res:any) => {
+app.get("/",  async (req:any,res:any) => {
     let redirect :string = "";
     res.type("text/html");
     if (!req.session.user) {
@@ -205,6 +206,7 @@ app.get("/", (req:any,res:any) => {
     else {
         ingelogd = true;
         modalTextIndex = "Je hebt geen toegang tot deze project";
+        currentAcc = await getCurrentAccount();
         redirect="/home";
 
         
@@ -265,8 +267,17 @@ app.get("/home", async (req:any, res:any) => {
         return;
     }
     res.type("text/html");
+    let acc = await getCurrentAccount();
+    let blacklistNames:string[]=[];
+    
+    if (acc.blacklist.length > 0) {
+        for (const blacklist of acc.blacklist) {
+            blacklistNames.push(blacklist.naam);
+        }
+    }
 
-    res.render("home", {characters:await fetchApiChracters(), account: await getCurrentAccount()})
+
+    res.render("home", {characters:await fetchApiChracters(), account: await getCurrentAccount(), blacklistNames:blacklistNames})
 });
 
 
@@ -367,9 +378,10 @@ app.get("/skin/:type/:name", async (req:any, res:any) => {
                 await client.db("Fortnite").collection("Accounts").replaceOne({username:req.session.user.username}, acc);
             }
         }
+       
         } catch (error) {
             console.log(error);
-            
+           
         }
         finally {
             await client.close();
@@ -379,6 +391,34 @@ app.get("/skin/:type/:name", async (req:any, res:any) => {
     res.redirect(`/skin/${skinName}`)
     }
 );
+
+app.post("/skin/:type/:name", async (req:any, res:any) => {
+    if (!req.session.user) {
+        res.redirect("/");
+        return;
+    }
+    let acc:Account = await getCurrentAccount();
+
+    if (req.params.type == "blacklist") {
+        try {
+            await client.connect();
+            let character:Fortnite = await fetchOneApiChracter(skinName);
+            let rarity:string =  getRarityCharact(character);
+            acc.blacklist.push({naam:skinName, reden:req.body.reasonBlacklist,img:character.images.icon,rarity:rarity})
+            await client.db("Fortnite").collection("Accounts").replaceOne({username:req.session.user.username}, acc);
+        
+    } catch (error) {
+        console.log(error);
+    }
+    finally {
+        await client.close();
+    }
+    }
+
+    
+    
+    res.redirect(`/skin/${skinName}`)
+})
 
 
 
@@ -483,10 +523,6 @@ app.post("/favoriet-overzicht/:type/:naam", async (req:any,res:any) => {
              
             }
            
-           
-        
-    
-
     res.redirect(`/favoriet-overzicht/${req.params.naam}`)
 })
 
@@ -497,7 +533,7 @@ app.get("/favoriet-overzicht/:name/:type/:item/:itemName", async (req:any,res:an
     }
     let itemNumber:string = "item"
 
-    if (req.params.type == "addItem") {
+   
         itemNumber+=req.params.item.charAt(req.params.item.length-1);
         try {
             await client.connect();
@@ -511,12 +547,12 @@ app.get("/favoriet-overzicht/:name/:type/:item/:itemName", async (req:any,res:an
             await client.close();
         }
         
-    }
+    
 
     res.redirect(`/favoriet-overzicht/${req.params.name}`)
 });
 
-app.get("/favoriet-overzicht/:name/:type/:item/", async (req:any,res:any) => {
+app.get("/favoriet-overzicht/:name/:type/:item", async (req:any,res:any) => {
     if (!req.session.user) {
         res.redirect("/"); 
         return;
@@ -544,14 +580,15 @@ app.get("/favoriet-overzicht/:name/:type/:item/", async (req:any,res:any) => {
 
 
 
-app.get("/blacklist", (req:any, res:any) => {
+app.get("/blacklist", async (req:any, res:any) => {
     if (!req.session.user) {
         res.redirect("/");
         return;
     }
     res.type("text/html");
-    res.render("blacklist")
-});
+
+    res.render("blacklist", {account: await getCurrentAccount()})
+}); 
 
 app.get("/data", async (req:any, res:any) => {
     res.type("application/json");

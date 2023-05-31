@@ -28,15 +28,17 @@
     <main id="skinMain">
       <div id="ModalSkinBlackList" class="modal">
         <div id="content-SkinBlackList" class="modal-content">
-          <span class="close">&times;</span>
-          <form action="/skin/blacklist/<%skinName%>" method="post">
-            <label for="reden">Reden voor blacklist:</label>
-            <input type="text" name="redenBlackList" id="redenBlackList">
+          <span id="spanBlacklist" class="close">&times;</span>
+          <form action="/skin/blacklist/<%=skinName%>" method="post">
+            <label for="reden">Reason for blacklist:</label><br>
+          <textarea name="reasonBlacklist" id="reasonBlacklist" cols="30" rows="10" placeholder="your reason" required></textarea> <br>
             <input type="submit" value="blacklist">
           </form>
           
         </div>
       </div>
+
+
         <h1 id="skin-name"><%= skinName %></h1>
         <hr>
         <figure>

@@ -13,6 +13,30 @@ let images = document.getElementsByClassName("item");
 
 let deleteItem = document.getElementsByClassName("deleteItem");
 
+/*-----------*/
+
+let knoppen = document.getElementsByClassName("knopKD");
+let pW = document.getElementById("aantalWins");
+let pL = document.getElementById("aantalLosses");
+let winCounter = 0;
+let losCounter = 0;
+
+for (let i = 0; i < knoppen.length; i++) {
+    knoppen[i].addEventListener("click", () => {
+        if (i == 0) {
+            winCounter+=1;
+            pW.textContent = winCounter;
+        }
+        else {
+            losCounter+=1;
+            pL.textContent = losCounter;
+        }
+    })
+    
+}
+
+/*-----------*/
+
 
 
 function controle(event) {

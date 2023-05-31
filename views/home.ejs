@@ -13,8 +13,9 @@
         <h1 class="fort">Fortnite Avatars</h1>
    
         <div class ="skinContainer">
-            <% for (let i = 0; i < 25; i++) { %>
-               <% if (characters[i].name != "null") {%>
+            <% for (let i = 0; i < 30; i++) { %>
+             <%   if (blacklistNames.includes(characters[i].name) != true ) { 
+                    if (characters[i].name != "null") {%>
                 <div class="skin">
                <% if (characters[i].rarity.value != "epic" && characters[i].rarity.value != "legendary" && characters[i].rarity.value != "rare"&&characters[i].rarity.value != "uncommon") { %>
                 <a href="\skin\<%=characters[i].name%>"><img class="unique" src="<%=characters[i].images.icon%>" alt=""></a>
@@ -28,6 +29,7 @@
                 </div>
                 <% } %>
                 <% } %>
+            <%}%>
         </div>
         
     </main>

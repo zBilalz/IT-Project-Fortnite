@@ -18,7 +18,9 @@ export interface Account {
 
 export interface Blacklist {
     naam:string,
-    reden:string
+    reden:string,
+    rarity:string,
+    img:string
 }
 
 export interface Favoriet {
