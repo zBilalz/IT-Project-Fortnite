@@ -2,12 +2,11 @@ let knopNote = document.getElementById("buttonAddNote");
 let errorNote = document.getElementById("errorNote");
 
 let modalNote = document.getElementById("modalNote");
-let spanNote = document.getElementsByClassName("close")[0];
+let spanNote = document.getElementsByClassName("close");
 let noteButton = document.getElementById("knopNotitie");
 
 let charItem = document.getElementsByClassName("charItem");
 let modalItem = document.getElementById("modalItem");
-let spanItem = document.getElementsByClassName("close")[0];
 
 
 
@@ -51,17 +50,16 @@ noteButton.onclick = function() {
 }
     
 
-
-spanNote.onclick = function() {
-    modalNote.style.display = "none";
-    errorNote.textContent = "";
-  }
+for (let i = 0; i < spanNote.length; i++) {
+    spanNote[i].addEventListener("click", () => {
+        modalNote.style.display = "none";
+        modalItem.style.display = "none";
+        errorNote.textContent = "";
+    })
+    
+}
 
   
-
-spanItem.onclick = function() {
-    modalItem.style.display = "none";
-  }
   
   window.onclick = function(event) {
     if (event.target == modalNote || event.target == modalItem) {

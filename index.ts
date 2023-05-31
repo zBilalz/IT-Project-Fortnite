@@ -4,7 +4,6 @@ import session from "express-session";
 import fetch from "node-fetch";
 import {ObjectId} from "mongodb";
 import { User, Account, Favoriet, Blacklist, Fortnite, Images } from "./interfaces";
-import { log } from "console";
 const {MongoClient} = require("mongodb");
 const uri:string = "mongodb+srv://s122572:8nH4X9ljX3qnju4D@cluster0.kxgul8a.mongodb.net/?retryWrites=true&w=majority"
 const client = new MongoClient(uri, {useUnifiedTopology: true});
@@ -149,13 +148,24 @@ const loadItemTypes =async () => {
            if (itemTypes.indexOf(item.type.value) === -1) {
             itemTypes.push(item.type.value)
            }
-                
-                    items.push(item);
-              
-                
-                
+                items.push(item);
         }
     }
+    let secondItems:Fortnite[];
+    let counter:number=0;
+    for (let i = 0; i < itemTypes.length; i++) {
+        
+        do {
+            for (let j = 0; j < items.length; j++) {
+                
+                
+                break;
+                
+            }
+        } while (counter <=20);
+    }
+    
+    
     
 }
 

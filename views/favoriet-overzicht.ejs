@@ -77,14 +77,13 @@
           <div id="content-Item" class="modal-content">
             <span class="close">&times;</span>
               <section id="itemList">
-                <% for (let i = 0; i < 25; i++) { %>
+                <% for (let i = 0; i < items.length; i++) { %>
                   <article>
                     <img src="<%= items[i].images.smallIcon%>" alt="">
                   </article>
                   
                    <% } %>
-              </section>
-            <p id="modalTextItem">hallo</p>
+                </section>
           </div>
         </div>
 
