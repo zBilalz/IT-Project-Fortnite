@@ -1,6 +1,5 @@
   <%- include("header") %>
   <head>
-    <script src="/js/note.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Questrial&family=Quicksand:wght@300&family=Roboto:ital,wght@0,100;1,100&display=swap" rel="stylesheet">
   </head>
   <body id="favOverzichtBody">
@@ -28,7 +27,7 @@
               <input type="submit" id="buttonAddNote" value="Add note"> <br>
               
             </form>
-            <form action="/favoriet-overzicht/deleteNote/<%=character.name%>" method="post">
+            <form id="deleteNoteForum" action="/favoriet-overzicht/deleteNote/<%=character.name%>" method="post">
               <input type="submit" value="Delete note">
               </form>
               <p style="color:red;" id="errorNote"></p>
@@ -50,13 +49,20 @@
         <h2>Backstory</h2>
         <p id="fav-backstory" style="text-align: right;"><%=character.description%></p>
         <h2>Notes</h2>
-        <p id="notitie"> 
+        <p id="notitieText"> 
+
           <% if (notitie != undefined) {
             if ( notitie.length > 0) {%>
             <%=notitie%>
+            <input type="hidden" id="emptyNote" value="notEmpty">
 
-         <%} } else {%>
+         <%} else { %>
           No notes written yet
+          <input type="hidden" id="emptyNote" value="empty">
+         <% } } else {%>
+          
+          No notes written yet
+          <input type="hidden" id="emptyNote" value="empty">
         <% }%>
    
         </p>
