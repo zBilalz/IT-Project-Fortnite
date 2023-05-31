@@ -834,9 +834,6 @@ margin-left: 0%!important;
  width: 80%;
 }
 
-#items img {
-  width: 50%;
-}
 
 #items div {
   display: flex;
@@ -862,12 +859,11 @@ gap: 1%;
 
 .favItem img{
   text-align: center;
-  width: max-content;
+  width: 40%;
 }
 
 .favItem img:hover {
   transform: none;
-  opacity: 1;
 }
 
 .charItem:hover {
@@ -895,23 +891,37 @@ gap: 1%;
   margin-top: 0.5% !important;
   margin-bottom: 3% !important;
   letter-spacing: 2px;
-  border-color: 1px solid white !important;
   color: white;
   font-weight: bolder;
   font-size: 32px;
   padding-left: 1%!important;
   padding-right: 1% !important;
-  
+  padding-bottom: 35px;
   background-image: linear-gradient(rgb(0 0 0/70%) 0 0);
   border-radius: 6px;
   width: max-content;
   transition: 1s ease-in-out;
-  height: auto;
+  
 }
 
-#knopNotitie:hover {
+#knopNotitie:hover, .deleteItem:hover {
   
-  background: #487fb66c;
+  background: #487fb66c !important;
+}
+
+.deleteItem {
+  margin-top:4%;
+  letter-spacing: 2px;
+  color: white;
+  font-weight: bolder;
+  font-size: 32px;
+  padding-left: 1%!important;
+  padding-right: 1% !important;
+  padding-bottom: 35px;
+  background-image: linear-gradient(rgb(0 0 0/70%) 0 0) !important;
+  width: max-content !important;
+  transition: 1s ease-in-out;
+  height: auto;
 }
 
 
@@ -942,6 +952,13 @@ gap: 1%;
   max-height: auto;
 }
 
+#spanItem {
+  right: 18%;
+  margin-top: 1%;
+  position: fixed;
+  font-size: 50px;
+}
+
 #content-Note input[type=text] {
   height: 30px;
   margin-bottom: 1%;
@@ -959,16 +976,30 @@ margin-bottom: 1%;
   font-style: normal !important;
 }
 
+#modalItem {
+  padding-top:100px;
+}
+
 #content-Item {
-  overflow: scroll;
-  height: 400px;
+  overflow-y: scroll;
+  height: 90%;
   width: 70%;
+  animation-name: modalboxItem;
+animation-duration: 0.3s;
+}
+
+
+@keyframes modalboxItem {
+0%   {transform: translateY(-200px);}
+100% {transform: translateY(0px);}
 }
 
 #itemList {
   display: flex;
   flex-direction: row;
+  justify-content: left;
   flex-wrap: wrap;
+  margin-left: 5%;
   width: 95%;
   gap: 2%;
 
@@ -976,11 +1007,19 @@ margin-bottom: 1%;
 
 #itemList article {
   width: 22%;
+  margin-bottom: 5%;
 }
 
 #itemList article img {
   width: 80%;
   height: auto;
+  transition: 0s;
+  cursor: pointer;
+}
+
+#itemList article img:hover {
+ transform: scale(1.2);
+
 }
 
 /* EINDE CSS VOOR HET FAVORIET_OVERZICHT PAGINA */

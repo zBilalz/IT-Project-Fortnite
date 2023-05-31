@@ -7,7 +7,11 @@ let noteButton = document.getElementById("knopNotitie");
 
 let charItem = document.getElementsByClassName("charItem");
 let modalItem = document.getElementById("modalItem");
+let activeItem = document.getElementById("activeItem");
 
+let images = document.getElementsByClassName("item");
+
+let deleteItem = document.getElementsByClassName("deleteItem");
 
 
 
@@ -38,7 +42,26 @@ document.getElementById("deleteNoteForum").addEventListener("submit", controleDe
 
 for (let i = 0; i < charItem.length; i++) {
     charItem[i].addEventListener("click", () => {
+          
+            activeItem.value =   `item${i+1}`;
+            
             modalItem.style.display = "block";
+    })
+    
+}
+
+for (let i = 0; i < deleteItem.length; i++) {
+    deleteItem[i].addEventListener("click", () => {
+        window.location.href = `/favoriet-overzicht/${document.getElementById("fav-name").textContent}/deleteItem/item${i+1}`;
+            
+    })
+    
+}
+
+for (let i = 0; i < images.length; i++) {
+    
+    images[i].addEventListener("click", () => {
+        window.location.href = `/favoriet-overzicht/${document.getElementById("fav-name").textContent}/addItem/${activeItem.value}/${images[i].alt}`;
     })
     
 }

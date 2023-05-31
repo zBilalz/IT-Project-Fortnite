@@ -9,7 +9,7 @@ function controleren(i) {
      
         if (i == 1) {
             if (ingelogd == "true") {
-                window.location.href = "\home";
+                window.location.href = "/home";
             }
             else {
                 modal.style.display = "block";

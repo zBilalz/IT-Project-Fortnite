@@ -75,11 +75,11 @@
 
         <div id="modalItem" class="modal">
           <div id="content-Item" class="modal-content">
-            <span class="close">&times;</span>
+            <span id="spanItem" class="close">&times;</span>
               <section id="itemList">
                 <% for (let i = 0; i < items.length; i++) { %>
                   <article>
-                    <img src="<%= items[i].images.smallIcon%>" alt="">
+                    <img class="item" src="<%= items[i].images.smallIcon%>" alt="<%=items[i].name%>">
                   </article>
                   
                    <% } %>
@@ -88,21 +88,24 @@
         </div>
 
         <div id="items">
+          <input type="hidden" id="activeItem" value="">
           <figure class="favItem">
               <h2>item 1</h2>
-             <img id="item1" class="charItem" src="/fotos/item_questionmark.jpg" alt="">
+             <img id="item1" class="charItem" src="<%= item1 %>" alt="">
+             <button class="deleteItem btn">Delete item</button>
           </figure>
           <figure class="favItem">
               <h2>item 2</h2>
-              <img id="item2" class="charItem" src="/fotos/item_questionmark.jpg"  alt="">
+              <img id="item2" class="charItem" src="<%=item2%>"  alt="">
+              <button class="deleteItem btn">Delete item</button>
           </figure>
       </div>
         
         <h2>
             Overview wins & losses
         </h2>
-      
-        <div id="items">
+        <!--
+<div id="items">
           <div class="item">
               
             <h3>Number of wins:</h3>
@@ -121,6 +124,8 @@
             <br>
             <br>
             <br>  
+        -->
+        
     </main>
     
     <footer>

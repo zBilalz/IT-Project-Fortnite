@@ -4,6 +4,7 @@ import session from "express-session";
 import fetch from "node-fetch";
 import {ObjectId} from "mongodb";
 import { User, Account, Favoriet, Blacklist, Fortnite, Images } from "./interfaces";
+import { log } from "console";
 const {MongoClient} = require("mongodb");
 const uri:string = "mongodb+srv://s122572:8nH4X9ljX3qnju4D@cluster0.kxgul8a.mongodb.net/?retryWrites=true&w=majority"
 const client = new MongoClient(uri, {useUnifiedTopology: true});
@@ -35,6 +36,7 @@ let favChanged:boolean=false;
 let favText:string="";
 let itemTypes:string[] = [];
 let items:Fortnite[]=[];
+
 const createUser = async (name:string,pass:string) => {
     let user : User = {username:name,password:pass};
    
@@ -144,34 +146,48 @@ const loadItemTypes =async () => {
     let response = await fetch("https://fortnite-api.com/v2/cosmetics/br");
     let data = await response.json();
     for (const item of data.data) {
-        if (item.type.value !="outfit" && item.type.value != "loadingscreen" && item.type.value !="banner" && item.type.value != "music" && item.type.value != "pet") {
+        if (item.type.value !="outfit" && item.type.value != "loadingscreen" && item.type.value !="banner" && item.type.value != "music" && item.type.value != "pet" && item.type.value != "emote") {
            if (itemTypes.indexOf(item.type.value) === -1) {
             itemTypes.push(item.type.value)
            }
                 items.push(item);
         }
     }
-    let secondItems:Fortnite[];
+    
+    
+    let sortedItems:Fortnite[]=[];
     let counter:number=0;
     for (let i = 0; i < itemTypes.length; i++) {
         
         do {
             for (let j = 0; j < items.length; j++) {
                 
-                
-                break;
+                if (sortedItems.indexOf(items[j]) == -1 && items[j].type.value == itemTypes[i] && items[j].name.includes("Test") ==false  && items[j].name.includes("Personal") ==false) {
+                    sortedItems.push(items[j])
+                        counter++;
+                        
+                        break;
+                }
+              
                 
             }
-        } while (counter <=20);
+        } while (counter <=10);
+        counter =0;
+
     }
-    
-    
-    
+    items = sortedItems;   
 }
 
 loadItemTypes();
 
-
+const getItem = (list:Fortnite[],itemname:string) : string => {
+    for (const index of list) {
+        if (index.name == itemname) {
+            return index.images.icon;
+        }
+    }
+    return "";
+}
 
 app.use((req, res, next) => {
     res.locals.user = req.session.user;
@@ -402,13 +418,35 @@ app.get("/favoriet-overzicht/:name", async (req:any, res:any) => {
     res.type("text/html");
     let rarity = getRarityCharact(await fetchOneApiChracter(req.params.name));
     let huidigeFav = await getCurrentFav(await getCurrentAccount(),req.params.name);
+    let item1:string;
+    let item2:string;
     if (huidigeFav == undefined) {
         return;
     }
    
+    if (huidigeFav.item1 == undefined || huidigeFav.item1 == "") {
+        item1 = "/fotos/item_questionmark.jpg";
+    }
+    else {
+        item1 = getItem(items,huidigeFav.item1);
+    }
+
     
+    if (huidigeFav.item2 == undefined || huidigeFav.item2 == "") {
+        item2 = "/fotos/item_questionmark.jpg";
+    }
+    else {
+        item2 = getItem(items,huidigeFav.item2);
+    }
+    let filteredItems:Fortnite[] = [];
+
+    for (const item of items) {
+       if(item.name != huidigeFav.item1 &&item.name != huidigeFav.item2 ){
+            filteredItems.push(item)
+        }
+    }
     
-    res.render("favoriet-overzicht", {account: await getCurrentAccount(), character: await fetchOneApiChracter(req.params.name), rarity:rarity, notitie:huidigeFav.notitie, items:items,itemTypes:itemTypes})
+    res.render("favoriet-overzicht", {account: await getCurrentAccount(), character: await fetchOneApiChracter(req.params.name), rarity:rarity, notitie:huidigeFav.notitie, items:filteredItems, item1:item1,item2:item2})
 });
 
 app.post("/favoriet-overzicht/:type/:naam", async (req:any,res:any) => {
@@ -451,6 +489,59 @@ app.post("/favoriet-overzicht/:type/:naam", async (req:any,res:any) => {
 
     res.redirect(`/favoriet-overzicht/${req.params.naam}`)
 })
+
+app.get("/favoriet-overzicht/:name/:type/:item/:itemName", async (req:any,res:any) => {
+    if (!req.session.user) {
+        res.redirect("/"); 
+        return;
+    }
+    let itemNumber:string = "item"
+
+    if (req.params.type == "addItem") {
+        itemNumber+=req.params.item.charAt(req.params.item.length-1);
+        try {
+            await client.connect();
+            let stringFavItem : string = `favoriet.$.${itemNumber}`
+            await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.name}, {$set:{[stringFavItem]:req.params.itemName}});
+        } catch (error) {
+            console.log(error);
+            
+        }
+        finally {
+            await client.close();
+        }
+        
+    }
+
+    res.redirect(`/favoriet-overzicht/${req.params.name}`)
+});
+
+app.get("/favoriet-overzicht/:name/:type/:item/", async (req:any,res:any) => {
+    if (!req.session.user) {
+        res.redirect("/"); 
+        return;
+    }
+    let itemNumber:string = "item";
+
+   
+        itemNumber+=req.params.item.charAt(req.params.item.length-1);
+        try {
+            await client.connect();
+            let stringFavItem : string = `favoriet.$.${itemNumber}`
+            await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.name}, {$set:{[stringFavItem]:""}});
+        } catch (error) {
+            console.log(error);
+            
+        }
+        finally {
+            await client.close();
+        }
+        
+    
+
+    res.redirect(`/favoriet-overzicht/${req.params.name}`)
+})
+
 
 
 app.get("/blacklist", (req:any, res:any) => {
