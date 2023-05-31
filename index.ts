@@ -4,6 +4,7 @@ import session from "express-session";
 import fetch from "node-fetch";
 import {ObjectId} from "mongodb";
 import { User, Account, Favoriet, Blacklist, Fortnite, Images } from "./interfaces";
+import { log } from "console";
 const {MongoClient} = require("mongodb");
 const uri:string = "mongodb+srv://s122572:8nH4X9ljX3qnju4D@cluster0.kxgul8a.mongodb.net/?retryWrites=true&w=majority"
 const client = new MongoClient(uri, {useUnifiedTopology: true});
@@ -33,7 +34,8 @@ let favGevonden:boolean=false;
 let registratieStatus: boolean = false;
 let favChanged:boolean=false;
 let favText:string="";
-
+let itemTypes:string[] = [];
+let items:Fortnite[]=[];
 const createUser = async (name:string,pass:string) => {
     let user : User = {username:name,password:pass};
    
@@ -137,6 +139,27 @@ const getCurrentFav = async (account:Account, characterName:string) => {
         }
         return fav;
 }
+
+const loadItemTypes =async () => {
+   
+    let response = await fetch("https://fortnite-api.com/v2/cosmetics/br");
+    let data = await response.json();
+    for (const item of data.data) {
+        if (item.type.value !="outfit" && item.type.value != "loadingscreen" && item.type.value !="banner" && item.type.value != "music" && item.type.value != "pet") {
+           if (itemTypes.indexOf(item.type.value) === -1) {
+            itemTypes.push(item.type.value)
+           }
+                
+                    items.push(item);
+              
+                
+                
+        }
+    }
+    
+}
+
+loadItemTypes();
 
 
 
@@ -372,7 +395,10 @@ app.get("/favoriet-overzicht/:name", async (req:any, res:any) => {
     if (huidigeFav == undefined) {
         return;
     }
-    res.render("favoriet-overzicht", {account: await getCurrentAccount(), character: await fetchOneApiChracter(req.params.name), rarity:rarity, notitie:huidigeFav.notitie})
+   
+    
+    
+    res.render("favoriet-overzicht", {account: await getCurrentAccount(), character: await fetchOneApiChracter(req.params.name), rarity:rarity, notitie:huidigeFav.notitie, items:items,itemTypes:itemTypes})
 });
 
 app.post("/favoriet-overzicht/:type/:naam", async (req:any,res:any) => {
@@ -429,17 +455,8 @@ app.get("/blacklist", (req:any, res:any) => {
 app.get("/data", async (req:any, res:any) => {
     res.type("application/json");
 
-   /* let typesOfItems:string[] = [];
-    let types=[{}];
-    for (const dat of data.data) {
-        if (typesOfItems.indexOf(dat.type.value) == -1 && dat.type.value !="outfit" && dat.type.value != "loadingscreen" && dat.type.value !="banner" && dat.type.value != "music") {
-            typesOfItems.push(dat.type.value)
-            if (dat.type.value == "pet") {
-                types.push(dat);
-            }
-        }
-    }*/
-    res.send(await fetchApiChracters());
+  
+    res.json(items);
 
 });
 

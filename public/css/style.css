@@ -835,7 +835,7 @@ margin-left: 0%!important;
 }
 
 #items img {
-  width: 300px;
+  width: 50%;
 }
 
 #items div {
@@ -848,11 +848,16 @@ margin-left: 0%!important;
 .favItem h2 {
   text-align: center;
   width: 100%;
+
 }
 
 .favItem {
   flex: 1 1 350px;
 margin-bottom: 2rem;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 1%;
 }
 
 .favItem img{
@@ -863,6 +868,11 @@ margin-bottom: 2rem;
 .favItem img:hover {
   transform: none;
   opacity: 1;
+}
+
+.charItem:hover {
+  cursor: pointer;
+  opacity: 0.8 !important;
 }
 
 #winLos {
@@ -927,7 +937,7 @@ margin-bottom: 2rem;
 }
 
 #content-Note {
-  height: 180pxx;
+  height: 180px;
   text-align: center;
   max-height: auto;
 }
@@ -947,6 +957,30 @@ margin-bottom: 1%;
   width: 100% !important;
   font-weight: bolder !important;
   font-style: normal !important;
+}
+
+#content-Item {
+  overflow: scroll;
+  height: 400px;
+  width: 70%;
+}
+
+#itemList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 95%;
+  gap: 2%;
+
+}
+
+#itemList article {
+  width: 22%;
+}
+
+#itemList article img {
+  width: 80%;
+  height: auto;
 }
 
 /* EINDE CSS VOOR HET FAVORIET_OVERZICHT PAGINA */
