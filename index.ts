@@ -598,9 +598,18 @@ app.get("/data", async (req:any, res:any) => {
 
 });
 
+
+
 app.get("/logout", (req:any,res:any) => { 
     req.session.user = null;
     res.redirect('/');} ) 
+
+    app.use((req, res) => {
+        res.type("text/html");
+        res.status(404);
+        res.send("404 - Not Found");
+        }
+    );
    
 
 
