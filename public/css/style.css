@@ -835,6 +835,10 @@ margin-left: 0%!important;
  width: 80%;
 }
 
+.disabled {
+  pointer-events: none !important;
+}
+
 #wlCounts {
   justify-content: center;
   gap: 25%;

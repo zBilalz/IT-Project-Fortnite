@@ -16,6 +16,7 @@ let deleteItem = document.getElementsByClassName("deleteItem");
 
 
 
+
 function controle(event) {
     let note = document.getElementById("notitie").value;
     if (note.length < 1 ) {
@@ -54,6 +55,11 @@ for (let i = 0; i < charItem.length; i++) {
 
 for (let i = 0; i < deleteItem.length; i++) {
     deleteItem[i].addEventListener("click", () => {
+        for (let j = 0; j < deleteItem.length; j++) {
+            deleteItem[j].disabled  = true;
+            
+        }
+
         window.location.href = `/favoriet-overzicht/${document.getElementById("fav-name").textContent}/deleteItem/item${i+1}`;
             
     })

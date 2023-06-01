@@ -23,7 +23,7 @@
           
             <form id="addNoteForum" action="/favoriet-overzicht/<%=character.name%>/addNote" method="post">
               <label for="reden">Notes:</label> <br>
-              <input type="text" name="notitie" id="notitie" placeholder="your note"> <br>
+              <input type="text" name="notitie" id="notitie" placeholder="your note" required> <br>
               <input type="submit" id="buttonAddNote" value="Add note"> <br>
               
             </form>
@@ -118,15 +118,15 @@
           <article class="wl">
               
             <h3>Number of wins:</h3>
-            <p id="aantalWins">0</p>
-            <a href="/favoriet-overzicht/<%=character.name%>/Win"><button class="knopKD btn">Add Win</button></a>
+            <p id="aantalWins"><%=wins%></p>
+            <a class="wlLinks" href="/favoriet-overzicht/<%=character.name%>/Win" onclick="disableButtons()"><button class="knopKD btn" >Add Win</button></a>
             
           </article>
 
           <article class="wl">
             <h3>Number of losses:</h3>
-            <p id="aantalLosses">0</p>
-           <a href="/favoriet-overzicht/<%=character.name%>/Loss"></a> <button class="knopKD btn">Add Loss</button>
+            <p id="aantalLosses"><%=loses%></p>
+           <a class="wlLinks" href="/favoriet-overzicht/<%=character.name%>/Loss" onclick="disableButtons()"><button class="knopKD btn" >Add Loss</button></a> 
           </article>
 
         </section>

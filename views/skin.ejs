@@ -53,7 +53,7 @@
      
         <div class="skinButtons">
           
-            <button id="knopAvatar" class="btn ster"><a href="/skin/fav/<%=skinName%>"><%=favStatus%> favorite</a> 
+            <button id="knopAvatar" class="btn ster" ><a href="/skin/fav/<%=skinName%>" onclick="disableButtons()"><%=favStatus%> favorite</a> 
             
               <% if (favStatus == "Add to") { %>
                 <i class="bi bi-star buttonFavoriet"></i>
@@ -67,7 +67,7 @@
            <button id="knopAvatar" class="btn blacklist"><a href="#">Blacklist</a> </button>
             
           
-      <button id="knopAvatar" class="btn pfp"><a href="/skin/pfp/<%=skinName%>">Add as pfp</a></button>
+      <button id="knopAvatar" class="btn pfp"><a href="/skin/pfp/<%=skinName%>" onclick="disableButtons()">Add as pfp</a></button>
       
             
     
