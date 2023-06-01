@@ -34,6 +34,7 @@ let registratieStatus: boolean = false;
 let favChanged:boolean=false;
 let favText:string="";
 let items:Fortnite[]=[];
+let itemTypes:string[] = [];
 
 const createUser = async (name:string,pass:string) => {
     let user : User = {username:name,password:pass};
@@ -151,7 +152,7 @@ const getItem = (list:Fortnite[],itemname:string) : string => {
 const blacklistCharacter = async(name:string, reason:string) => {
     try {
         let acc:Account = await getCurrentAccount();
-        await client.connect();
+      
         let deleteFav:Favoriet={naam:"",notitie:"",item1:"",item2:"",wins:0,loses:0};
         for (const fav of acc.favoriet) {
             if (fav.naam == name) {
@@ -163,6 +164,7 @@ const blacklistCharacter = async(name:string, reason:string) => {
         let character:Fortnite = await fetchOneApiChracter(name);
         let rarity:string =  getRarityCharact(character);
         acc.blacklist.push({naam:name, reden:reason,img:character.images.icon,rarity:rarity})
+        await client.connect();
         await client.db("Fortnite").collection("Accounts").replaceOne({username:acc.username}, acc);
     
 } catch (error) {
@@ -172,6 +174,45 @@ finally {
     await client.close();
 }
 }
+
+const loadItemTypes =async () => {
+   
+    let response = await fetch("https://fortnite-api.com/v2/cosmetics/br");
+    let data = await response.json();
+    for (const item of data.data) {
+        if (item.type.value !="outfit" && item.type.value != "loadingscreen" && item.type.value !="banner" && item.type.value != "music" && item.type.value != "pet" && item.type.value != "emote") {
+           if (itemTypes.indexOf(item.type.value) === -1) {
+            itemTypes.push(item.type.value)
+           }
+                items.push(item);
+        }
+    }
+    
+    
+    let sortedItems:Fortnite[]=[];
+    let counter:number=0;
+    for (let i = 0; i < itemTypes.length; i++) {
+        
+        do {
+            for (let j = 0; j < items.length; j++) {
+                
+                if (sortedItems.indexOf(items[j]) == -1 && items[j].type.value == itemTypes[i] && items[j].name.includes("Test") ==false  && items[j].name.includes("Personal") ==false) {
+                    sortedItems.push(items[j])
+                        counter++;
+                        
+                        break;
+                }
+              
+                
+            }
+        } while (counter <=10);
+        counter =0;
+
+    }
+    items = sortedItems;   
+}
+
+loadItemTypes();
 
 app.use((req, res, next) => {
     res.locals.user = req.session.user;
@@ -479,6 +520,18 @@ app.get("/favoriet-overzicht/:naam/:type", async (req:any,res:any) => {
                 return;
             }
             currentFav.loses += 1;
+            if (currentFav.wins == 0 && currentFav.loses >= 3) {
+                await blacklistCharacter(currentFav.naam,"personage trekt op niets");
+                res.redirect("/favoriet");
+                return;
+            }
+            else if (currentFav.wins != 0 && currentFav.loses >= currentFav.wins * 3) {
+                await blacklistCharacter(currentFav.naam,"personage trekt op niets");
+                res.redirect("/favoriet");
+                return;
+
+            }
+          
             try {
                 await client.connect();
                 await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.naam}, {$set:{"favoriet.$.loses":currentFav.loses}});
@@ -597,6 +650,63 @@ app.get("/blacklist", async (req:any, res:any) => {
     res.render("blacklist", {account: await getCurrentAccount()})
 }); 
 
+app.get("/blacklist/:name/:type", async (req:any, res:any) => {
+    if (!req.session.user) {
+        res.redirect("/");
+        return;
+    }
+    res.type("text/html");
+    if (req.params.type == "delete") {
+        try {
+            let acc:Account = await getCurrentAccount();
+          
+            let deleteChar:Blacklist={naam:"",reden:"", rarity:"",img:""};
+            for (const char of acc.blacklist) {
+                if (char.naam == req.params.name) {
+                    deleteChar = char;
+                }
+            }
+            let filteredBlacklist = acc.blacklist.filter((fav) => fav != deleteChar);
+            acc.blacklist = filteredBlacklist;
+            await client.connect();
+            await client.db("Fortnite").collection("Accounts").replaceOne({username:acc.username}, acc);
+        
+    } catch (error) {
+        console.log(error);
+    }
+    finally {
+        await client.close();
+    }
+    }
+    res.render("blacklist", {account: await getCurrentAccount()})
+}); 
+
+app.post("/blacklist/:id/:type", async (req:any, res:any) => {
+    if (!req.session.user) {
+        res.redirect("/");
+        return;
+    }
+
+    if (req.params.type == "change") {
+        let acc:Account = await getCurrentAccount();
+        acc.blacklist[req.params.id].reden = req.body.changeReason;
+        try {
+            await client.connect();
+            await client.db("Fortnite").collection("Accounts").replaceOne({username:acc.username}, acc);
+        
+    } catch (error) {
+        console.log(error);
+    }
+    finally {
+        await client.close();
+    }
+
+    }
+    res.redirect("/blacklist")
+    
+})
+
+
 
 
 app.get("/data", async (req:any, res:any) => {
@@ -613,9 +723,14 @@ app.get("/data", async (req:any, res:any) => {
 
 app.get("/logout", (req:any,res:any) => { 
     req.session.user = null;
-    res.redirect('/');} ) 
+    res.redirect('/');} 
+    ) 
 
-    app.use((req, res) => {
+app.use((req, res) => {
+    if (!req.session.user) {
+        res.redirect("/"); 
+        return;
+    }
         res.type("text/html");
         res.status(404);
         res.send("404 - Not Found");

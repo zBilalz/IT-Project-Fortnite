@@ -9,7 +9,6 @@
         <%- include("nav") %>
     </header>
     <main>
-
         <h1 class="fort">Favorite Avatars  <i class="bi bi-star-fill buttonFavoriet"></i></h1>
    
         <div class ="skinContainer">
@@ -19,9 +18,9 @@
                 <% if (characters[i].name != "null") {%>
                  <div class="skin">
                 <% if (characters[i].rarity.value != "epic" && characters[i].rarity.value != "legendary" && characters[i].rarity.value != "rare"&&characters[i].rarity.value != "uncommon") { %>
-                 <a href="\favoriet-overzicht\<%=characters[i].name%>"><img class="unique" src="<%=characters[i].images.icon%>" alt=""></a>
+                 <a href="/favoriet-overzicht/<%=characters[i].name%>"><img class="unique" src="<%=characters[i].images.icon%>" alt=""></a>
                 <%} else { %>
-                 <a href="\favoriet-overzicht\<%=characters[i].name%>"><img class="<%=characters[i].rarity.value%>" src="<%=characters[i].images.icon%>" alt=""></a>
+                 <a href="/favoriet-overzicht/<%=characters[i].name%>"><img class="<%=characters[i].rarity.value%>" src="<%=characters[i].images.icon%>" alt=""></a>
      
                <% } %>
                 
