@@ -21,13 +21,13 @@
         <div id="content-Note" class="modal-content">
           <span class="close">&times;</span>
           
-            <form id="addNoteForum" action="/favoriet-overzicht/addNote/<%=character.name%>" method="post">
+            <form id="addNoteForum" action="/favoriet-overzicht/<%=character.name%>/addNote" method="post">
               <label for="reden">Notes:</label> <br>
               <input type="text" name="notitie" id="notitie" placeholder="your note"> <br>
               <input type="submit" id="buttonAddNote" value="Add note"> <br>
               
             </form>
-            <form id="deleteNoteForum" action="/favoriet-overzicht/deleteNote/<%=character.name%>" method="post">
+            <form id="deleteNoteForum" action="/favoriet-overzicht/<%=character.name%>/deleteNote" method="post">
               <input type="submit" value="Delete note">
               </form>
               <p style="color:red;" id="errorNote"></p>
@@ -56,19 +56,14 @@
         <p><%=character.rarity.value%></p>
         <h2>Notes</h2>
         <p id="notitieText"> 
-          <% if (notitie != undefined) {
-            if ( notitie.length > 0) {%>
+           <% if ( notitie.length > 0) {%>
             <%=notitie%>
             <input type="hidden" id="emptyNote" value="notEmpty">
 
          <%} else { %>
           No notes written yet
           <input type="hidden" id="emptyNote" value="empty">
-         <% } } else {%>
-
-          No notes written yet
-          <input type="hidden" id="emptyNote" value="empty">
-        <% }%>
+         <% } %>
    
         </p>
         <button id="knopNotitie" class="btn">Edit notes</button>
@@ -88,15 +83,29 @@
         </div>
 
         <div id="items">
-          <input type="hidden" id="activeItem" value="">
           <figure class="favItem">
               <h2>item 1</h2>
-             <img id="item1" class="charItem" src="<%= item1 %>" alt="">
+              <% if (item1 == "") {%>
+                
+                <img id="item1" class="charItem" src="/fotos/item_questionmark.jpg " alt="">
+
+             <% } else { %>
+              <img id="item1" class="charItem" src="<%=item1%> " alt="">
+            
+            <%}%>
+          
              <button class="deleteItem btn">Delete item</button>
           </figure>
           <figure class="favItem">
               <h2>item 2</h2>
-              <img id="item2" class="charItem" src="<%=item2%>"  alt="">
+              <% if (item2 == "") {%>
+                
+                <img id="item2" class="charItem" src="/fotos/item_questionmark.jpg " alt="">
+
+             <% } else { %>
+              <img id="item2" class="charItem" src="<%=item2%> " alt="">
+            
+            <%}%>
               <button class="deleteItem btn">Delete item</button>
           </figure>
       </div>
@@ -110,17 +119,14 @@
               
             <h3>Number of wins:</h3>
             <p id="aantalWins">0</p>
- 
-          
-              <button class="knopKD btn">Add Victory</button>
-     
-       
+            <a href="/favoriet-overzicht/<%=character.name%>/Win"><button class="knopKD btn">Add Win</button></a>
+            
           </article>
 
           <article class="wl">
             <h3>Number of losses:</h3>
             <p id="aantalLosses">0</p>
-           <button class="knopKD btn">Add Loss</button>
+           <a href="/favoriet-overzicht/<%=character.name%>/Loss"></a> <button class="knopKD btn">Add Loss</button>
           </article>
 
         </section>

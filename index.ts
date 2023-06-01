@@ -106,7 +106,7 @@ const fetchOneApiChracter = async (naam:string) => {
 }
 
 const getCurrentAccount = async () => {
-    let account : Account = {username:"",favoriet:[],blacklist:[]};
+    let account : Account = {username:"", favoriet:[],blacklist:[]};
     try {
         await client.connect();
         account = await client.db("Fortnite").collection("Accounts").findOne({username:currentUserName});
@@ -133,7 +133,7 @@ const getCurrentFav = async (account:Account, characterName:string) => {
     if (account.favoriet == undefined) {
         return;
     }
-    let fav:Favoriet={naam:""};
+    let fav:Favoriet={naam:"", notitie:"",item1:"",item2:"", wins:0,loses:0};
         for (const favo of account.favoriet) {
             if (favo.naam == characterName) {
                 fav=favo;
@@ -374,7 +374,7 @@ app.get("/skin/:type/:name", async (req:any, res:any) => {
             if (favGevonden == false) {
                 favText="Character added to favorite list";
                 await client.connect();
-                acc.favoriet.push({naam:skinName})
+                acc.favoriet.push({naam:skinName, notitie:"",item1:"",item2:"", wins:0,loses:0})
                 await client.db("Fortnite").collection("Accounts").replaceOne({username:req.session.user.username}, acc);
             }
         }
@@ -458,25 +458,8 @@ app.get("/favoriet-overzicht/:name", async (req:any, res:any) => {
     res.type("text/html");
     let rarity = getRarityCharact(await fetchOneApiChracter(req.params.name));
     let huidigeFav = await getCurrentFav(await getCurrentAccount(),req.params.name);
-    let item1:string;
-    let item2:string;
     if (huidigeFav == undefined) {
         return;
-    }
-   
-    if (huidigeFav.item1 == undefined || huidigeFav.item1 == "") {
-        item1 = "/fotos/item_questionmark.jpg";
-    }
-    else {
-        item1 = getItem(items,huidigeFav.item1);
-    }
-
-    
-    if (huidigeFav.item2 == undefined || huidigeFav.item2 == "") {
-        item2 = "/fotos/item_questionmark.jpg";
-    }
-    else {
-        item2 = getItem(items,huidigeFav.item2);
     }
     let filteredItems:Fortnite[] = [];
 
@@ -486,10 +469,62 @@ app.get("/favoriet-overzicht/:name", async (req:any, res:any) => {
         }
     }
     
-    res.render("favoriet-overzicht", {account: await getCurrentAccount(), character: await fetchOneApiChracter(req.params.name), rarity:rarity, notitie:huidigeFav.notitie, items:filteredItems, item1:item1,item2:item2})
+    res.render("favoriet-overzicht", {account: await getCurrentAccount(), character: await fetchOneApiChracter(req.params.name), rarity:rarity, notitie:huidigeFav.notitie, items:filteredItems, item1:getItem(items,huidigeFav.item1),item2:getItem(items,huidigeFav.item2)})
 });
 
-app.post("/favoriet-overzicht/:type/:naam", async (req:any,res:any) => {
+
+
+app.get("/favoriet-overzicht/:naam/:type", async (req:any,res:any) => {
+    if (!req.session.user) {
+        res.redirect("/"); 
+        return;
+    }
+        
+
+         if (req.params.type == "Win") {
+            let acc: Account = await getCurrentAccount();
+            let currentFav = await getCurrentFav(acc, req.params.naam);
+            if (currentFav == undefined || currentFav.wins == undefined) {
+                return;
+            }
+            currentFav.wins += 1;
+            try {
+                await client.connect();
+                await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.naam}, {$set:{"favoriet.$.wins":currentFav.wins}});
+            } catch (error) {
+                console.log(error);
+                
+            }
+            finally {
+                await client.close();
+            }
+        }
+
+        else if (req.params.type == "Loss") {
+            let acc: Account = await getCurrentAccount();
+            let currentFav = await getCurrentFav(acc, req.params.naam);
+            if (currentFav == undefined || currentFav.loses == undefined) {
+                return;
+            }
+            currentFav.loses += 1;
+            try {
+                await client.connect();
+                await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.naam}, {$set:{"favoriet.$.loses":currentFav.loses}});
+            } catch (error) {
+                console.log(error);
+                
+            }
+            finally {
+                await client.close();
+            }
+        }
+           
+    res.redirect(`/favoriet-overzicht/${req.params.naam}`)
+})
+
+
+
+app.post("/favoriet-overzicht/:naam/:type", async (req:any,res:any) => {
     if (!req.session.user) {
         res.redirect("/"); 
         return;
@@ -533,8 +568,8 @@ app.get("/favoriet-overzicht/:name/:type/:item/:itemName", async (req:any,res:an
     }
     let itemNumber:string = "item"
 
-   
-        itemNumber+=req.params.item.charAt(req.params.item.length-1);
+    if (req.params.type == "addItem")
+    {    itemNumber+=req.params.item.charAt(req.params.item.length-1);
         try {
             await client.connect();
             let stringFavItem : string = `favoriet.$.${itemNumber}`
@@ -546,7 +581,7 @@ app.get("/favoriet-overzicht/:name/:type/:item/:itemName", async (req:any,res:an
         finally {
             await client.close();
         }
-        
+    }
     
 
     res.redirect(`/favoriet-overzicht/${req.params.name}`)
@@ -559,8 +594,8 @@ app.get("/favoriet-overzicht/:name/:type/:item", async (req:any,res:any) => {
     }
     let itemNumber:string = "item";
 
-   
-        itemNumber+=req.params.item.charAt(req.params.item.length-1);
+   if (req.params.type == "deleteItem")
+      {  itemNumber+=req.params.item.charAt(req.params.item.length-1);
         try {
             await client.connect();
             let stringFavItem : string = `favoriet.$.${itemNumber}`
@@ -573,7 +608,7 @@ app.get("/favoriet-overzicht/:name/:type/:item", async (req:any,res:any) => {
             await client.close();
         }
         
-    
+    }
 
     res.redirect(`/favoriet-overzicht/${req.params.name}`)
 })

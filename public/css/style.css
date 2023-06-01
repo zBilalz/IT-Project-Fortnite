@@ -841,6 +841,11 @@ margin-left: 0%!important;
   width: 65%;
 }
 
+.wl a {
+  width: 100%;
+  text-align: center;
+}
+
 
 .knopKD {
   margin-top: 5%;

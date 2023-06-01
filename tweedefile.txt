@@ -14,3 +14,6 @@ git clone -b "naamBranch" "linkrepo"
 -----------------------------------------------------------
 om te pushen naar branch:
 git push origin "naamBranch"
+----------------------------------------------------------
+om commit te verwijderen dat nog niet gepushed werd:
+git reset HEAD~1
