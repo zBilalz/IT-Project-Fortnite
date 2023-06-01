@@ -35,6 +35,7 @@ let favChanged:boolean=false;
 let favText:string="";
 let items:Fortnite[]=[];
 let itemTypes:string[] = [];
+let errorRegistratie:boolean=false;
 
 const createUser = async (name:string,pass:string) => {
     let user : User = {username:name,password:pass};
@@ -175,7 +176,7 @@ finally {
 }
 }
 
-const loadItemTypes =async () => {
+const loadItemTypes = async () => {
    
     let response = await fetch("https://fortnite-api.com/v2/cosmetics/br");
     let data = await response.json();
@@ -245,8 +246,9 @@ app.get("/login", (req:any, res:any) => {
 
     res.type("text/html");
     
-    res.render("login", {registratie:registratieStatus});
+    res.render("login", {registratie:registratieStatus, error:errorRegistratie});
     registratieStatus=false;
+    errorRegistratie =false;
 });
 
 app.post('/login', async (req, res) => {
@@ -278,6 +280,23 @@ app.post('/registrate', async (req:any,res:any) => {
     }
     let username = req.body.username;
     let pass = req.body.password;
+    try {
+        await client.connect();
+        let resultaat = await client.db("Fortnite").collection("Users").findOne({username:username});
+        if (resultaat != null) {
+            errorRegistratie = true;
+            res.redirect('/login');
+            return;
+        }
+        console.log();
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+    finally {
+        await client.close();
+    }
     await createUser(username,pass);
     await createAccountUser(username);
     registratieStatus = true;
@@ -373,6 +392,7 @@ app.get("/skin/:name/:type", async (req:any, res:any) => {
         else if (getType == "fav") {
             favChanged = true;
             let acc : Account = await getCurrentAccount();
+            
             if (acc.favoriet == undefined) {
                 return;
             }
@@ -381,15 +401,9 @@ app.get("/skin/:name/:type", async (req:any, res:any) => {
                     if (skinName == fav.naam) {
                         favText="Character deleted from favorite list";
                         await client.connect();
-                        let newfavArray:Favoriet[]=[];
                         favGevonden = true;
-                        for (let i = 0; i < acc.favoriet.length; i++) {
-                            if (acc.favoriet[i].naam != skinName) {
-                                newfavArray.push(acc.favoriet[i]);
-                            }
-                            
-                        }
-                        acc.favoriet = newfavArray;
+                        let filteredFavoList:Favoriet[] = acc.favoriet.filter((fav) => fav.naam != skinName);
+                        acc.favoriet = filteredFavoList;
                         await client.db("Fortnite").collection("Accounts").replaceOne({username:req.session.user.username}, acc);
                     }
                 }

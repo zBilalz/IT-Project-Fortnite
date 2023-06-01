@@ -7,9 +7,17 @@
           <p id="modalTextLogin">Registratie gelukt</p>
         </div>
       </div>
-	<div class="wrapper">
-		
 
+      <input type="hidden" id="errorRegistratie" name="errorRegistratie" value="<%= error %>">
+      <div id="modalUsername" class="modal">
+          <div id="content-Username" class="modal-content content-red">
+            <span class="close">&times;</span>
+            <p id="modalTextUsername">Username bestaal al</p>
+          </div>
+        </div>
+
+    
+        <div class="wrapper">
         <div class="form-box login">
             <h1>Login</h1>
             <form id="loginForm" action="/login" method="post">
