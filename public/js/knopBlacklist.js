@@ -18,12 +18,7 @@ spanBlackList.onclick = function() {
 window.onclick = function(event) {
 if (event.target == modalBlackList || event.target ==  modalFav) {
 modalBlackList.style.display = "none";
-modalFav.style.display = "none";
+modalFav.style.display = "none";  
 }
 }
-        
 
-
-   
-          
-    

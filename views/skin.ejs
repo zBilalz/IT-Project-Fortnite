@@ -29,7 +29,7 @@
       <div id="ModalSkinBlackList" class="modal">
         <div id="content-SkinBlackList" class="modal-content">
           <span id="spanBlacklist" class="close">&times;</span>
-          <form action="/skin/blacklist/<%=skinName%>" method="post">
+          <form action="/skin/<%=skinName%>/blacklist" method="post">
             <label for="reden">Reason for blacklist:</label><br>
           <textarea name="reasonBlacklist" id="reasonBlacklist" cols="30" rows="10" placeholder="your reason" required></textarea> <br>
             <input type="submit" value="blacklist">
@@ -53,7 +53,7 @@
      
         <div class="skinButtons">
           
-            <button id="knopAvatar" class="btn ster" ><a href="/skin/fav/<%=skinName%>" onclick="disableButtons()"><%=favStatus%> favorite</a> 
+            <button id="knopAvatar" class="btn ster" ><a href="/skin/<%=skinName%>/fav" onclick="disableButtons()"><%=favStatus%> favorite</a> 
             
               <% if (favStatus == "Add to") { %>
                 <i class="bi bi-star buttonFavoriet"></i>
@@ -64,10 +64,10 @@
             
             </button>
             
-           <button id="knopAvatar" class="btn blacklist"><a href="#">Blacklist</a> </button>
+           <button id="knopAvatar" class="btn blacklist"><a href="#">Blacklist</a></button>
             
           
-      <button id="knopAvatar" class="btn pfp"><a href="/skin/pfp/<%=skinName%>" onclick="disableButtons()">Add as pfp</a></button>
+      <button id="knopAvatar" class="btn pfp"><a href="/skin/<%=skinName%>/pfp" onclick="disableButtons()">Add as pfp</a></button>
       
             
     

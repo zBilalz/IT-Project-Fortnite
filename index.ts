@@ -4,7 +4,6 @@ import session from "express-session";
 import fetch from "node-fetch";
 import {ObjectId} from "mongodb";
 import { User, Account, Favoriet, Blacklist, Fortnite, Images } from "./interfaces";
-import { log } from "console";
 const {MongoClient} = require("mongodb");
 const uri:string = "mongodb+srv://s122572:8nH4X9ljX3qnju4D@cluster0.kxgul8a.mongodb.net/?retryWrites=true&w=majority"
 const client = new MongoClient(uri, {useUnifiedTopology: true});
@@ -34,9 +33,7 @@ let favGevonden:boolean=false;
 let registratieStatus: boolean = false;
 let favChanged:boolean=false;
 let favText:string="";
-let itemTypes:string[] = [];
 let items:Fortnite[]=[];
-let currentAcc:Account;
 
 const createUser = async (name:string,pass:string) => {
     let user : User = {username:name,password:pass};
@@ -142,45 +139,6 @@ const getCurrentFav = async (account:Account, characterName:string) => {
         return fav;
 }
 
-const loadItemTypes =async () => {
-   
-    let response = await fetch("https://fortnite-api.com/v2/cosmetics/br");
-    let data = await response.json();
-    for (const item of data.data) {
-        if (item.type.value !="outfit" && item.type.value != "loadingscreen" && item.type.value !="banner" && item.type.value != "music" && item.type.value != "pet" && item.type.value != "emote") {
-           if (itemTypes.indexOf(item.type.value) === -1) {
-            itemTypes.push(item.type.value)
-           }
-                items.push(item);
-        }
-    }
-    
-    
-    let sortedItems:Fortnite[]=[];
-    let counter:number=0;
-    for (let i = 0; i < itemTypes.length; i++) {
-        
-        do {
-            for (let j = 0; j < items.length; j++) {
-                
-                if (sortedItems.indexOf(items[j]) == -1 && items[j].type.value == itemTypes[i] && items[j].name.includes("Test") ==false  && items[j].name.includes("Personal") ==false) {
-                    sortedItems.push(items[j])
-                        counter++;
-                        
-                        break;
-                }
-              
-                
-            }
-        } while (counter <=10);
-        counter =0;
-
-    }
-    items = sortedItems;   
-}
-
-loadItemTypes();
-
 const getItem = (list:Fortnite[],itemname:string) : string => {
     for (const index of list) {
         if (index.name == itemname) {
@@ -188,6 +146,31 @@ const getItem = (list:Fortnite[],itemname:string) : string => {
         }
     }
     return "";
+}
+
+const blacklistCharacter = async(name:string, reason:string) => {
+    try {
+        let acc:Account = await getCurrentAccount();
+        await client.connect();
+        let deleteFav:Favoriet={naam:"",notitie:"",item1:"",item2:"",wins:0,loses:0};
+        for (const fav of acc.favoriet) {
+            if (fav.naam == name) {
+                deleteFav = fav;
+            }
+        }
+        let filteredFavoriet = acc.favoriet.filter((fav) => fav != deleteFav);
+        acc.favoriet = filteredFavoriet
+        let character:Fortnite = await fetchOneApiChracter(name);
+        let rarity:string =  getRarityCharact(character);
+        acc.blacklist.push({naam:name, reden:reason,img:character.images.icon,rarity:rarity})
+        await client.db("Fortnite").collection("Accounts").replaceOne({username:acc.username}, acc);
+    
+} catch (error) {
+    console.log(error);
+}
+finally {
+    await client.close();
+}
 }
 
 app.use((req, res, next) => {
@@ -206,7 +189,7 @@ app.get("/",  async (req:any,res:any) => {
     else {
         ingelogd = true;
         modalTextIndex = "Je hebt geen toegang tot deze project";
-        currentAcc = await getCurrentAccount();
+
         redirect="/home";
 
         
@@ -325,7 +308,7 @@ app.get("/skin/:name", async (req:any, res:any) => {
     favText = "";
 });
 
-app.get("/skin/:type/:name", async (req:any, res:any) => {
+app.get("/skin/:name/:type", async (req:any, res:any) => {
     if (!req.session.user) {
         res.redirect("/");
         return;
@@ -392,7 +375,7 @@ app.get("/skin/:type/:name", async (req:any, res:any) => {
     }
 );
 
-app.post("/skin/:type/:name", async (req:any, res:any) => {
+app.post("/skin/:name/:type", async (req:any, res:any) => {
     if (!req.session.user) {
         res.redirect("/");
         return;
@@ -400,24 +383,13 @@ app.post("/skin/:type/:name", async (req:any, res:any) => {
     let acc:Account = await getCurrentAccount();
 
     if (req.params.type == "blacklist") {
-        try {
-            await client.connect();
-            let character:Fortnite = await fetchOneApiChracter(skinName);
-            let rarity:string =  getRarityCharact(character);
-            acc.blacklist.push({naam:skinName, reden:req.body.reasonBlacklist,img:character.images.icon,rarity:rarity})
-            await client.db("Fortnite").collection("Accounts").replaceOne({username:req.session.user.username}, acc);
-        
-    } catch (error) {
-        console.log(error);
-    }
-    finally {
-        await client.close();
-    }
+
+        await blacklistCharacter(skinName,req.body.reasonBlacklist);
     }
 
     
     
-    res.redirect(`/skin/${skinName}`)
+    res.redirect(`/home`)
 })
 
 
@@ -625,6 +597,8 @@ app.get("/blacklist", async (req:any, res:any) => {
     res.render("blacklist", {account: await getCurrentAccount()})
 }); 
 
+
+
 app.get("/data", async (req:any, res:any) => {
     res.type("application/json");
 
@@ -632,6 +606,8 @@ app.get("/data", async (req:any, res:any) => {
     res.json(items);
 
 });
+
+
 
 
 
