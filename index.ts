@@ -36,6 +36,7 @@ let items:Fortnite[]=[];
 let itemTypes:string[] = [];
 let errorRegistratie:boolean=false;
 let characters:Fortnite[]=[];
+let characterNames:string[]=[];
 
 const createUser = async (name:string,pass:string) => {
     let user : User = {username:name,password:pass};
@@ -89,7 +90,9 @@ const fetchApiChracters = async () => {
     data = await response.json();
     characters = data.data.filter((item: Fortnite) => item.type.value === 'outfit');
    characters = characters.slice(0,50); 
-   
+   for (const charact of characters) {
+    characterNames.push(charact.name)
+}
 }
 
 fetchApiChracters();
@@ -330,6 +333,11 @@ app.get("/skin/:name", async (req:any, res:any) => {
         res.redirect("/");
         return;
     }
+
+    if (characterNames.includes(req.params.name) == false) {
+        res.redirect("/home");
+        return;
+    }
     res.type("text/html");
 
     let character:Fortnite = await fetchOneApiChracter(req.params.name); 
@@ -361,7 +369,11 @@ app.get("/skin/:name/:type", async (req:any, res:any) => {
         return;
     }
     res.type("text/html");
-
+    
+    if (characterNames.includes(req.params.name) == false) {
+        res.redirect("/home");
+        return;
+    }
     try {
        
     if (req.params.type == "pfp") {
@@ -420,6 +432,7 @@ app.post("/skin/:name/:type", async (req:any, res:any) => {
         res.redirect("/");
         return;
     }
+    
     let acc:Account = await getCurrentAccount(req.session.user.username);
 
     if (req.params.type == "blacklist") {
@@ -466,8 +479,20 @@ app.get("/favoriet-overzicht/:name", async (req:any, res:any) => {
         return;
     }
     res.type("text/html");
-    let rarity = getRarityCharact(await fetchOneApiChracter(req.params.name));
-    let huidigeFav = await getCurrentFav(await getCurrentAccount(req.session.user.username),req.params.name);
+    let gevonden:boolean = false;
+    let acc:Account = await getCurrentAccount(req.session.user.username)
+    for (const fav of acc.favoriet) {
+        if (fav.naam == req.params.name) {
+            gevonden = true;
+        }
+    }
+    if (!gevonden) {
+        res.redirect("/favoriet");
+        return;
+    }
+    let character:Fortnite = await fetchOneApiChracter(req.params.name)
+    let rarity = getRarityCharact(character);
+    let huidigeFav = await getCurrentFav(acc,req.params.name);
     if (huidigeFav == undefined) {
         return;
     }
@@ -479,7 +504,7 @@ app.get("/favoriet-overzicht/:name", async (req:any, res:any) => {
         }
     }
     
-    res.render("favoriet-overzicht", {account: await getCurrentAccount(req.session.user.username), character: await fetchOneApiChracter(req.params.name), rarity:rarity, notitie:huidigeFav.notitie, items:filteredItems, item1:getItem(items,huidigeFav.item1),item2:getItem(items,huidigeFav.item2), wins:huidigeFav.wins, loses:huidigeFav.loses})
+    res.render("favoriet-overzicht", {account: acc, character: character, rarity:rarity, notitie:huidigeFav.notitie, items:filteredItems, item1:getItem(items,huidigeFav.item1),item2:getItem(items,huidigeFav.item2), wins:huidigeFav.wins, loses:huidigeFav.loses})
 });
 
 
@@ -489,8 +514,7 @@ app.get("/favoriet-overzicht/:name/:type", async (req:any,res:any) => {
         res.redirect("/"); 
         return;
     }
-        
-
+         
          if (req.params.type == "Win") {
             let acc: Account = await getCurrentAccount(req.session.user.username);
             let currentFav = await getCurrentFav(acc, req.params.name);
@@ -638,6 +662,11 @@ app.get("/blacklist/:name/:type", async (req:any, res:any) => {
         res.redirect("/");
         return;
     }
+     
+    if (characterNames.includes(req.params.name) == false) {
+        res.redirect("/blacklist");
+        return;
+    }
     res.type("text/html");
     if (req.params.type == "delete") {
         try {
@@ -688,20 +717,6 @@ app.post("/blacklist/:id/:type", async (req:any, res:any) => {
     res.redirect("/blacklist")
     
 })
-
-
-
-
-app.get("/data", async (req:any, res:any) => {
-    res.type("application/json");
-
-  
-    res.json(await fetchApiChracters());
-
-});
-
-
-
 
 
 app.get("/logout", (req:any,res:any) => { 
