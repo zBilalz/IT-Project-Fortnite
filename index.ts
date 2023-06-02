@@ -725,7 +725,7 @@ app.get("/data", async (req:any, res:any) => {
     res.type("application/json");
 
   
-    res.json(items);
+    res.json(await fetchApiChracters());
 
 });
 

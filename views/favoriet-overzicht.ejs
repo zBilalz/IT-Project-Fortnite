@@ -50,8 +50,10 @@
         <p id="fav-backstory" style="text-align: right;"><%=character.description%></p>
         <h2>Introduction</h2>
         <p><%=character.introduction.text%></p>
+        <% if (character.set != null) { %>
         <h2>Set</h2>
         <p><%=character.set.text%></p>
+        <% } %>
         <h2>Rarity</h2>
         <p><%=character.rarity.value%></p>
         <h2>Notes</h2>
