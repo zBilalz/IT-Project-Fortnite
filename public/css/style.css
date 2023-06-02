@@ -1094,15 +1094,10 @@ animation-duration: 0.3s;
   transition: 1s ease-in-out;
 }
 
-svg {
-  position: absolute;
-  left: 0;
-  top: 0;
-  fill: none;
-  stroke: #fff;
-  stroke-dasharray: 150 480;
-  stroke-dashoffset: 150;
-  transition: 1s ease-in-out;
+.goback {
+  font-size: 25px;
+  width: 150px !important;
+  height: 15% !important;
 }
 
 .btn:hover {
@@ -1110,9 +1105,6 @@ svg {
   background: #487fb66c;
 }
 
-.btn:hover svg {
-  stroke-dashoffset: -480;
-}
 
 .btn span {
   color: white;
@@ -1130,7 +1122,11 @@ svg {
 /* DIT IS HET BEGIN VAN DE "BLACK LIST PAGINA" CSS */
   
 
-
+#blacklistHeader {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+}
 #blacklist-image-container {
   display: flex;
   flex-direction: column;

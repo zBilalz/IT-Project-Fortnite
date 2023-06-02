@@ -4,6 +4,7 @@ import session from "express-session";
 import fetch from "node-fetch";
 import {ObjectId} from "mongodb";
 import { User, Account, Favoriet, Blacklist, Fortnite, Images } from "./interfaces";
+const CryptoJS = require('crypto-js');
 const {MongoClient} = require("mongodb");
 const uri:string = "mongodb+srv://s122572:8nH4X9ljX3qnju4D@cluster0.kxgul8a.mongodb.net/?retryWrites=true&w=majority"
 const client = new MongoClient(uri, {useUnifiedTopology: true});
@@ -24,7 +25,9 @@ app.use(express.static('public'));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended:true}));
 
+let salt = CryptoJS.lib.WordArray.random();
 
+  
 let ingelogd:boolean = false;
 let modalTextIndex:string = "";
 let favStatus:string="";    
@@ -262,8 +265,11 @@ app.post('/login', async (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
     let users = await getUsers();
+    let hash = CryptoJS.PBKDF2(password, salt, {
+        iterations: 10000,
+      }).toString();
     for (let user of users) {
-        if (user.username == username && user.password == password) {
+        if (user.username == username && user.password == hash) {
             req.session.user = {
                 username: username,
                 password: password,
@@ -302,7 +308,10 @@ app.post('/registrate', async (req:any,res:any) => {
     finally {
         await client.close();
     }
-    await createUser(username,pass);
+    let hash = CryptoJS.PBKDF2(pass, salt, {
+        iterations: 10000,
+      }).toString();
+    await createUser(username,hash);
     await createAccountUser(username);
     registratieStatus = true;
     res.redirect('/login');
