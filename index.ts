@@ -27,7 +27,6 @@ app.use(express.urlencoded({ extended:true}));
 
 let ingelogd:boolean = false;
 let modalTextIndex:string = "";
-let currentUserName : string = "";
 let favStatus:string="";    
 let favGevonden:boolean=false;
 let registratieStatus: boolean = false;
@@ -104,11 +103,11 @@ const fetchOneApiChracter = async (naam:string) => {
     return character;
 }
 
-const getCurrentAccount = async () => {
+const getCurrentAccount = async (username:string) => {
     let account : Account = {username:"", favoriet:[],blacklist:[]};
     try {
         await client.connect();
-        account = await client.db("Fortnite").collection("Accounts").findOne({username:currentUserName});
+        account = await client.db("Fortnite").collection("Accounts").findOne({username:username});
     } catch (error) {
         console.log(error);
         
@@ -150,9 +149,9 @@ const getItem = (list:Fortnite[],itemname:string) : string => {
     return "";
 }
 
-const blacklistCharacter = async(name:string, reason:string) => {
+const blacklistCharacter = async(name:string, reason:string, username:string) => {
     try {
-        let acc:Account = await getCurrentAccount();
+        let acc:Account = await getCurrentAccount(username);
       
         let deleteFav:Favoriet={naam:"",notitie:"",item1:"",item2:"",wins:0,loses:0};
         for (const fav of acc.favoriet) {
@@ -231,7 +230,7 @@ app.get("/",  async (req:any,res:any) => {
     else {
         ingelogd = true;
         modalTextIndex = "Je hebt geen toegang tot deze project";
-
+        
         redirect="/home";
 
         
@@ -262,7 +261,6 @@ app.post('/login', async (req, res) => {
                 username: username,
                 password: password,
             }
-            currentUserName = username;
             res.redirect('/');
            return;
         }
@@ -310,7 +308,7 @@ app.get("/home", async (req:any, res:any) => {
         return;
     }
     res.type("text/html");
-    let acc = await getCurrentAccount();
+    let acc = await getCurrentAccount(req.session.user.username);
     let blacklistNames:string[]=[];
     
     if (acc.blacklist.length > 0) {
@@ -320,7 +318,7 @@ app.get("/home", async (req:any, res:any) => {
     }
 
 
-    res.render("home", {characters:await fetchApiChracters(), account: await getCurrentAccount(), blacklistNames:blacklistNames})
+    res.render("home", {characters:await fetchApiChracters(), account: await getCurrentAccount(req.session.user.username), blacklistNames:blacklistNames})
 });
 
 
@@ -344,7 +342,7 @@ app.get("/skin/:name", async (req:any, res:any) => {
     introduction = character.introduction.text;
     let rarity = getRarityCharact(character);
 
-    let acc : Account = await getCurrentAccount();
+    let acc : Account = await getCurrentAccount(req.session.user.username);
 
     if (acc.favoriet == undefined) {
         return;
@@ -363,7 +361,7 @@ app.get("/skin/:name", async (req:any, res:any) => {
   
     
     
-    res.render("skin", {favChanged:favChanged,favText:favText ,skinName:skinName,skinBackstory:skinBackstory,skinImage:skinImage, introduction:introduction, account: await getCurrentAccount(), rarity:rarity, favStatus:favStatus})
+    res.render("skin", {favChanged:favChanged,favText:favText ,skinName:skinName,skinBackstory:skinBackstory,skinImage:skinImage, introduction:introduction, account: await getCurrentAccount(req.session.user.username), rarity:rarity, favStatus:favStatus})
     favChanged = false;
     favText = "";
 });
@@ -391,7 +389,7 @@ app.get("/skin/:name/:type", async (req:any, res:any) => {
         }
         else if (getType == "fav") {
             favChanged = true;
-            let acc : Account = await getCurrentAccount();
+            let acc : Account = await getCurrentAccount(req.session.user.username);
             
             if (acc.favoriet == undefined) {
                 return;
@@ -435,11 +433,11 @@ app.post("/skin/:name/:type", async (req:any, res:any) => {
         res.redirect("/");
         return;
     }
-    let acc:Account = await getCurrentAccount();
+    let acc:Account = await getCurrentAccount(req.session.user.username);
 
     if (req.params.type == "blacklist") {
 
-        await blacklistCharacter(skinName,req.body.reasonBlacklist);
+        await blacklistCharacter(skinName,req.body.reasonBlacklist, req.session.user.username);
     }
 
     
@@ -458,7 +456,7 @@ app.get("/favoriet", async (req:any, res:any) => {
     res.type("text/html");
 
     let characters: Fortnite[] = await fetchApiChracters();
-    let acc:Account = await getCurrentAccount();
+    let acc:Account = await getCurrentAccount(req.session.user.username);
     let favCharacters : Fortnite[] = [];
     if (acc.favoriet == undefined) {
         return;
@@ -471,7 +469,7 @@ app.get("/favoriet", async (req:any, res:any) => {
         }
     }
     
-    res.render("favoriet", {characters: favCharacters, account: await getCurrentAccount()})
+    res.render("favoriet", {characters: favCharacters, account: await getCurrentAccount(req.session.user.username)})
 });
 
 
@@ -484,7 +482,7 @@ app.get("/favoriet-overzicht/:name", async (req:any, res:any) => {
     }
     res.type("text/html");
     let rarity = getRarityCharact(await fetchOneApiChracter(req.params.name));
-    let huidigeFav = await getCurrentFav(await getCurrentAccount(),req.params.name);
+    let huidigeFav = await getCurrentFav(await getCurrentAccount(req.session.user.username),req.params.name);
     if (huidigeFav == undefined) {
         return;
     }
@@ -496,7 +494,7 @@ app.get("/favoriet-overzicht/:name", async (req:any, res:any) => {
         }
     }
     
-    res.render("favoriet-overzicht", {account: await getCurrentAccount(), character: await fetchOneApiChracter(req.params.name), rarity:rarity, notitie:huidigeFav.notitie, items:filteredItems, item1:getItem(items,huidigeFav.item1),item2:getItem(items,huidigeFav.item2), wins:huidigeFav.wins, loses:huidigeFav.loses})
+    res.render("favoriet-overzicht", {account: await getCurrentAccount(req.session.user.username), character: await fetchOneApiChracter(req.params.name), rarity:rarity, notitie:huidigeFav.notitie, items:filteredItems, item1:getItem(items,huidigeFav.item1),item2:getItem(items,huidigeFav.item2), wins:huidigeFav.wins, loses:huidigeFav.loses})
 });
 
 
@@ -509,7 +507,7 @@ app.get("/favoriet-overzicht/:naam/:type", async (req:any,res:any) => {
         
 
          if (req.params.type == "Win") {
-            let acc: Account = await getCurrentAccount();
+            let acc: Account = await getCurrentAccount(req.session.user.username);
             let currentFav = await getCurrentFav(acc, req.params.naam);
             if (currentFav == undefined || currentFav.wins == undefined) {
                 return;
@@ -528,19 +526,19 @@ app.get("/favoriet-overzicht/:naam/:type", async (req:any,res:any) => {
         }
 
         else if (req.params.type == "Loss") {
-            let acc: Account = await getCurrentAccount();
+            let acc: Account = await getCurrentAccount(req.session.user.username);
             let currentFav = await getCurrentFav(acc, req.params.naam);
             if (currentFav == undefined || currentFav.loses == undefined) {
                 return;
             }
             currentFav.loses += 1;
             if (currentFav.wins == 0 && currentFav.loses >= 3) {
-                await blacklistCharacter(currentFav.naam,"personage trekt op niets");
+                await blacklistCharacter(currentFav.naam,"personage trekt op niets", req.session.user.username);
                 res.redirect("/favoriet");
                 return;
             }
             else if (currentFav.wins != 0 && currentFav.loses >= currentFav.wins * 3) {
-                await blacklistCharacter(currentFav.naam,"personage trekt op niets");
+                await blacklistCharacter(currentFav.naam,"personage trekt op niets", req.session.user.username);
                 res.redirect("/favoriet");
                 return;
 
@@ -661,7 +659,7 @@ app.get("/blacklist", async (req:any, res:any) => {
     }
     res.type("text/html");
 
-    res.render("blacklist", {account: await getCurrentAccount()})
+    res.render("blacklist", {account: await getCurrentAccount(req.session.user.username)})
 }); 
 
 app.get("/blacklist/:name/:type", async (req:any, res:any) => {
@@ -672,7 +670,7 @@ app.get("/blacklist/:name/:type", async (req:any, res:any) => {
     res.type("text/html");
     if (req.params.type == "delete") {
         try {
-            let acc:Account = await getCurrentAccount();
+            let acc:Account = await getCurrentAccount(req.session.user.username);
           
             let deleteChar:Blacklist={naam:"",reden:"", rarity:"",img:""};
             for (const char of acc.blacklist) {
@@ -692,7 +690,7 @@ app.get("/blacklist/:name/:type", async (req:any, res:any) => {
         await client.close();
     }
     }
-    res.render("blacklist", {account: await getCurrentAccount()})
+    res.render("blacklist", {account: await getCurrentAccount(req.session.user.username)})
 }); 
 
 app.post("/blacklist/:id/:type", async (req:any, res:any) => {
@@ -702,7 +700,7 @@ app.post("/blacklist/:id/:type", async (req:any, res:any) => {
     }
 
     if (req.params.type == "change") {
-        let acc:Account = await getCurrentAccount();
+        let acc:Account = await getCurrentAccount(req.session.user.username);
         acc.blacklist[req.params.id].reden = req.body.changeReason;
         try {
             await client.connect();

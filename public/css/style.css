@@ -749,8 +749,10 @@ button a {
 /* DIT IS HET BEGIN VAN DE "FAVORIET" PAGINA */
 
 #emptyList {
+  font-size: calc(1.325rem + .9vw) /*afkmstig van bootstrap*/;
   text-align: center;
   width: 100%;
+  font-weight: 500;
   text-shadow:
   -2px -2px 0 #000,  
   2px -2px 0 #000,
