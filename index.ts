@@ -486,7 +486,13 @@ app.get("/favoriet-overzicht/:name", async (req:any, res:any) => {
             gevonden = true;
         }
     }
-    if (!gevonden) {
+    let blacklisted:boolean = false;
+    for (const blacklist of acc.blacklist) {
+        if (blacklist.naam == req.params.name) {
+            blacklisted = true;
+        }
+    }
+    if (!gevonden || blacklisted) {
         res.redirect("/favoriet");
         return;
     }
