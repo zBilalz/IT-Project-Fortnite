@@ -35,6 +35,7 @@ let favText:string="";
 let items:Fortnite[]=[];
 let itemTypes:string[] = [];
 let errorRegistratie:boolean=false;
+let characters:Fortnite[]=[];
 
 const createUser = async (name:string,pass:string) => {
     let user : User = {username:name,password:pass};
@@ -83,12 +84,15 @@ const getUsers = async () => {
 
 const fetchApiChracters = async () => {
     let data:any;
-    let characters:Fortnite[];
+    
     let response = await fetch("https://fortnite-api.com/v2/cosmetics/br");
     data = await response.json();
     characters = data.data.filter((item: Fortnite) => item.type.value === 'outfit');
-    return characters;
+   characters = characters.slice(0,50); 
+   
 }
+
+fetchApiChracters();
 
 const fetchOneApiChracter = async (naam:string) => {
     let characters:any;
@@ -318,30 +322,17 @@ app.get("/home", async (req:any, res:any) => {
     }
 
 
-    res.render("home", {characters:await fetchApiChracters(), account: await getCurrentAccount(req.session.user.username), blacklistNames:blacklistNames})
+    res.render("home", {characters:characters, account: await getCurrentAccount(req.session.user.username), blacklistNames:blacklistNames})
 });
-
-
-let skinName:string;
-let skinBackstory:string;
-let skinImage:string;
-let introduction:string;
 
 app.get("/skin/:name", async (req:any, res:any) => {
     if (!req.session.user) {
         res.redirect("/");
         return;
     }
-    let getSkinName: string = req.params.name;
     res.type("text/html");
 
-    let character:Fortnite = await fetchOneApiChracter(getSkinName); 
-    skinName = character.name;
-    skinBackstory = character.description;
-    skinImage = character.images.icon;
-    introduction = character.introduction.text;
-    let rarity = getRarityCharact(character);
-
+    let character:Fortnite = await fetchOneApiChracter(req.params.name); 
     let acc : Account = await getCurrentAccount(req.session.user.username);
 
     if (acc.favoriet == undefined) {
@@ -352,16 +343,14 @@ app.get("/skin/:name", async (req:any, res:any) => {
     for (const fav of acc.favoriet) {
        
         
-        if (skinName == fav.naam) {
+        if (character.name == fav.naam) {
             favStatus = "Delete from";
         }
         
     }
     
   
-    
-    
-    res.render("skin", {favChanged:favChanged,favText:favText ,skinName:skinName,skinBackstory:skinBackstory,skinImage:skinImage, introduction:introduction, account: await getCurrentAccount(req.session.user.username), rarity:rarity, favStatus:favStatus})
+    res.render("skin", {favChanged:favChanged,favText:favText ,skinName:character.name,skinBackstory:character.description,skinImage:character.images.icon, introduction:character.introduction.text, account: await getCurrentAccount(req.session.user.username), rarity:getRarityCharact(character), favStatus:favStatus})
     favChanged = false;
     favText = "";
 });
@@ -372,14 +361,12 @@ app.get("/skin/:name/:type", async (req:any, res:any) => {
         return;
     }
     res.type("text/html");
-    let getType: string = req.params.type;
-    let getName: string = req.params.name;
 
     try {
        
-    if (getType == "pfp") {
+    if (req.params.type == "pfp") {
            
-            let character:Fortnite = await fetchOneApiChracter(getName);
+            let character:Fortnite = await fetchOneApiChracter(req.params.name);
                        await client.connect();
                        await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username}, {$set:{profielfoto:character.images.icon}});
                     
@@ -387,7 +374,7 @@ app.get("/skin/:name/:type", async (req:any, res:any) => {
             
             
         }
-        else if (getType == "fav") {
+        else if (req.params.type == "fav") {
             favChanged = true;
             let acc : Account = await getCurrentAccount(req.session.user.username);
             
@@ -395,12 +382,12 @@ app.get("/skin/:name/:type", async (req:any, res:any) => {
                 return;
             }
             for (const fav of acc.favoriet) {
-                 
-                    if (skinName == fav.naam) {
+                    
+                    if (req.params.name == fav.naam) {
                         favText="Character deleted from favorite list";
                         await client.connect();
                         favGevonden = true;
-                        let filteredFavoList:Favoriet[] = acc.favoriet.filter((fav) => fav.naam != skinName);
+                        let filteredFavoList:Favoriet[] = acc.favoriet.filter((fav) => fav.naam != req.params.name);
                         acc.favoriet = filteredFavoList;
                         await client.db("Fortnite").collection("Accounts").replaceOne({username:req.session.user.username}, acc);
                     }
@@ -410,7 +397,7 @@ app.get("/skin/:name/:type", async (req:any, res:any) => {
             if (favGevonden == false) {
                 favText="Character added to favorite list";
                 await client.connect();
-                acc.favoriet.push({naam:skinName, notitie:"",item1:"",item2:"", wins:0,loses:0})
+                acc.favoriet.push({naam:req.params.name, notitie:"",item1:"",item2:"", wins:0,loses:0})
                 await client.db("Fortnite").collection("Accounts").replaceOne({username:req.session.user.username}, acc);
             }
         }
@@ -424,7 +411,7 @@ app.get("/skin/:name/:type", async (req:any, res:any) => {
         }
     
     favGevonden = false;
-    res.redirect(`/skin/${skinName}`)
+    res.redirect(`/skin/${req.params.name}`)
     }
 );
 
@@ -437,7 +424,7 @@ app.post("/skin/:name/:type", async (req:any, res:any) => {
 
     if (req.params.type == "blacklist") {
 
-        await blacklistCharacter(skinName,req.body.reasonBlacklist, req.session.user.username);
+        await blacklistCharacter(req.params.name,req.body.reasonBlacklist, req.session.user.username);
     }
 
     
@@ -454,8 +441,6 @@ app.get("/favoriet", async (req:any, res:any) => {
     }
 
     res.type("text/html");
-
-    let characters: Fortnite[] = await fetchApiChracters();
     let acc:Account = await getCurrentAccount(req.session.user.username);
     let favCharacters : Fortnite[] = [];
     if (acc.favoriet == undefined) {
@@ -499,7 +484,7 @@ app.get("/favoriet-overzicht/:name", async (req:any, res:any) => {
 
 
 
-app.get("/favoriet-overzicht/:naam/:type", async (req:any,res:any) => {
+app.get("/favoriet-overzicht/:name/:type", async (req:any,res:any) => {
     if (!req.session.user) {
         res.redirect("/"); 
         return;
@@ -508,14 +493,14 @@ app.get("/favoriet-overzicht/:naam/:type", async (req:any,res:any) => {
 
          if (req.params.type == "Win") {
             let acc: Account = await getCurrentAccount(req.session.user.username);
-            let currentFav = await getCurrentFav(acc, req.params.naam);
+            let currentFav = await getCurrentFav(acc, req.params.name);
             if (currentFav == undefined || currentFav.wins == undefined) {
                 return;
             }
             currentFav.wins += 1;
             try {
                 await client.connect();
-                await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.naam}, {$set:{"favoriet.$.wins":currentFav.wins}});
+                await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.name}, {$set:{"favoriet.$.wins":currentFav.wins}});
             } catch (error) {
                 console.log(error);
                 
@@ -527,7 +512,7 @@ app.get("/favoriet-overzicht/:naam/:type", async (req:any,res:any) => {
 
         else if (req.params.type == "Loss") {
             let acc: Account = await getCurrentAccount(req.session.user.username);
-            let currentFav = await getCurrentFav(acc, req.params.naam);
+            let currentFav = await getCurrentFav(acc, req.params.name);
             if (currentFav == undefined || currentFav.loses == undefined) {
                 return;
             }
@@ -546,7 +531,22 @@ app.get("/favoriet-overzicht/:naam/:type", async (req:any,res:any) => {
           
             try {
                 await client.connect();
-                await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.naam}, {$set:{"favoriet.$.loses":currentFav.loses}});
+                await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.name}, {$set:{"favoriet.$.loses":currentFav.loses}});
+            } catch (error) {
+                console.log(error);
+                
+            }
+            finally {
+                await client.close();
+            }
+        }
+
+        else if (req.params.type == "deleteItem") {
+            try {
+                await client.connect();
+                let stringFavItem : string = `favoriet.$.${req.query.item}`;
+                
+                await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.name}, {$set:{[stringFavItem]:""}});
             } catch (error) {
                 console.log(error);
                 
@@ -556,12 +556,12 @@ app.get("/favoriet-overzicht/:naam/:type", async (req:any,res:any) => {
             }
         }
            
-    res.redirect(`/favoriet-overzicht/${req.params.naam}`)
+    res.redirect(`/favoriet-overzicht/${req.params.name}`)
 })
 
 
 
-app.post("/favoriet-overzicht/:naam/:type", async (req:any,res:any) => {
+app.post("/favoriet-overzicht/:name/:type", async (req:any,res:any) => {
     if (!req.session.user) {
         res.redirect("/"); 
         return;
@@ -570,7 +570,7 @@ app.post("/favoriet-overzicht/:naam/:type", async (req:any,res:any) => {
                 if (req.body.notitie.length > 0) {
                     try {
                         await client.connect();
-                        await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.naam}, {$set:{"favoriet.$.notitie":req.body.notitie}});
+                        await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.name}, {$set:{"favoriet.$.notitie":req.body.notitie}});
                     } catch (error) {
                         console.log(error);
                         
@@ -584,7 +584,7 @@ app.post("/favoriet-overzicht/:naam/:type", async (req:any,res:any) => {
             else if (req.params.type == "deleteNote") {
                 try {
                     await client.connect();
-                    await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.naam}, {$set:{"favoriet.$.notitie":""}});
+                    await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.name}, {$set:{"favoriet.$.notitie":""}});
                 } catch (error) {
                     console.log(error);
                     
@@ -595,22 +595,21 @@ app.post("/favoriet-overzicht/:naam/:type", async (req:any,res:any) => {
              
             }
            
-    res.redirect(`/favoriet-overzicht/${req.params.naam}`)
+    res.redirect(`/favoriet-overzicht/${req.params.name}`)
 })
 
-app.get("/favoriet-overzicht/:name/:type/:item/:itemName", async (req:any,res:any) => {
+app.get("/favoriet-overzicht/:name/:type/:item", async (req:any,res:any) => {
     if (!req.session.user) {
         res.redirect("/"); 
         return;
     }
-    let itemNumber:string = "item"
 
     if (req.params.type == "addItem")
-    {    itemNumber+=req.params.item.charAt(req.params.item.length-1);
+    {    
         try {
             await client.connect();
-            let stringFavItem : string = `favoriet.$.${itemNumber}`
-            await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.name}, {$set:{[stringFavItem]:req.params.itemName}});
+            let stringFavItem : string = `favoriet.$.${req.params.item}`
+            await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.name}, {$set:{[stringFavItem]:req.query.name}});
         } catch (error) {
             console.log(error);
             
@@ -623,34 +622,6 @@ app.get("/favoriet-overzicht/:name/:type/:item/:itemName", async (req:any,res:an
 
     res.redirect(`/favoriet-overzicht/${req.params.name}`)
 });
-
-app.get("/favoriet-overzicht/:name/:type/:item", async (req:any,res:any) => {
-    if (!req.session.user) {
-        res.redirect("/"); 
-        return;
-    }
-    let itemNumber:string = "item";
-
-   if (req.params.type == "deleteItem")
-      {  itemNumber+=req.params.item.charAt(req.params.item.length-1);
-        try {
-            await client.connect();
-            let stringFavItem : string = `favoriet.$.${itemNumber}`
-            await client.db("Fortnite").collection("Accounts").updateOne({username:req.session.user.username, "favoriet.naam": req.params.name}, {$set:{[stringFavItem]:""}});
-        } catch (error) {
-            console.log(error);
-            
-        }
-        finally {
-            await client.close();
-        }
-        
-    }
-
-    res.redirect(`/favoriet-overzicht/${req.params.name}`)
-})
-
-
 
 app.get("/blacklist", async (req:any, res:any) => {
     if (!req.session.user) {

@@ -46,7 +46,6 @@ for (let i = 0; i < charItem.length; i++) {
     charItem[i].addEventListener("click", () => {
           
             activeItem =   `item${i+1}`;
-            console.log(activeItem);
             
             modalItem.style.display = "block";
     })
@@ -60,7 +59,7 @@ for (let i = 0; i < deleteItem.length; i++) {
             
         }
 
-        window.location.href = `/favoriet-overzicht/${document.getElementById("fav-name").textContent}/deleteItem/item${i+1}`;
+        window.location.href = `/favoriet-overzicht/${document.getElementById("fav-name").textContent}/deleteItem?item=item${i+1}`;
             
     })
     
@@ -69,7 +68,7 @@ for (let i = 0; i < deleteItem.length; i++) {
 for (let i = 0; i < images.length; i++) {
     
     images[i].addEventListener("click", () => {
-        window.location.href = `/favoriet-overzicht/${document.getElementById("fav-name").textContent}/addItem/${activeItem}/${images[i].alt}`;
+        window.location.href = `/favoriet-overzicht/${document.getElementById("fav-name").textContent}/addItem/${activeItem}?name=${images[i].alt}`;
     })
     
 }
