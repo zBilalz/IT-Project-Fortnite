@@ -21,7 +21,7 @@
         <div class="form-box login">
             <h1>Login</h1>
             <form id="loginForm" action="/login" method="post">
-                
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <div class="input-box">
                     <span class="icon"><ion-icon name="person"></ion-icon></span>
                     <input type="text"  name="username" required>
@@ -49,8 +49,7 @@
             <h1 id="registrerH1">Registration</h1>
             
             <form action="/registrate" method="post">
-                <!--<div class="imgcontainer">-->
-                    <!--<img src="avatar.png" alt="Avatar" class="avatar">-->
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <div class="input-box">
                         <span class="icon">
                             <ion-icon name="person"></ion-icon>

@@ -25,6 +25,7 @@
         <div id="content-SkinBlackList" class="modal-content">
           <span id="spanBlacklist" class="close">&times;</span>
           <form action="/skin/<%=skinName%>/blacklist" method="post">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <label for="reden">Reason for blacklist:</label><br>
           <textarea name="reasonBlacklist" id="reasonBlacklist" cols="30" rows="10" placeholder="your reason" required></textarea> <br>
             <input type="submit" value="blacklist">

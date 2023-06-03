@@ -13,6 +13,7 @@
         <div id="content-ChangeReason" class="modal-content">
           <span id="spanReason" class="close">&times;</span>
           <form id="changeReasonForm" action="#" method="post">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <label for="reden">Change blacklist reason:</label><br>
           <textarea name="changeReason" id="reasonBlacklist" cols="30" rows="10" placeholder="your reason" required></textarea> <br>
             <input type="submit" value="change reason">

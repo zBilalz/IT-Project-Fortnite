@@ -17,12 +17,14 @@
           <span class="close">&times;</span>
           
             <form id="addNoteForum" action="/favoriet-overzicht/<%=character.name%>/addNote" method="post">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <label for="reden">Notes:</label> <br>
               <input type="text" name="notitie" id="notitie" placeholder="your note" required> <br>
               <input type="submit" id="buttonAddNote" value="Add note"> <br>
               
             </form>
             <form id="deleteNoteForum" action="/favoriet-overzicht/<%=character.name%>/deleteNote" method="post">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <input type="submit" value="Delete note">
               </form>
               <p style="color:red;" id="errorNote"></p>

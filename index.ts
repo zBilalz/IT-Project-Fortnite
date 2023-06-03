@@ -4,6 +4,7 @@ import session from "express-session";
 import fetch from "node-fetch";
 import {ObjectId} from "mongodb";
 import { User, Account, Favoriet, Blacklist, Fortnite, Images } from "./interfaces";
+const csurf = require("csurf");
 const CryptoJS = require('crypto-js');
 const {MongoClient} = require("mongodb");
 const uri:string = "mongodb+srv://s122572:8nH4X9ljX3qnju4D@cluster0.kxgul8a.mongodb.net/?retryWrites=true&w=majority"
@@ -13,7 +14,7 @@ const SESSION_SECRET = Buffer.from(require('os').userInfo().username).toString('
 //standaard heeft de sessiondata de property "user" niet, hieronder wordt de originele sessiondata overschreven met een property user
 declare module 'express-session' {
      interface SessionData {
-      user: {[key: string]: User };
+      user: {[username: string]: User };
     }
   }
 
@@ -24,6 +25,7 @@ app.set("port",3000);
 app.use(express.static('public'));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended:true}));
+app.use(csurf());
 
 let salt = CryptoJS.lib.WordArray.random();
 
@@ -255,7 +257,7 @@ app.get("/login", (req:any, res:any) => {
 
     res.type("text/html");
     
-    res.render("login", {registratie:registratieStatus, error:errorRegistratie});
+    res.render("login", {registratie:registratieStatus, error:errorRegistratie, csrfToken: req.csrfToken()});
     registratieStatus=false;
     errorRegistratie =false;
 });
@@ -367,7 +369,7 @@ app.get("/skin/:name", async (req:any, res:any) => {
     }
     
   
-    res.render("skin", {favChanged:favChanged,favText:favText ,skinName:character.name,skinBackstory:character.description,skinImage:character.images.icon, introduction:character.introduction.text, account: await getCurrentAccount(req.session.user.username), rarity:getRarityCharact(character), favStatus:favStatus})
+    res.render("skin", {csrfToken: req.csrfToken(), favChanged:favChanged,favText:favText ,skinName:character.name,skinBackstory:character.description,skinImage:character.images.icon, introduction:character.introduction.text, account: await getCurrentAccount(req.session.user.username), rarity:getRarityCharact(character), favStatus:favStatus})
     favChanged = false;
     favText = "";
 });
@@ -519,7 +521,7 @@ app.get("/favoriet-overzicht/:name", async (req:any, res:any) => {
         }
     }
     
-    res.render("favoriet-overzicht", {account: acc, character: character, rarity:rarity, notitie:huidigeFav.notitie, items:filteredItems, item1:getItem(items,huidigeFav.item1),item2:getItem(items,huidigeFav.item2), wins:huidigeFav.wins, loses:huidigeFav.loses})
+    res.render("favoriet-overzicht", {csrfToken: req.csrfToken(), account: acc, character: character, rarity:rarity, notitie:huidigeFav.notitie, items:filteredItems, item1:getItem(items,huidigeFav.item1),item2:getItem(items,huidigeFav.item2), wins:huidigeFav.wins, loses:huidigeFav.loses})
 });
 
 
@@ -669,7 +671,7 @@ app.get("/blacklist", async (req:any, res:any) => {
     }
     res.type("text/html");
 
-    res.render("blacklist", {account: await getCurrentAccount(req.session.user.username)})
+    res.render("blacklist", {account: await getCurrentAccount(req.session.user.username), csrfToken: req.csrfToken()})
 }); 
 
 app.get("/blacklist/:name/:type", async (req:any, res:any) => {
@@ -705,7 +707,7 @@ app.get("/blacklist/:name/:type", async (req:any, res:any) => {
         await client.close();
     }
     }
-    res.render("blacklist", {account: await getCurrentAccount(req.session.user.username)})
+    res.redirect("/blacklist");
 }); 
 
 app.post("/blacklist/:id/:type", async (req:any, res:any) => {
