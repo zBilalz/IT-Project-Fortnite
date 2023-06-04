@@ -6,6 +6,7 @@ import {ObjectId} from "mongodb";
 import { User, Account, Favoriet, Blacklist, Fortnite, Images } from "./interfaces";
 const csurf = require("csurf");
 const CryptoJS = require('crypto-js');
+const html = require("html-entities");
 const {MongoClient} = require("mongodb");
 const uri:string = "mongodb+srv://s122572:8nH4X9ljX3qnju4D@cluster0.kxgul8a.mongodb.net/?retryWrites=true&w=majority"
 const client = new MongoClient(uri, {useUnifiedTopology: true});
@@ -27,9 +28,8 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended:true}));
 app.use(csurf());
 
-let salt = CryptoJS.lib.WordArray.random();
 
-  
+let salt = CryptoJS.lib.WordArray.random();
 let ingelogd:boolean = false;
 let modalTextIndex:string = "";
 let favStatus:string="";    
@@ -175,7 +175,7 @@ const blacklistCharacter = async(name:string, reason:string, username:string) =>
         acc.favoriet = filteredFavoriet
         let character:Fortnite = await fetchOneApiChracter(name);
         let rarity:string =  getRarityCharact(character);
-        acc.blacklist.push({naam:name, reden:reason,img:character.images.icon,rarity:rarity})
+        acc.blacklist.push({naam:name, reden:html.encode(reason),img:character.images.icon,rarity:rarity})
         await client.connect();
         await client.db("Fortnite").collection("Accounts").replaceOne({username:acc.username}, acc);
     
@@ -187,7 +187,7 @@ finally {
 }
 }
 
-const loadItemTypes = async () => {
+const loadItems = async () => {
    
     let response = await fetch("https://fortnite-api.com/v2/cosmetics/br");
     let data = await response.json();
@@ -224,7 +224,7 @@ const loadItemTypes = async () => {
     items = sortedItems;   
 }
 
-loadItemTypes();
+loadItems();
 
 app.use((req, res, next) => {
     res.locals.user = req.session.user;
@@ -670,7 +670,6 @@ app.get("/blacklist", async (req:any, res:any) => {
         return;
     }
     res.type("text/html");
-
     res.render("blacklist", {account: await getCurrentAccount(req.session.user.username), csrfToken: req.csrfToken()})
 }); 
 
@@ -718,7 +717,7 @@ app.post("/blacklist/:id/:type", async (req:any, res:any) => {
 
     if (req.params.type == "change") {
         let acc:Account = await getCurrentAccount(req.session.user.username);
-        acc.blacklist[req.params.id].reden = req.body.changeReason;
+        acc.blacklist[req.params.id].reden = html.encode(req.body.changeReason);
         try {
             await client.connect();
             await client.db("Fortnite").collection("Accounts").replaceOne({username:acc.username}, acc);
